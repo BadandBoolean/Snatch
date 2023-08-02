@@ -116,7 +116,7 @@ export default function ViewAppointmentsAsOwner({
         <p>
           Are you sure you want to delete it?
           <br />
-          You can't undo this action!
+          You can`&apos;`t undo this action!
         </p>
       </Modal>
       <Modal

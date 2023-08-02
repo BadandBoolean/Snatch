@@ -1,11 +1,13 @@
 import React from "react";
-import { Form, Input, Button } from "antd/lib";
+import { Form, Input, Button, Checkbox } from "antd/lib";
 
 export default function NewSalonForm({ handleFinishForm }) {
   return (
     <>
       <div>
-        <h3>Looks like you don't have a salon yet! Register one below</h3>
+        <h3>
+          Looks like you don`&apos;`t have a salon yet! Register one below
+        </h3>
         <Form name="basic" onFinish={handleFinishForm}>
           <Form.Item
             label="Salon Name"

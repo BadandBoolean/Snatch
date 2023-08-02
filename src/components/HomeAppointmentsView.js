@@ -101,8 +101,8 @@ export default function HomeAppointmentsView({
         <br />
         {hasWebsite ? (
           <p>
-            Visit the salon's website at {bookingModalData.salon.address} to
-            book an appointment
+            Visit the salon`&apos;`s website at {bookingModalData.salon.address}{" "}
+            to book an appointment
           </p>
         ) : null}
         <br />
