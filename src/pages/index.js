@@ -22,9 +22,11 @@ export default function Home({
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
     setHydrated(true);
-  }, [userDetails, allAppointments, salonDetails, salonInfoPublic]);
+  }, []);
+
   if (!hydrated) {
     // Returns null on first render, so the client and server match
     return null;
@@ -95,11 +97,12 @@ export default function Home({
           <pre>{status === "unauthenticated" && "User is not logged in"}</pre>
         </>
       )}
-      {status === "authenticated" && (
+      {status === "authenticated" && hydrated && (
         <>
           Signed in as {session.user.email}
           <br />
           <button onClick={() => signOut()}>Sign out</button>
+          {console.log(userDetails)}
           {!userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (
