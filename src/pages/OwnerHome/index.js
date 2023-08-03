@@ -57,7 +57,7 @@ export default function OwnerHome({
   }
 
   if (!userDetails.hasSalon) {
-    return <p>You don`&apos;`t have a salon!</p>;
+    return <p>You don&apos;t have a salon!</p>;
   }
 
   const showEditAppt = (apptid) => {

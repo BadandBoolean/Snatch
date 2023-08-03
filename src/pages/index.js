@@ -2,7 +2,7 @@ import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import NewSalonForm from "../components/NewSalonForm.js";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd/lib";
 import Link from "next/link";
 import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
@@ -21,6 +21,14 @@ export default function Home({
   const router = useRouter();
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [addContactInfoForm] = Form.useForm();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+  if (!hydrated) {
+    // Returns null on first render, so the client and server match
+    return null;
+  }
 
   const handleFinishForm = async (values) => {
     // values.preventDefault();
@@ -82,6 +90,7 @@ export default function Home({
       {status === "unauthenticated" && (
         <>
           Not signed in <br />
+          {console.log(userDetails)}
           <button onClick={() => signIn()}>Sign in</button>
           <pre>{status === "unauthenticated" && "User is not logged in"}</pre>
         </>
