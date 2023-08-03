@@ -97,13 +97,12 @@ export default function Home({
           <pre>{status === "unauthenticated" && "User is not logged in"}</pre>
         </>
       )}
-      {status === "authenticated" && hydrated && (
+      {status === "authenticated" && (
         <>
           Signed in as {session.user.email}
           <br />
           <button onClick={() => signOut()}>Sign out</button>
-          {console.log(userDetails)}
-          {!userDetails.hasSalon ? (
+          {!!userDetails && !userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (
             <Button>
