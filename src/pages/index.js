@@ -24,7 +24,7 @@ export default function Home({
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     setHydrated(true);
-  }, []);
+  }, [userDetails, allAppointments, salonDetails, salonInfoPublic]);
   if (!hydrated) {
     // Returns null on first render, so the client and server match
     return null;
