@@ -103,6 +103,8 @@ export default function Home({
           <br />
           <button onClick={() => signOut()}>Sign out</button>
           {console.log(userDetails)}
+          {console.log(salonDetails)}
+          {console.log(allAppointments)}
           {!!userDetails && !userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (

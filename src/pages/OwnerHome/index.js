@@ -39,7 +39,7 @@ export default function OwnerHome({
 
   useEffect(() => {
     setIsRefreshing(false);
-  }, [allAppointments, salonDetails]);
+  }, [allAppointments, salonDetails, userDetails]);
 
   // refresh data on page when a new query is added to DB.
   const refreshData = () => {
