@@ -132,7 +132,7 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
+  let session = await getSession(context);
   console.log("session");
   console.log(session);
   let user = null;
