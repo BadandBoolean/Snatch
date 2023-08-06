@@ -41,8 +41,8 @@ export default function NavBar({}) {
             </button>
           )}
           {status === "authenticated" && (
-            <button type="primary" size="large" onClick={handleSignout}>
-              Sign out
+            <button className={styles.customButton} onClick={handleSignout}>
+              Sign Out
             </button>
           )}
         </div>

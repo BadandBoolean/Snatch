@@ -89,18 +89,10 @@ export default function Home({
   return (
     <>
       {status === "loading" && <h2>Loading ...</h2>}
-      {status === "unauthenticated" && (
-        <>
-          Not signed in <br />
-          {console.log(userDetails)}
-          <button onClick={() => signIn()}>Sign in</button>
-        </>
-      )}
       {status === "authenticated" && (
         <>
           Signed in as {session.user.email}
           <br />
-          <button onClick={() => signOut()}>Sign out</button>
           {!!userDetails && !userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (

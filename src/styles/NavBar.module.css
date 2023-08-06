@@ -2,7 +2,6 @@
 
     display: flex;
     justify-content: center;
-    
     background-color: #3D1FFF;
 
 
@@ -76,13 +75,12 @@
     text-shadow: -0.5px -0.5px #02fefe, 0.5px 0.5px #fe02e9;
 }
 
-.customButton:hover {
-
-}
-
 
 /* Mobile Device Settings (iPhone 14 Pro Max)*/
 @media (max-width: 430px)  {
+    .NavWrapper {
+        width: 100%; 
+    }
     .Nav {
         display: block;
         width: 100%; 
