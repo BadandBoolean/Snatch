@@ -1,0 +1,107 @@
+.NavWrapper {
+
+    display: flex;
+    justify-content: center;
+    
+    background-color: #3D1FFF;
+
+
+}
+
+.Nav {
+
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+}
+
+.NavTitleBox {
+    display: flex;
+    justify-content: Center;
+    align-items: center;
+    width: 60%;
+    flex-basis: 60%;
+}
+
+.Title {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white !important;
+    text-shadow: -2px -2px #02fefe, 2px 2px #fe02e9;
+    text-decoration: none;
+    padding-right: 100px;
+}
+
+/* .Title:hover {
+    position: relative; 
+        top: -3px; 
+        left: -3px; 
+        text-shadow: 3px 0px #fe02e9,
+               -3px 0px #02fefe, 
+               4px 0px #fe02e9, 
+               -4px 0px #02fefe, 
+               5px 0px #fe02e9, 
+               -5px 0px #02fefe !important;
+} */
+
+
+.NavLoginBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    flex-basis: 40%;
+    
+}
+
+.customButton {
+    background-color: #3D1FFF;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    width: auto;
+    max-width: 80%;
+    height: auto;
+    font: inherit;
+    font-weight: 500;
+    box-shadow: -1px -1px #02fefe, 1px 1px #fe02e9;
+    text-shadow: -0.5px -0.5px #02fefe, 0.5px 0.5px #fe02e9;
+}
+
+.customButton:hover {
+
+}
+
+
+/* Mobile Device Settings (iPhone 14 Pro Max)*/
+@media (max-width: 430px)  {
+    .Nav {
+        display: block;
+        width: 100%; 
+    }
+    .NavTitleBox {
+        width: 100%;
+        margin: auto;
+    }
+    .Title {
+        
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        padding-right: 0px;
+    }
+    .NavLoginBox {
+        width: 100%;
+        margin: auto;
+        padding-bottom: 15px;
+        
+    }
+}

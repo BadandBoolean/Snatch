@@ -1,6 +1,7 @@
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import { ConfigProvider } from "antd/lib";
 import { SessionProvider } from "next-auth/react";
+import NavBar from "../components/NavBar";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
           },
         }}
       >
+        <NavBar />
         <Component {...pageProps} />
       </ConfigProvider>
     </SessionProvider>

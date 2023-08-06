@@ -16,7 +16,6 @@ export default function Home({
   allAppointments,
   salonDetails,
   salonInfoPublic,
-  laSession,
 }) {
   const { data: session, status } = useSession(); // object, not array
   const router = useRouter();
@@ -95,7 +94,6 @@ export default function Home({
           Not signed in <br />
           {console.log(userDetails)}
           <button onClick={() => signIn()}>Sign in</button>
-          <pre>{status === "unauthenticated" && "User is not logged in"}</pre>
         </>
       )}
       {status === "authenticated" && (
@@ -103,10 +101,6 @@ export default function Home({
           Signed in as {session.user.email}
           <br />
           <button onClick={() => signOut()}>Sign out</button>
-          {console.log(userDetails)}
-          {console.log(salonDetails)}
-          {console.log(allAppointments)}
-          {console.log(laSession)}
           {!!userDetails && !userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (
@@ -133,8 +127,6 @@ export default function Home({
 
 export async function getServerSideProps(context) {
   let session = await getSession(context);
-  console.log("session");
-  console.log(session);
   let user = null;
   let appointment = null;
   let salon = null;
@@ -156,7 +148,6 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-      laSession: session || null,
       userDetails: user || null,
       allAppointments: JSON.parse(JSON.stringify(appointment)) || null,
       salonDetails: salon || null,
