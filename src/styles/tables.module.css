@@ -1,0 +1,9 @@
+.appTable {
+    width: 100%;
+}
+
+@media (max-width: 430px) {
+    .appTable {
+        width: 100%;
+    }
+}

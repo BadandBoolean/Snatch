@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
+import styles from "../styles/tables.module.css";
 
 // can in future filter by salon
 // can also filter by day
@@ -121,7 +122,12 @@ export default function HomeAppointmentsView({
   return (
     <>
       {dataSource.length > 0 ? (
-        <Table columns={columns} dataSource={dataSource} />
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          size="small"
+          className={styles.apptTable}
+        />
       ) : (
         <p>
           There are no last minute appointments currently open! Come back later
