@@ -18,34 +18,22 @@ export default function HomeAppointmentsView({
 
   const columns = [
     {
+      title: "Salon",
+      dataIndex: "salon",
+      key: "salon",
+      responsive: ["md"],
+    },
+    {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      responsive: ["md"],
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
-    },
-    {
-      title: "With",
-      dataIndex: "whoWith",
-      key: "whoWith",
-    },
-    {
-      title: "Service",
-      dataIndex: "service",
-      key: "service",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Notes",
-      dataIndex: "notes",
-      key: "notes",
+      responsive: ["md"],
     },
     {
       title: "",
@@ -76,12 +64,9 @@ export default function HomeAppointmentsView({
   const dataSource = appointments.map((appointment) => {
     return {
       key: appointment.id,
+      salon: appointment.salonname,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
       time: dayjs(appointment.time).format("HH:mm"),
-      whoWith: appointment.whoWith,
-      service: appointment.service,
-      price: appointment.price,
-      notes: appointment.notes,
       // show the notes in the modal instead
     };
   });
@@ -121,19 +106,21 @@ export default function HomeAppointmentsView({
 
   return (
     <>
-      {dataSource.length > 0 ? (
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-          size="small"
-          className={styles.apptTable}
-        />
-      ) : (
-        <p>
-          There are no last minute appointments currently open! Come back later
-          to see any changes
-        </p>
-      )}
+      <div style={{ width: "100%" }}>
+        {dataSource.length > 0 ? (
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            size="small"
+            className={styles.apptTable}
+          />
+        ) : (
+          <p>
+            There are no last minute appointments currently open! Come back
+            later to see any changes
+          </p>
+        )}
+      </div>
       <Modal
         title="How to book this appointment"
         open={bookingModalOpen}

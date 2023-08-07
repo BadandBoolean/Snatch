@@ -9,6 +9,7 @@ export default async (req, res) => {
     // Signed in and want to make a new salon
     const bod = req.body;
     console.log(bod);
+    const salonname = bod.salonname;
     const appttime = bod.appttime;
     const apptdate = bod.apptdate;
     const stylist = bod.stylist;
@@ -26,6 +27,7 @@ export default async (req, res) => {
         data: {
           appointments: {
             create: {
+              salonname: salonname,
               date: apptdate,
               time: appttime,
               whoWith: stylist,

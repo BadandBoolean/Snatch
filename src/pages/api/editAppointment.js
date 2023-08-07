@@ -14,12 +14,14 @@ export default async (req, res) => {
     const price = bod.price;
     const notes = bod.notes;
     const id = bod.id;
+    const salonname = bod.salonname;
     try {
       const updatedAppt = await prisma.appointment.update({
         where: {
           id: id,
         },
         data: {
+          salonname: salonname,
           time: appttime,
           date: apptdate,
           whoWith: stylist,

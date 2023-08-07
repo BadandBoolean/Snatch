@@ -35,35 +35,42 @@ export default function ViewAppointmentsAsOwner({
       title: "Date",
       dataIndex: "date",
       key: "date",
+      width: "10%",
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
+      width: "10%",
     },
     {
       title: "With",
       dataIndex: "whoWith",
       key: "whoWith",
+      width: "10%",
     },
     {
       title: "Service",
       dataIndex: "service",
       key: "service",
+      width: "10%",
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      width: "10%",
     },
     {
       title: "Notes",
       dataIndex: "notes",
       key: "notes",
+      width: "20%",
     },
     {
       title: "",
       key: "action",
+      width: "30%",
       render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => editAppt(record)}>Edit</Button>
@@ -101,11 +108,13 @@ export default function ViewAppointmentsAsOwner({
 
   return (
     <>
-      {dataSource.length > 0 ? (
-        <Table columns={columns} dataSource={dataSource} />
-      ) : (
-        <p>You have no last minute appointments available! Woohoo!</p>
-      )}
+      <div style={{ width: "100%" }}>
+        {dataSource.length > 0 ? (
+          <Table columns={columns} dataSource={dataSource} />
+        ) : (
+          <p>You have no last minute appointments available! Woohoo!</p>
+        )}
+      </div>
       <Modal
         title="Did someone book this appointment?"
         open={deleteApptOpen}

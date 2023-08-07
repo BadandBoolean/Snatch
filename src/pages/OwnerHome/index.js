@@ -168,6 +168,7 @@ export default function OwnerHome({
           price: values.price,
           servicetype: values.servicetype,
           notes: values.notes,
+          salonname: salonDetails.name,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -205,6 +206,7 @@ export default function OwnerHome({
           price: values.price,
           servicetype: values.servicetype,
           notes: values.notes,
+          salonname: salonDetails.name,
         }),
         headers: {
           "Content-Type": "application/json",
