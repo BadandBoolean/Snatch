@@ -1,0 +1,51 @@
+.heroDivWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.heroDiv {
+    width: 100%;
+    height: 55vh;
+    display: flex;
+    justify-content: center;
+    
+    align-items: center;
+    background: rgb(61,31,255);
+    background: linear-gradient(180deg, rgba(61,31,255,1) 0%, rgba(124,104,255,1) 50%, rgba(0,212,255,0) 100%); 
+    
+}
+
+.heroText {
+    width: 100%;
+    -webkit-text-stroke: 1px white; 
+    -webkit-text-fill-color: transparent;
+    text-shadow: -3px -3px #02fefe, 3px 3px #fe02e9;
+    text-decoration: none;
+    font-size: 5rem;
+    font-weight: 700;
+    margin: 5%;
+    padding-bottom: 7%;
+}
+
+@media (max-width: 430px) {
+    .heroText {
+        font-size: 3.5rem;
+    }
+}
+
+.arrowDiv {
+    margin-top: -5%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    
+}
+
+.arrowStyle {
+    color: rgb(61,31,255, 0.3);
+    font-size: 3rem;
+    animation: bounce 2s infinite;
+    
+}

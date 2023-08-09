@@ -190,6 +190,7 @@ export default function OwnerHome({
     setOpen(false);
     form.resetFields();
   };
+  const twiliosid = process.env.TWILIO_SID;
   const handleSubmit = async (values) => {
     console.log(JSON.stringify(values));
 
@@ -212,7 +213,25 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
+      const textRes = await fetch(
+        `https://api.twilio.com/2010-04-01/Accounts/${twiliosid}/Messages.json`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            To: `${process.env.ADMIN_NUMBER}`,
+            From: `${process.env.TWILIO_NUMBER}`,
+            Body: "Hello World. This is a Test Message from Snatch",
+          }),
+          headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
+            "Content-Type": "application/json",
+          },
+        }
+      );
     }
+
     setConfirmLoading(true);
     setTimeout(() => {
       setOpen(false);

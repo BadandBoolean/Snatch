@@ -16,7 +16,7 @@ export default function GetContactInfoForm({
 }) {
   return (
     <>
-      <h3>Want to get notified when this salon has availability?</h3>
+      <h3>Get notified about a last-minute opening at this salon:</h3>
       <Form form={addContactInfoForm} onFinish={handleAddContactInfo}>
         <Form.Item label="Email Address" name="emailaddress">
           <Input placeholder="Enter your email address (optional)" />

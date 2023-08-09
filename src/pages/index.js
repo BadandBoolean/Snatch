@@ -8,8 +8,8 @@ import Link from "next/link";
 import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
 import { Form } from "antd/lib";
-
-// sign in the user. If authenticated, if Salon does not exist, add Salon TODO: validate this logic.
+import SalonBookingInfo from "@/components/SalonBookingInfo";
+import Hero from "../components/Hero";
 
 export default function Home({
   userDetails,
@@ -19,6 +19,7 @@ export default function Home({
 }) {
   const { data: session, status } = useSession(); // object, not array
   const router = useRouter();
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
@@ -86,8 +87,17 @@ export default function Home({
     setBookingModalOpen(false);
   };
 
+  const showInfoModal = () => {
+    setInfoModalOpen(true);
+  };
+
+  const handleOkInfoModal = () => {
+    setInfoModalOpen(false);
+  };
+
   return (
     <>
+      <Hero />
       {status === "loading" && <h2>Loading ...</h2>}
       {status === "authenticated" && (
         <>
@@ -105,8 +115,15 @@ export default function Home({
       <HomeAppointmentsView
         appointments={allAppointments}
         salonDetails={salonDetails}
+        infoModalOpen={infoModalOpen}
+        setInfoModalOpen={showInfoModal}
+        handleOkInfoModal={handleOkInfoModal}
+      />
+      <SalonBookingInfo
+        salon={"Yvey"}
+        salonInfoPublic={salonInfoPublic}
         bookingModalOpen={bookingModalOpen}
-        setBookingModalOpen={showBookingModal}
+        showBookingModal={showBookingModal}
         handleOkBookingModal={handleOkBookingModal}
       />
       <GetContactInfoForm
@@ -143,7 +160,7 @@ export async function getServerSideProps(context) {
       userDetails: user || null,
       allAppointments: JSON.parse(JSON.stringify(appointment)) || null,
       salonDetails: salon || null,
-      salonInfoPublic: salonsPublic || null,
+      salonInfoPublic: JSON.parse(JSON.stringify(salonsPublic)) || null,
     },
   };
 }

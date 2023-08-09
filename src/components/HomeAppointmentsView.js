@@ -9,56 +9,78 @@ import styles from "../styles/tables.module.css";
 
 export default function HomeAppointmentsView({
   appointments,
-  salonDetails,
-  bookingModalOpen,
-  setBookingModalOpen,
-  handleOkBookingModal,
+  infoModalOpen,
+  setInfoModalOpen,
+  handleOkInfoModal,
 }) {
-  const [bookingModalData, setBookingModalData] = useState([]);
+  const [infoModalData, setInfoModalData] = useState({});
+  const [bookingData, setBookingData] = useState({});
 
   const columns = [
     {
       title: "Salon",
       dataIndex: "salon",
       key: "salon",
-      responsive: ["md"],
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      responsive: ["md"],
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
-      responsive: ["md"],
+    },
+    {
+      title: "With",
+      dataIndex: "whoWith",
+      key: "whoWith",
+      hidden: true,
+    },
+    {
+      title: "Service",
+      dataIndex: "service",
+      key: "service",
+      hidden: true,
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      hidden: true,
+    },
+    {
+      title: "Notes",
+      dataIndex: "notes",
+      key: "notes",
+      hidden: true,
     },
     {
       title: "",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => openBookingModal(record.key)}>
-            Booking Information
-          </Button>
+          <Button onClick={() => openInfoModal(record)}>Details</Button>
         </Space>
       ),
     },
   ];
+  // we need to put 4 appointment data points into the booking modal instead.
 
-  const openBookingModal = async (apptId) => {
-    const response = await fetch(`./api/getSalon/${apptId}`, {
+  const openInfoModal = async (record) => {
+    console.log(record);
+    const response = await fetch(`./api/getSalon/${record.key}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const salonDetails = await response.json();
-    setBookingModalData(salonDetails);
     console.log(salonDetails);
-    setBookingModalOpen(true);
+    setBookingData(salonDetails);
+    setInfoModalData(record);
+    setInfoModalOpen(true);
   };
 
   const dataSource = appointments.map((appointment) => {
@@ -67,37 +89,62 @@ export default function HomeAppointmentsView({
       salon: appointment.salonname,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
       time: dayjs(appointment.time).format("HH:mm"),
-      // show the notes in the modal instead
+      whoWith: appointment.whoWith,
+      service: appointment.service,
+      price: appointment.price,
+      notes: appointment.notes,
     };
   });
 
-  const BookingModalText = () => {
-    let hasPhone = bookingModalData.salon.bookingOptions.includes("Phone");
-    let hasWebsite = bookingModalData.salon.bookingOptions.includes("website");
-    let hasWalkIn = bookingModalData.salon.bookingOptions.includes("Walk-in");
-    let hasAdditionalInfo = bookingModalData.salon.bookingInfo.length > 0;
+  const InfoModalText = () => {
+    console.log(infoModalData);
+    let notes = infoModalData.notes;
+    let whoWith = infoModalData.whoWith;
+    let service = infoModalData.service;
+    let price = infoModalData.price;
+    let hasPhone = bookingData.salon.bookingOptions.includes("Phone");
+    let hasWebsite = bookingData.salon.bookingOptions.includes("website");
+    let hasWalkIn = bookingData.salon.bookingOptions.includes("Walk-in");
+    let hasAdditionalInfo = bookingData.salon.bookingInfo.length > 0;
     return (
       <>
+        <p>
+          <b>Stylist: </b>
+          {whoWith}
+        </p>
+        <p>
+          <b>Service: </b>
+          {service}
+        </p>
+        <p>
+          <b>Price: </b>
+          {price}
+        </p>
+        <p>
+          <b>Additional Notes from the Salon: </b>
+          {notes}
+        </p>
+        <br />
+        <h3>How to book this appointment:</h3>
         {hasPhone ? (
           <p>
-            Call the salon at {bookingModalData.salon.phone} to book an
-            appointment
+            Call the salon at {bookingData.salon.phone} to book an appointment
           </p>
         ) : null}
-        <br />
+
         {hasWebsite ? (
           <p>
-            Visit the salon`&apos;`s website at {bookingModalData.salon.address}{" "}
-            to book an appointment
+            Visit the salon&apos;s website at {bookingData.salon.address} to
+            book an appointment
           </p>
         ) : null}
-        <br />
+
         {hasWalkIn ? <p>Walk into the salon to book an appointment</p> : null}
-        <br />
+
         {hasAdditionalInfo ? (
           <p>
             Additional Information for booking this appointment:
-            {bookingModalData.salon.bookingInfo}
+            {bookingData.salon.bookingInfo}
           </p>
         ) : null}
       </>
@@ -109,7 +156,7 @@ export default function HomeAppointmentsView({
       <div style={{ width: "100%" }}>
         {dataSource.length > 0 ? (
           <Table
-            columns={columns}
+            columns={columns.filter((item) => !item.hidden)}
             dataSource={dataSource}
             size="small"
             className={styles.apptTable}
@@ -122,12 +169,12 @@ export default function HomeAppointmentsView({
         )}
       </div>
       <Modal
-        title="How to book this appointment"
-        open={bookingModalOpen}
-        onOk={handleOkBookingModal}
-        onCancel={handleOkBookingModal}
+        title="Information about this appointment"
+        open={infoModalOpen}
+        onOk={handleOkInfoModal}
+        cancelButtonProps={{ style: { display: "none" } }}
       >
-        <BookingModalText />
+        <InfoModalText />
       </Modal>
     </>
   );
