@@ -8,7 +8,7 @@ export default function Hero() {
       <div className={styles.heroDivWrapper}>
         <div className={styles.heroDiv}>
           <h1 className={styles.heroText}>
-            <i>Book somebody else's canceled appointment</i>
+            <i>Book somebody else&apos;s canceled appointment</i>
           </h1>
         </div>
       </div>
