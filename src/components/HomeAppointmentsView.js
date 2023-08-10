@@ -113,7 +113,7 @@ export default function HomeAppointmentsView({
           {whoWith}
         </p>
         <p>
-          <b>Service: </b>
+          <b>Available Services: </b>
           {service}
         </p>
         <p>
@@ -124,22 +124,24 @@ export default function HomeAppointmentsView({
           <b>Additional Notes from the Salon: </b>
           {notes}
         </p>
-        <br />
-        <h3>How to book this appointment:</h3>
+        <hr />
+        <p style={{ fontSize: "1rem" }}>
+          <b>
+            {"\uD83D\uDCC6 \u26A0\uFE0F"} How to book this appointment:{" "}
+            {"\u26A0\uFE0F \uD83D\uDCC6"}
+          </b>
+        </p>
         {hasPhone ? (
           <p>
-            Call the salon at {bookingData.salon.phone} to book an appointment
+            Call the salon at {bookingData.salon.phone} to book an appointment.
           </p>
         ) : null}
 
         {hasWebsite ? (
-          <p>
-            Visit the salon&apos;s website at {bookingData.salon.address} to
-            book an appointment
-          </p>
+          <p>Visit {bookingData.salon.address} to book an appointment</p>
         ) : null}
 
-        {hasWalkIn ? <p>Walk into the salon to book an appointment</p> : null}
+        {hasWalkIn ? <p>Walk in to the salon to book an appointment</p> : null}
 
         {hasAdditionalInfo ? (
           <p>
@@ -153,7 +155,7 @@ export default function HomeAppointmentsView({
 
   return (
     <>
-      <div style={{ width: "100%" }}>
+      <div className={styles.appTable}>
         {dataSource.length > 0 ? (
           <Table
             columns={columns.filter((item) => !item.hidden)}
@@ -172,6 +174,7 @@ export default function HomeAppointmentsView({
         title="Information about this appointment"
         open={infoModalOpen}
         onOk={handleOkInfoModal}
+        onCancel={handleOkInfoModal}
         cancelButtonProps={{ style: { display: "none" } }}
       >
         <InfoModalText />

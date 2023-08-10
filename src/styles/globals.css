@@ -23,7 +23,18 @@ body {
 
 * {
     box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
   }
+
+.ant-table .ant-table-container .ant-table-content table thead.ant-table-thead .ant-table-cell {
+     background-color: rgba(61,31,255,0.8);
+        color: white;
+        
+ }
+
+.ant-table .ant-table-container .ant-table-content table tbody.ant-table-tbody tr td {
+    
+}
 
 
 

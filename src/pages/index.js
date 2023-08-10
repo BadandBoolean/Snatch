@@ -119,13 +119,6 @@ export default function Home({
         setInfoModalOpen={showInfoModal}
         handleOkInfoModal={handleOkInfoModal}
       />
-      <SalonBookingInfo
-        salon={"Yvey"}
-        salonInfoPublic={salonInfoPublic}
-        bookingModalOpen={bookingModalOpen}
-        showBookingModal={showBookingModal}
-        handleOkBookingModal={handleOkBookingModal}
-      />
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}
         handleAddContactInfo={handleAddContactInfo}

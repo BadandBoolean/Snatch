@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import { ConfigProvider } from "antd/lib";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import DevelopmentAlert from "../components/DevelopmentAlert";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -13,8 +15,10 @@ export default function App({ Component, pageProps }) {
           },
         }}
       >
+        <DevelopmentAlert />
         <NavBar />
         <Component {...pageProps} />
+        <Footer />
       </ConfigProvider>
     </SessionProvider>
   );

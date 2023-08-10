@@ -12,10 +12,12 @@
     justify-content: center;
     
     align-items: center;
-    background: rgb(61,31,255);
-    background: linear-gradient(180deg, rgba(61,31,255,1) 0%, rgba(124,104,255,1) 50%, rgba(0,212,255,0) 100%); 
+    background: #2d19b1;
+    background: linear-gradient(180deg, rgb(45, 25, 177, 1) 0%, rgba(124,104,255,1) 50%, rgba(0,212,255,0) 100%); 
     
 }
+
+/*rgba(61,31,255,1)*/
 
 .heroText {
     width: 100%;
