@@ -1,0 +1,82 @@
+.signedInHasSalonDivWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signedInHasSalonDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 93%;
+}
+
+.ownerHomeButton {
+    background-color: #2d19b1;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    width: 50%;
+    
+    height: auto;
+    box-shadow: -2px -2px #3D1FFF, 2px 2px #3D1FFF;
+}
+
+.buttonText {
+    font-size: 1rem;
+    font-weight: 700;
+    
+}
+
+.buttonBoxMobileOnly {
+    display: flex;
+    justify-content: right;
+}
+
+.buttonBoxMobileOnly {
+    width: 40%;
+}
+
+.welcomeBackText {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #2d19b1;
+}
+
+@media (max-width: 837px) {
+    .signedInHasSalonDivWrapper {
+        width: 100%;
+        margin: auto;
+    }
+
+    .signedInHasSalonDiv {
+        display: block;
+        width: 93%;
+    }
+
+    .welcomeBackText {
+        font-size: 20px;
+        margin: auto;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .ownerHomeButton {
+        width: 70%;
+    }
+
+    .buttonBoxMobileOnly {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+
+
+}

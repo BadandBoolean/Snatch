@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession, getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import NewSalonForm from "../components/NewSalonForm.js";
 import { useRouter } from "next/router";
@@ -8,8 +8,8 @@ import Link from "next/link";
 import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
 import { Form } from "antd/lib";
-import SalonBookingInfo from "@/components/SalonBookingInfo";
 import Hero from "../components/Hero";
+import styles from "../styles/PublicHome.module.css";
 
 export default function Home({
   userDetails,
@@ -101,14 +101,27 @@ export default function Home({
       {status === "loading" && <h2>Loading ...</h2>}
       {status === "authenticated" && (
         <>
-          Signed in as {session.user.email}
+          {console.log(session.user)}
+          {console.log(session.user.id)}
+          {console.log(userDetails)}
           <br />
           {!!userDetails && !userDetails.hasSalon ? (
             <NewSalonForm handleFinishForm={handleFinishForm} />
           ) : (
-            <Button>
-              <Link href="/OwnerHome">Salon Owner Home</Link>
-            </Button>
+            <div className={styles.signedInHasSalonDivWrapper}>
+              <div className={styles.signedInHasSalonDiv}>
+                <p className={styles.welcomeBackText}>
+                  Welcome Back, {session.user.name}
+                </p>
+                <div className={styles.buttonBoxMobileOnly}>
+                  <Button className={styles.ownerHomeButton}>
+                    <Link className={styles.buttonText} href="/OwnerHome">
+                      {salonDetails.name} Home Page
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
           )}
         </>
       )}

@@ -26,6 +26,11 @@ export const authOptions = {
       return session;
     },
   },
+  // todo: better sign in theme.
+  theme: {
+    colorScheme: "dark",
+    brandColor: "#2d19b1",
+  },
 };
 
 export default NextAuth(authOptions);
