@@ -1,11 +1,28 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd/lib";
+import { Form, Input, Button, Checkbox, Modal } from "antd/lib";
 
-export default function NewSalonForm({ handleFinishForm }) {
+export default function NewSalonForm({
+  handleFinishForm,
+  newSalonModalOpen,
+  newSalonForm,
+  handleCancelNewSalon,
+}) {
   return (
-    <>
-      <h3>Looks like you don`&apos;`t have a salon yet! Register one below</h3>
-      <Form name="basic" onFinish={handleFinishForm}>
+    <Modal
+      title="Looks like we don't have your salon yet! Register your salon below"
+      open={newSalonModalOpen}
+      onOk={newSalonForm.submit}
+      onCancel={handleCancelNewSalon}
+      footer={[
+        <Button key="back" onClick={handleCancelNewSalon}>
+          I'll set this up later
+        </Button>,
+        <Button key="submit" type="primary" onClick={newSalonForm.submit}>
+          Submit
+        </Button>,
+      ]}
+    >
+      <Form name="basic" onFinish={handleFinishForm} form={newSalonForm}>
         <Form.Item
           label="Salon Name"
           name="salonname"
@@ -55,12 +72,7 @@ export default function NewSalonForm({ handleFinishForm }) {
         <Form.Item name="bookingInfo" label="Additional Booking Information">
           <Input placeholder="Add any additional information for clients to know before they book an appointment" />
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
       </Form>
-    </>
+    </Modal>
   );
 }

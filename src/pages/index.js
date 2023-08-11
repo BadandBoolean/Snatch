@@ -23,6 +23,8 @@ export default function Home({
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
+  const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
+  const [newSalonForm] = Form.useForm();
 
   useEffect(() => {
     setHydrated(true);
@@ -95,36 +97,60 @@ export default function Home({
     setInfoModalOpen(false);
   };
 
+  const openMakeNewSalonModal = () => {
+    setNewSalonModalOpen(true);
+    console.log("we are in this modal");
+  };
+
+  const handleCancelNewSalon = () => {
+    setNewSalonModalOpen(false);
+  };
+
   return (
     <>
       <Hero />
       {status === "loading" && <h2>Loading ...</h2>}
       {status === "authenticated" && (
         <>
-          {console.log(session.user)}
-          {console.log(session.user.id)}
-          {console.log(userDetails)}
           <br />
-          {!!userDetails && !userDetails.hasSalon ? (
-            <NewSalonForm handleFinishForm={handleFinishForm} />
-          ) : (
-            <div className={styles.signedInHasSalonDivWrapper}>
-              <div className={styles.signedInHasSalonDiv}>
-                <p className={styles.welcomeBackText}>
-                  Welcome Back, {session.user.name}
-                </p>
-                <div className={styles.buttonBoxMobileOnly}>
+          <div className={styles.signedInHasSalonDivWrapper}>
+            <div className={styles.signedInHasSalonDiv}>
+              <p className={styles.welcomeBackText}>
+                Welcome Back, {session.user.name}
+              </p>
+              <div className={styles.buttonBoxMobileOnly}>
+                {!!userDetails && !userDetails.hasSalon ? (
+                  <Button
+                    onClick={openMakeNewSalonModal}
+                    className={styles.ownerHomeButton}
+                  >
+                    <span className={styles.buttonText}>
+                      Register your Salon
+                    </span>
+                  </Button>
+                ) : (
                   <Button className={styles.ownerHomeButton}>
                     <Link className={styles.buttonText} href="/OwnerHome">
                       {salonDetails.name} Home Page
                     </Link>
                   </Button>
-                </div>
+                )}
               </div>
             </div>
-          )}
+          </div>
         </>
       )}
+      <NewSalonForm
+        handleFinishForm={handleFinishForm}
+        newSalonModalOpen={
+          newSalonModalOpen &&
+          status === "authenticated" &&
+          !!userDetails &&
+          !userDetails.hasSalon
+        }
+        newSalonForm={newSalonForm}
+        handleCancelNewSalon={handleCancelNewSalon}
+      />
       <HomeAppointmentsView
         appointments={allAppointments}
         salonDetails={salonDetails}
