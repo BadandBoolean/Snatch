@@ -75,6 +75,11 @@
     text-shadow: -0.5px -0.5px #02fefe, 0.5px 0.5px #fe02e9;
 }
 
+.customDropdown {
+    background-color: #2d19b1;
+    color: white;
+}
+
 
 /* Mobile Device Settings (iPhone 14 Pro Max)*/
 @media (max-width: 430px)  {

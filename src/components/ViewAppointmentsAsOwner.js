@@ -110,9 +110,11 @@ export default function ViewAppointmentsAsOwner({
     <>
       <div style={{ width: "100%" }}>
         {dataSource.length > 0 ? (
-          <Table columns={columns} dataSource={dataSource} />
+          <Table columns={columns} dataSource={dataSource} size="small" />
         ) : (
-          <p>You have no last minute appointments available! Woohoo!</p>
+          <p style={{ margin: "10px", textAlign: "center" }}>
+            You have no last minute appointments available! Woohoo!
+          </p>
         )}
       </div>
       <Modal

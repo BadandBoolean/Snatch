@@ -8,7 +8,8 @@ import { Form, Button } from "antd/lib";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
-
+import styles from "../../styles/OwnerHome.module.css";
+import buttonstyles from "../../styles/PublicHome.module.css";
 // TODO LIST:
 
 // ADD PINWHEEL FOR SERVER-SIDE RENDERING OF APPOINTMENTS
@@ -243,8 +244,35 @@ export default function OwnerHome({
   };
   return (
     <>
-      <h2>Welcome, {session.user.name}</h2>
-      <h3>Salon Name: {salonDetails.name}</h3>
+      <div className={styles.InfoTextWrapper}>
+        <div className={styles.InfoTextBox}>
+          <span className={styles.InfoTextStyle}>
+            Salon: {salonDetails.name}
+          </span>
+        </div>
+      </div>
+      <div className={styles.buttonBarWrapper}>
+        <div className={styles.buttonBar}>
+          <Button className={buttonstyles.ownerHomeButton} onClick={showModal}>
+            <span className={buttonstyles.buttonText}>Add New Appointment</span>
+          </Button>
+
+          <Button
+            className={buttonstyles.ownerHomeButton}
+            onClick={showSalonEditModal}
+          >
+            <span className={buttonstyles.buttonText}>
+              Edit Salon Information
+            </span>
+          </Button>
+
+          <Button className={buttonstyles.ownerHomeButton}>
+            <Link className={buttonstyles.buttonText} href="/">
+              Home
+            </Link>
+          </Button>
+        </div>
+      </div>
       <AddApptModal
         showModal={showModal}
         handleCancel={handleCancel}
@@ -268,12 +296,7 @@ export default function OwnerHome({
         editForm={editForm}
       />
 
-      <Button onClick={() => signOut()}>Sign out</Button>
-      <Button>
-        <Link href="/">Home</Link>
-      </Button>
       <EditSalonInfo
-        showSalonEditModal={showSalonEditModal}
         editSalonOpen={editSalonOpen}
         editSalonForm={editSalonForm}
         handleEditSalonCancel={handleEditSalonCancel}

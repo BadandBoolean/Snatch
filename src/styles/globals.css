@@ -36,7 +36,15 @@ body {
     
 }
 
+.ant-dropdown-menu-item:hover {
+    background-color: #3D1FFF;
+    color: white;
+}
 
+.ant-dropdown .ant-dropdown-menu {
+    background-color: #3D1FFF;
+    color: white;
+}
 
 
 

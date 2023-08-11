@@ -9,9 +9,9 @@ import {
   TimePicker,
 } from "antd/lib";
 import dayjs from "dayjs";
+import buttonstyles from "../styles/PublicHome.module.css";
 
 export default function AddApptModal({
-  showModal,
   handleCancel,
   handleSubmit,
   open,
@@ -20,9 +20,6 @@ export default function AddApptModal({
 }) {
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Add New Appointment
-      </Button>
       <Modal
         title="Add New Appointment"
         open={open}

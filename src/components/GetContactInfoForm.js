@@ -22,10 +22,14 @@ export default function GetContactInfoForm({
           <div className={styles.contactMiddleDiv}>
             <div className={styles.contactDiv}>
               <h3 className={styles.infoText}>
-                Get notified about a last-minute opening at this salon:
+                Get notified about last-minute appointments:
               </h3>
 
-              <Form form={addContactInfoForm} onFinish={handleAddContactInfo}>
+              <Form
+                form={addContactInfoForm}
+                onFinish={handleAddContactInfo}
+                className={styles.contactForm}
+              >
                 <Form.Item
                   label={
                     <p

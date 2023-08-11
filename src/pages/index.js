@@ -115,9 +115,6 @@ export default function Home({
           <br />
           <div className={styles.signedInHasSalonDivWrapper}>
             <div className={styles.signedInHasSalonDiv}>
-              <p className={styles.welcomeBackText}>
-                Welcome Back, {session.user.name}
-              </p>
               <div className={styles.buttonBoxMobileOnly}>
                 {!!userDetails && !userDetails.hasSalon ? (
                   <Button

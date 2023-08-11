@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Modal,
-  DatePicker,
-  TimePicker,
-} from "antd/lib";
+import { Button, Dropdown } from "antd/lib";
+import { DownOutlined } from "@ant-design/icons";
 import { useSession, signIn, signOut } from "next-auth/react";
 import styles from "../styles/NavBar.module.css";
 import Link from "next/link";
@@ -24,6 +17,21 @@ export default function NavBar({}) {
     // e.preventDefault();
     signOut();
   };
+
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Button
+          className={styles.customButton}
+          style={{ width: "100%" }}
+          onClick={handleSignout}
+        >
+          Sign out
+        </Button>
+      ),
+    },
+  ];
   return (
     <div className={styles.NavWrapper}>
       <div className={styles.Nav}>
@@ -41,9 +49,18 @@ export default function NavBar({}) {
             </button>
           )}
           {status === "authenticated" && (
-            <button className={styles.customButton} onClick={handleSignout}>
-              Sign Out
-            </button>
+            <Dropdown
+              trigger={["click"]}
+              menu={{
+                items,
+              }}
+              dropdownRender={(menu) => <div>{menu}</div>}
+              placement="bottomRight"
+            >
+              <button className={styles.customButton}>
+                Welcome, {session.user.name}! <DownOutlined />
+              </button>
+            </Dropdown>
           )}
         </div>
       </div>

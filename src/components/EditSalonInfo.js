@@ -13,7 +13,6 @@ import {
 import dayjs from "dayjs";
 
 export default function EditSalonInfo({
-  showSalonEditModal,
   editSalonOpen,
   editSalonForm,
   handleEditSalonCancel,
@@ -22,9 +21,6 @@ export default function EditSalonInfo({
 }) {
   return (
     <>
-      <Button type="primary" onClick={showSalonEditModal}>
-        Edit Salon Information
-      </Button>
       <Modal
         title="Edit Salon Information"
         open={editSalonOpen}

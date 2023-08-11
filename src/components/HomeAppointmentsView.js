@@ -165,8 +165,8 @@ export default function HomeAppointmentsView({
           />
         ) : (
           <p>
-            There are no last minute appointments currently open! Come back
-            later to see any changes
+            There are no last-minute openings available right now! Come back
+            later or sign up for notifications below.
           </p>
         )}
       </div>

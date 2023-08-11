@@ -15,7 +15,7 @@ export default function NewSalonForm({
       onCancel={handleCancelNewSalon}
       footer={[
         <Button key="back" onClick={handleCancelNewSalon}>
-          I'll set this up later
+          I&apos;ll set this up later
         </Button>,
         <Button key="submit" type="primary" onClick={newSalonForm.submit}>
           Submit

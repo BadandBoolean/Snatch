@@ -1,0 +1,43 @@
+.InfoTextWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.InfoTextBox {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex: column;
+    width: 95%;
+}
+
+.InfoTextStyle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #2d19b1;
+}
+
+.buttonBarWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%
+}
+
+.buttonBar {
+    display: flex;
+    flex-direction:row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 95%;
+}
+
+@media (max-width: 550px) {
+    .buttonBar {
+        display: flex;
+        flex-direction:column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 95%;
+    }
+}
