@@ -31,6 +31,7 @@ export default function AddApptModal({
           initialValues={{
             appttime: dayjs("12:00", "HH:mm"),
             price: 100,
+            servicetype: "Any",
           }}
         >
           <Form.Item

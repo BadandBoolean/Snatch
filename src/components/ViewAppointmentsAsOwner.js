@@ -113,7 +113,7 @@ export default function ViewAppointmentsAsOwner({
           <Table columns={columns} dataSource={dataSource} size="small" />
         ) : (
           <p style={{ margin: "10px", textAlign: "center" }}>
-            You have no last minute appointments available! Woohoo!
+            You haven't got any last minute appointments listed!
           </p>
         )}
       </div>
@@ -127,7 +127,7 @@ export default function ViewAppointmentsAsOwner({
         <p>
           Are you sure you want to delete it?
           <br />
-          You can`&apos;`t undo this action!
+          You can&apos;t undo this action!
         </p>
       </Modal>
       <Modal

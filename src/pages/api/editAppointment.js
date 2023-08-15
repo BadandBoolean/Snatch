@@ -25,9 +25,9 @@ export default async (req, res) => {
           time: appttime,
           date: apptdate,
           whoWith: stylist,
-          service: servicetype,
+          service: servicetype ? servicetype : "",
           price: price,
-          notes: notes,
+          notes: notes ? notes : "",
           isAvailable: true,
         },
       });
