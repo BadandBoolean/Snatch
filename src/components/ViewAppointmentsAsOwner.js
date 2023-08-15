@@ -12,6 +12,7 @@ import {
   InputNumber,
 } from "antd/lib";
 import dayjs from "dayjs";
+import styles from "../styles/tables.module.css";
 // logic if you do NOT have any appointments.
 // logic to view appointments if you have them
 // logic to edit appointments
@@ -30,47 +31,66 @@ export default function ViewAppointmentsAsOwner({
   handleEditSubmit,
   editForm,
 }) {
+  // expanded columns
+  const expandedRowRender = () => {
+    const columns = [
+      {
+        title: "With",
+        dataIndex: "whoWith",
+        key: "whoWith",
+      },
+      {
+        title: "Service",
+        dataIndex: "service",
+        key: "service",
+      },
+      {
+        title: "Price",
+        dataIndex: "price",
+        key: "price",
+      },
+      {
+        title: "Notes",
+        dataIndex: "notes",
+        key: "notes",
+        responsive: ["xs"],
+      },
+    ];
+    const data = appointments.map((appointment) => {
+      return {
+        key: appointment.id,
+        whoWith: appointment.whoWith,
+        service: appointment.service,
+        price: appointment.price,
+        notes: appointment.notes,
+      };
+    });
+    return (
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        size="small"
+      />
+    );
+  };
+
+  // regular columns
   const columns = [
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      width: "10%",
     },
     {
       title: "Time",
       dataIndex: "time",
       key: "time",
-      width: "10%",
-    },
-    {
-      title: "With",
-      dataIndex: "whoWith",
-      key: "whoWith",
-      width: "10%",
-    },
-    {
-      title: "Service",
-      dataIndex: "service",
-      key: "service",
-      width: "10%",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      width: "10%",
-    },
-    {
-      title: "Notes",
-      dataIndex: "notes",
-      key: "notes",
-      width: "20%",
     },
     {
       title: "",
       key: "action",
-      width: "30%",
+
       render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => editAppt(record)}>Edit</Button>
@@ -108,12 +128,20 @@ export default function ViewAppointmentsAsOwner({
 
   return (
     <>
-      <div style={{ width: "100%" }}>
+      <div className={styles.appTable}>
         {dataSource.length > 0 ? (
-          <Table columns={columns} dataSource={dataSource} size="small" />
+          <Table
+            columns={columns}
+            expandable={{
+              expandedRowRender,
+              defaultExpandedRowKeys: ["0"],
+            }}
+            dataSource={dataSource}
+            size="small"
+          />
         ) : (
           <p style={{ margin: "10px", textAlign: "center" }}>
-            You haven't got any last minute appointments listed!
+            You haven&apos;t got any last minute appointments listed!
           </p>
         )}
       </div>

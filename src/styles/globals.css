@@ -27,8 +27,10 @@ body {
   }
 
 .ant-table .ant-table-container .ant-table-content table thead.ant-table-thead .ant-table-cell {
-     background-color: rgba(61,31,255,0.8);
-        color: white;
+    background-color: rgba(61,31,255,0.8);
+    color: white;
+    border-radius: 0px;
+
         
  }
 
