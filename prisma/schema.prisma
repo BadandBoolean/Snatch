@@ -99,3 +99,9 @@ model ClientEmailAddress {
   id          String @id @default(cuid())
   clientemail String
 }
+
+model RegisteredPartners {
+  id           String @id @default(cuid())
+  partnername  String
+  partneremail String
+}

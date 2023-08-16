@@ -10,7 +10,7 @@ export default async (req, res) => {
   if (session) {
     try {
       twilioclient.messages.create({
-        body: "New Appointment Added!",
+        body: "Appointment change detected!",
         to: `${process.env.ADMIN_NUMBER}`,
         from: `${process.env.TWILIO_NUMBER}`,
       });

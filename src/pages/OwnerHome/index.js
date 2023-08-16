@@ -176,6 +176,12 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
+      const sendmessage = await fetch("./api/textAdminNumber", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
     setConfirmLoading(true);
     setTimeout(() => {
@@ -231,7 +237,7 @@ export default function OwnerHome({
   };
   return (
     <>
-      <div className={styles.InfoTextWrapper}>
+      <div className={styles.InfoTextWrapper} style={{ margin: "10px" }}>
         <div className={styles.InfoTextBox}>
           <span className={styles.InfoTextStyle}>
             Salon: {salonDetails.name}

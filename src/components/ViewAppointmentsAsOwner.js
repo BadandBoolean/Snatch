@@ -32,7 +32,7 @@ export default function ViewAppointmentsAsOwner({
   editForm,
 }) {
   // expanded columns
-  const expandedRowRender = () => {
+  const expandedRowRender = (record) => {
     const columns = [
       {
         title: "With",
@@ -53,18 +53,19 @@ export default function ViewAppointmentsAsOwner({
         title: "Notes",
         dataIndex: "notes",
         key: "notes",
-        responsive: ["xs"],
+        responsive: ["xs", "sm", "md", "lg", "xl"],
       },
     ];
-    const data = appointments.map((appointment) => {
-      return {
-        key: appointment.id,
-        whoWith: appointment.whoWith,
-        service: appointment.service,
-        price: appointment.price,
-        notes: appointment.notes,
-      };
-    });
+    const data = [
+      {
+        key: record.id,
+        whoWith: record.whoWith,
+        service: record.service,
+        price: record.price,
+        notes: record.notes,
+      },
+    ];
+
     return (
       <Table
         columns={columns}
@@ -126,9 +127,14 @@ export default function ViewAppointmentsAsOwner({
     };
   });
 
+  const disabledDate = (current) => {
+    // Can not select days before today only.
+    return dayjs().endOf("day") > current && !current.isSame(dayjs(), "day");
+  };
+
   return (
     <>
-      <div className={styles.appTable}>
+      <div className={styles.appTableOwner}>
         {dataSource.length > 0 ? (
           <Table
             columns={columns}
@@ -189,7 +195,7 @@ export default function ViewAppointmentsAsOwner({
               },
             ]}
           >
-            <DatePicker />
+            <DatePicker disabledDate={disabledDate} />
           </Form.Item>
           <Form.Item
             label="Stylist"

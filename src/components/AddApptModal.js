@@ -9,6 +9,11 @@ import {
 } from "antd/lib";
 import dayjs from "dayjs";
 
+const disabledDate = (current) => {
+  // Can not select days before today only.
+  return dayjs().endOf("day") > current && !current.isSame(dayjs(), "day");
+};
+
 export default function AddApptModal({
   handleCancel,
   handleSubmit,
@@ -56,7 +61,7 @@ export default function AddApptModal({
               },
             ]}
           >
-            <DatePicker />
+            <DatePicker disabledDate={disabledDate} />
           </Form.Item>
           <Form.Item
             label="Stylist"

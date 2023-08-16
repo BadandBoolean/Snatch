@@ -11,6 +11,7 @@ import {
   Checkbox,
 } from "antd/lib";
 import dayjs from "dayjs";
+const { TextArea } = Input;
 
 export default function EditSalonInfo({
   editSalonOpen,
@@ -39,7 +40,7 @@ export default function EditSalonInfo({
               },
             ]}
           >
-            <Input />
+            <Input maxLength={30} />
           </Form.Item>
           <Form.Item
             label="Phone"
@@ -51,7 +52,7 @@ export default function EditSalonInfo({
               },
             ]}
           >
-            <Input />
+            <Input maxLength={10} />
           </Form.Item>
           <Form.Item
             label="Email Address"
@@ -63,7 +64,7 @@ export default function EditSalonInfo({
               },
             ]}
           >
-            <Input />
+            <Input maxLength={50} />
           </Form.Item>
           <Form.Item
             name="bookingOptions"
@@ -75,8 +76,12 @@ export default function EditSalonInfo({
               <Checkbox value="Walk-in">Walk-in</Checkbox>
             </Checkbox.Group>
           </Form.Item>
-          <Form.Item name="bookingInfo" label="Additional Booking Information">
-            <Input placeholder="Add any additional information for clients to know before they book an appointment" />
+          <Form.Item name="bookingInfo" label="Additional Info">
+            <TextArea
+              showCount
+              placeholder="Add any additional information for clients to know before they book an appointment"
+              maxLength={300}
+            />
           </Form.Item>
         </Form>
       </Modal>

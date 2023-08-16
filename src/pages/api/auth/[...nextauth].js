@@ -25,6 +25,21 @@ export const authOptions = {
       }
       return session;
     },
+    async signIn(user, account, profile) {
+      const findUser = await prisma.registeredPartners.findFirst({
+        where: {
+          partneremail: user.user.email,
+        },
+      });
+      const isAllowedToSignIn = !!findUser;
+      if (isAllowedToSignIn) {
+        return true;
+      } else {
+        // Return false to display a default error message
+        // Or you can return a URL to redirect to:
+        return "/unauthorizedsignup";
+      }
+    },
   },
   // todo: better sign in theme.
   theme: {

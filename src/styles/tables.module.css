@@ -3,6 +3,14 @@
     padding: 30px;
     
     
+    
+}
+
+.appTableOwner {
+    width: 100%;
+    padding: 30px;
+    min-height: 50vh;
+
 }
 
 @media (max-width: 430px) {
