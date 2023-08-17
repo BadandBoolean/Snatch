@@ -40,11 +40,11 @@ export default function Home({
 
   const handleFinishForm = async (values) => {
     // values.preventDefault();
-    console.log(session);
-    console.log(userDetails);
+    // console.log(session);
+    // console.log(userDetails);
 
     if (!!session && !!userDetails) {
-      console.log("session and user exist");
+      // console.log("session and user exist");
       const response = await fetch("./api/registerNewSalon", {
         method: "POST",
         body: JSON.stringify({
@@ -69,7 +69,7 @@ export default function Home({
   };
 
   const handleAddContactInfo = async (values) => {
-    if (values.phone || values.email) {
+    if (values.phonenumber || values.emailaddress) {
       const response = await fetch("./api/AddClientDetails", {
         method: "POST",
         body: JSON.stringify({
@@ -105,7 +105,7 @@ export default function Home({
 
   const openMakeNewSalonModal = () => {
     setNewSalonModalOpen(true);
-    console.log("we are in this modal");
+    // console.log("we are in this modal");
   };
 
   const handleCancelNewSalon = () => {
@@ -179,7 +179,7 @@ export async function getServerSideProps(context) {
   appointment = await prisma.appointment.findMany();
   salonsPublic = await prisma.salon.findMany();
   if (!!session) {
-    console.log(appointment);
+    // console.log(appointment);
     user = await prisma.user.findUnique({
       where: {
         email: session.user.email,

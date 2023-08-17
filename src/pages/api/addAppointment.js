@@ -8,7 +8,7 @@ export default async (req, res) => {
   if (session && req.method === "POST") {
     // Signed in and want to make a new salon
     const bod = req.body;
-    console.log(bod);
+    // console.log(bod);
     const salonname = bod.salonname;
     const appttime = bod.appttime;
     const apptdate = bod.apptdate;

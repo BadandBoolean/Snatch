@@ -8,7 +8,7 @@ export default async (req, res) => {
   if (session && req.method === "POST") {
     // Signed in and want to delete an appointment.
     const bod = req.body;
-    console.log(bod);
+    // console.log(bod);
     const apptid = bod.id;
     try {
       const deleteAppointment = await prisma.appointment.delete({

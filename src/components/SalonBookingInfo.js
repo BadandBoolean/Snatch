@@ -14,7 +14,7 @@ export default function SalonBookingInfo({
   const [bookingModalData, setBookingModalData] = useState([]);
 
   const getSalonInfo = async () => {
-    console.log(salon);
+    // console.log(salon);
     const res = await fetch(`./api/getSalonFromName/${salon}`, {
       method: "GET",
       headers: {
@@ -22,9 +22,9 @@ export default function SalonBookingInfo({
       },
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     setBookingModalData(data);
-    console.log(bookingModalData);
+    // console.log(bookingModalData);
     showBookingModal();
   };
 

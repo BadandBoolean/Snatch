@@ -4,7 +4,8 @@ import prisma from "../../../lib/prisma";
 export default async (req, res) => {
   if (req.method === "POST") {
     const bod = req.body;
-    console.log(bod);
+    // console.log(bod);
+    // console.log("IN THE API");
     const phone = bod.phone;
     const email = bod.email;
     try {

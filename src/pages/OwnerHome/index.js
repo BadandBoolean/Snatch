@@ -63,7 +63,7 @@ export default function OwnerHome({
   }
 
   const showEditAppt = (apptid) => {
-    console.log("key is " + apptid);
+    // console.log("key is " + apptid);
     setApptId(apptid);
     setEditApptOpen(true);
   };
@@ -78,7 +78,7 @@ export default function OwnerHome({
   };
 
   const showSalonEditModal = () => {
-    console.log(salonDetails);
+    // console.log(salonDetails);
     editSalonForm.setFieldsValue({
       salonname: salonDetails.name,
       salonphone: salonDetails.phone,
@@ -97,7 +97,7 @@ export default function OwnerHome({
 
   const handleDelete = async () => {
     if (!!session && !!userDetails) {
-      console.log("session and user exist");
+      // console.log("session and user exist");
       const response = await fetch("./api/deleteAppointment", {
         method: "POST",
         body: JSON.stringify({
@@ -127,9 +127,9 @@ export default function OwnerHome({
   };
 
   const handleEditSalonSubmit = async (values) => {
-    console.log(JSON.stringify(values));
+    // console.log(JSON.stringify(values));
     if (!!session && !!userDetails) {
-      console.log("session and user exist");
+      // console.log("session and user exist");
       const response = await fetch("./api/editSalon", {
         method: "POST",
         body: JSON.stringify({
@@ -155,10 +155,10 @@ export default function OwnerHome({
   };
 
   const handleEditSubmit = async (values) => {
-    console.log(JSON.stringify(values));
+    // console.log(JSON.stringify(values));
 
     if (!!session && !!userDetails) {
-      console.log("session and user exist");
+      // console.log("session and user exist");
 
       const response = await fetch("./api/editAppointment", {
         method: "POST",
@@ -194,14 +194,14 @@ export default function OwnerHome({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
+    // console.log("Clicked cancel button");
     setOpen(false);
     form.resetFields();
   };
 
   const handleSubmit = async (values) => {
     if (!!session && !!userDetails) {
-      console.log("session and user exist");
+      // console.log("session and user exist");
       //console.log(session.user.id);
       // console.log("id");
       const response = await fetch("./api/addAppointment", {
@@ -312,7 +312,7 @@ export async function getServerSideProps(context) {
   let appointment = null;
   if (!!session) {
     appointment = await prisma.appointment.findMany({});
-    console.log(appointment);
+    // console.log(appointment);
     user = await prisma.user.findUnique({
       where: {
         email: session.user.email,

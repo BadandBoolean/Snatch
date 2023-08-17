@@ -69,7 +69,7 @@ export default function HomeAppointmentsView({
   // we need to put 4 appointment data points into the booking modal instead.
 
   const openInfoModal = async (record) => {
-    console.log(record);
+    // console.log(record);
     const response = await fetch(`./api/getSalon/${record.key}`, {
       method: "GET",
       headers: {
@@ -77,7 +77,7 @@ export default function HomeAppointmentsView({
       },
     });
     const salonDetails = await response.json();
-    console.log(salonDetails);
+    // console.log(salonDetails);
     setBookingData(salonDetails);
     setInfoModalData(record);
     setInfoModalOpen(true);
@@ -97,7 +97,7 @@ export default function HomeAppointmentsView({
   });
 
   const InfoModalText = () => {
-    console.log(infoModalData);
+    // console.log(infoModalData);
     let notes = infoModalData.notes;
     let whoWith = infoModalData.whoWith;
     let service = infoModalData.service;
