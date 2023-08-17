@@ -13,6 +13,7 @@ import {
 } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
+const { TextArea } = Input;
 // logic if you do NOT have any appointments.
 // logic to view appointments if you have them
 // logic to edit appointments
@@ -225,7 +226,7 @@ export default function ViewAppointmentsAsOwner({
             <InputNumber addonBefore="$" />
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
-            <Input />
+            <TextArea showCount maxLength={300} />
           </Form.Item>
         </Form>
       </Modal>

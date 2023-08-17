@@ -14,6 +14,7 @@ import styles from "../styles/ContactForm.module.css";
 export default function GetContactInfoForm({
   addContactInfoForm,
   handleAddContactInfo,
+  contactFormTitle,
 }) {
   return (
     <>
@@ -21,9 +22,7 @@ export default function GetContactInfoForm({
         <div className={styles.contactOuterDiv}>
           <div className={styles.contactMiddleDiv}>
             <div className={styles.contactDiv}>
-              <h3 className={styles.infoText}>
-                Get notified about last-minute appointments:
-              </h3>
+              <h3 className={styles.infoText}>{contactFormTitle}</h3>
 
               <Form
                 form={addContactInfoForm}
@@ -44,7 +43,10 @@ export default function GetContactInfoForm({
                   }
                   name="emailaddress"
                 >
-                  <Input placeholder="Enter your email address (optional)" />
+                  <Input
+                    placeholder="Enter your email address (optional)"
+                    maxLength={50}
+                  />
                 </Form.Item>
                 <Form.Item
                   label={
@@ -60,7 +62,10 @@ export default function GetContactInfoForm({
                   }
                   name="phonenumber"
                 >
-                  <Input placeholder="Enter your phone number (optional)" />
+                  <Input
+                    placeholder="Enter your phone number (optional)"
+                    maxLength={15}
+                  />
                 </Form.Item>
                 <Form.Item>
                   <Button

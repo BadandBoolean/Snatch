@@ -8,6 +8,7 @@ import {
   TimePicker,
 } from "antd/lib";
 import dayjs from "dayjs";
+const { TextArea } = Input;
 
 const disabledDate = (current) => {
   // Can not select days before today only.
@@ -91,7 +92,7 @@ export default function AddApptModal({
             <InputNumber addonBefore="$" />
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
-            <Input />
+            <TextArea showCount maxLength={300} />
           </Form.Item>
         </Form>
       </Modal>

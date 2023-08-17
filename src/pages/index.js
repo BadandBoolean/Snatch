@@ -25,6 +25,9 @@ export default function Home({
   const [hydrated, setHydrated] = useState(false);
   const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
   const [newSalonForm] = Form.useForm();
+  const [contactFormTitle, setContactFormTitle] = useState(
+    "Get notified about last-minute appointments:"
+  );
 
   useEffect(() => {
     setHydrated(true);
@@ -79,6 +82,9 @@ export default function Home({
       });
     }
     addContactInfoForm.resetFields();
+    setContactFormTitle(
+      "Thank you! You will be notified when somebody cancels their appointment!"
+    );
   };
 
   const showBookingModal = () => {
@@ -158,6 +164,7 @@ export default function Home({
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}
         handleAddContactInfo={handleAddContactInfo}
+        contactFormTitle={contactFormTitle}
       />
     </>
   );
