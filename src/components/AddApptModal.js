@@ -92,7 +92,11 @@ export default function AddApptModal({
             <InputNumber addonBefore="$" />
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
-            <TextArea showCount maxLength={300} />
+            <TextArea
+              showCount
+              maxLength={300}
+              placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
+            />
           </Form.Item>
         </Form>
       </Modal>

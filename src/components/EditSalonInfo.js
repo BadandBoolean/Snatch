@@ -79,7 +79,7 @@ export default function EditSalonInfo({
           <Form.Item name="bookingInfo" label="Additional Info">
             <TextArea
               showCount
-              placeholder="Add any additional information for clients to know before they book an appointment"
+              placeholder="Add any additional information for clients to know before they book an appointment e.g 'First-come, first-served', 'Walk-ins welcome'"
               maxLength={300}
             />
           </Form.Item>
