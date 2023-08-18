@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Button } from "antd/lib";
 import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
-import { Form } from "antd/lib";
+import { Form, Spin } from "antd/lib";
 import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
 
@@ -26,6 +26,7 @@ export default function Home({
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
   );
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     setHydrated(true);
@@ -111,6 +112,7 @@ export default function Home({
   };
 
   const handleGoSalonPage = () => {
+    setIsRedirecting(true);
     router.push("/OwnerHome");
   };
 
@@ -129,18 +131,26 @@ export default function Home({
                     onClick={openMakeNewSalonModal}
                     className={styles.ownerHomeButton}
                   >
-                    <span className={styles.buttonText}>
-                      Register your Salon
-                    </span>
+                    {isRedirecting ? (
+                      <Spin />
+                    ) : (
+                      <span className={buttonstyles.buttonText}>
+                        Register your Salon
+                      </span>
+                    )}
                   </Button>
                 ) : (
                   <Button
                     className={styles.ownerHomeButton}
                     onClick={handleGoSalonPage}
                   >
-                    <span className={styles.buttonText}>
-                      {salonDetails.name} Home Page
-                    </span>
+                    {isRedirecting ? (
+                      <Spin />
+                    ) : (
+                      <span className={styles.buttonText}>
+                        {salonDetails.name} Home Page
+                      </span>
+                    )}
                   </Button>
                 )}
               </div>

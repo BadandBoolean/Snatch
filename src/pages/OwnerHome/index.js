@@ -4,7 +4,7 @@ import { useSession, getSession } from "next-auth/react";
 import AddApptModal from "../../components/AddApptModal.js";
 import ViewAppointmentsAsOwner from "../../components/ViewAppointmentsAsOwner.js";
 import prisma from "../../../lib/prisma";
-import { Form, Button } from "antd/lib";
+import { Form, Button, Spin } from "antd/lib";
 import { useRouter } from "next/router";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
 import styles from "../../styles/OwnerHome.module.css";
@@ -37,6 +37,7 @@ export default function OwnerHome({
   const [editApptOpen, setEditApptOpen] = useState(false);
   const [editSalonOpen, setEditSalonOpen] = useState(false);
   const [editSalonForm] = Form.useForm();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     setIsRefreshing(false);
@@ -236,6 +237,7 @@ export default function OwnerHome({
   };
 
   const handleGoHome = () => {
+    setIsRedirecting(true);
     router.push("/");
   };
 
@@ -267,7 +269,11 @@ export default function OwnerHome({
             className={buttonstyles.ownerHomeButton}
             onClick={handleGoHome}
           >
-            <span className={buttonstyles.buttonText}>Home</span>
+            {isRedirecting ? (
+              <Spin />
+            ) : (
+              <span className={buttonstyles.buttonText}>Home</span>
+            )}
           </Button>
         </div>
       </div>
