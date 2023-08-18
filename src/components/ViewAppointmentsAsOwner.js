@@ -225,12 +225,12 @@ export default function ViewAppointmentsAsOwner({
           >
             <InputNumber addonBefore="$" />
           </Form.Item>
-          <Form.Item
-            label="Additional Information"
-            name="notes"
-            placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
-          >
-            <TextArea showCount maxLength={300} />
+          <Form.Item label="Additional Information" name="notes">
+            <TextArea
+              showCount
+              maxLength={300}
+              placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
+            />
           </Form.Item>
         </Form>
       </Modal>
