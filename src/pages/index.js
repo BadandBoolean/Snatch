@@ -122,8 +122,6 @@ export default function Home({ userDetails, salonDetails }) {
           <div className={styles.signedInHasSalonDivWrapper}>
             <div className={styles.signedInHasSalonDiv}>
               <div className={styles.buttonBoxMobileOnly}>
-                {console.log(userDetails)}
-                {console.log(salonDetails)}
                 {!!userDetails && !userDetails.hasSalon ? (
                   <Button
                     onClick={openMakeNewSalonModal}
