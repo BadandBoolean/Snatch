@@ -10,11 +10,7 @@ import { Form, Spin } from "antd/lib";
 import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
 
-export default function Home({
-  userDetails,
-
-  salonDetails,
-}) {
+export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
   const router = useRouter();
   const [infoModalOpen, setInfoModalOpen] = useState(false);
@@ -126,6 +122,8 @@ export default function Home({
           <div className={styles.signedInHasSalonDivWrapper}>
             <div className={styles.signedInHasSalonDiv}>
               <div className={styles.buttonBoxMobileOnly}>
+                {console.log(userDetails)}
+                {console.log(salonDetails)}
                 {!!userDetails && !userDetails.hasSalon ? (
                   <Button
                     onClick={openMakeNewSalonModal}

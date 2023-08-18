@@ -193,10 +193,14 @@ export default function HomeAppointmentsView({
               className={styles.apptTable}
             />
           ) : (
-            <p>
-              There are no last-minute openings available right now! Come back
-              later or sign up for notifications below.
-            </p>
+            <div className={styles.noApptsWrapper}>
+              <div className={styles.noApptsDiv}>
+                <span style={{ textAlign: "center" }}>
+                  There are no last-minute openings available right now! Come
+                  back later or sign up for notifications below.
+                </span>
+              </div>
+            </div>
           )}
         </div>
       ) : (
