@@ -132,7 +132,7 @@ export default function Home({ userDetails, salonDetails }) {
                     {isRedirecting ? (
                       <Spin />
                     ) : (
-                      <span className={buttonstyles.buttonText}>
+                      <span className={styles.buttonText}>
                         Register your Salon
                       </span>
                     )}
