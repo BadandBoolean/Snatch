@@ -6,7 +6,6 @@ import ViewAppointmentsAsOwner from "../../components/ViewAppointmentsAsOwner.js
 import prisma from "../../../lib/prisma";
 import { Form, Button } from "antd/lib";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
 import styles from "../../styles/OwnerHome.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
@@ -235,6 +234,11 @@ export default function OwnerHome({
     form.resetFields();
     refreshData();
   };
+
+  const handleGoHome = () => {
+    router.push("/");
+  };
+
   return (
     <>
       <div className={styles.InfoTextWrapper} style={{ margin: "10px" }}>
@@ -259,10 +263,11 @@ export default function OwnerHome({
             </span>
           </Button>
 
-          <Button className={buttonstyles.ownerHomeButton}>
-            <Link className={buttonstyles.buttonText} href="/">
-              Home
-            </Link>
+          <Button
+            className={buttonstyles.ownerHomeButton}
+            onClick={handleGoHome}
+          >
+            <span className={buttonstyles.buttonText}>Home</span>
           </Button>
         </div>
       </div>

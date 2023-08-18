@@ -4,7 +4,6 @@ import NewSalonForm from "../components/NewSalonForm.js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button } from "antd/lib";
-import Link from "next/link";
 import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
 import { Form } from "antd/lib";
@@ -13,9 +12,8 @@ import styles from "../styles/PublicHome.module.css";
 
 export default function Home({
   userDetails,
-  allAppointments,
+
   salonDetails,
-  salonInfoPublic,
 }) {
   const { data: session, status } = useSession(); // object, not array
   const router = useRouter();
@@ -112,6 +110,10 @@ export default function Home({
     setNewSalonModalOpen(false);
   };
 
+  const handleGoSalonPage = () => {
+    router.push("/OwnerHome");
+  };
+
   return (
     <>
       <Hero />
@@ -132,10 +134,13 @@ export default function Home({
                     </span>
                   </Button>
                 ) : (
-                  <Button className={styles.ownerHomeButton}>
-                    <Link className={styles.buttonText} href="/OwnerHome">
+                  <Button
+                    className={styles.ownerHomeButton}
+                    onClick={handleGoSalonPage}
+                  >
+                    <span className={styles.buttonText}>
                       {salonDetails.name} Home Page
-                    </Link>
+                    </span>
                   </Button>
                 )}
               </div>
@@ -155,7 +160,6 @@ export default function Home({
         handleCancelNewSalon={handleCancelNewSalon}
       />
       <HomeAppointmentsView
-        appointments={allAppointments}
         salonDetails={salonDetails}
         infoModalOpen={infoModalOpen}
         setInfoModalOpen={showInfoModal}
@@ -173,10 +177,10 @@ export default function Home({
 export async function getServerSideProps(context) {
   let session = await getSession(context);
   let user = null;
-  let appointment = null;
+
   let salon = null;
   let salonsPublic = null;
-  appointment = await prisma.appointment.findMany();
+
   salonsPublic = await prisma.salon.findMany();
   if (!!session) {
     // console.log(appointment);
@@ -194,9 +198,8 @@ export async function getServerSideProps(context) {
   return {
     props: {
       userDetails: user || null,
-      allAppointments: JSON.parse(JSON.stringify(appointment)) || null,
+
       salonDetails: salon || null,
-      salonInfoPublic: JSON.parse(JSON.stringify(salonsPublic)) || null,
     },
   };
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
@@ -8,13 +8,23 @@ import styles from "../styles/tables.module.css";
 // can also filter by day
 
 export default function HomeAppointmentsView({
-  appointments,
   infoModalOpen,
   setInfoModalOpen,
   handleOkInfoModal,
 }) {
   const [infoModalData, setInfoModalData] = useState({});
   const [bookingData, setBookingData] = useState({});
+  const [appointments, setAppointments] = useState([]);
+  const [isApptsLoading, setApptsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("./api/getAllAppts")
+      .then((res) => res.json())
+      .then((data) => {
+        setAppointments(data.appointments);
+        setApptsLoading(false);
+      });
+  }, []);
 
   const columns = [
     {
@@ -82,7 +92,25 @@ export default function HomeAppointmentsView({
     setInfoModalData(record);
     setInfoModalOpen(true);
   };
-
+  // if (appointments) {
+  //   console.log("HERE ARE THE APPOINTMENTS");
+  //   console.log(appointments);
+  //   const dataSource = appointments.map((appointment) => {
+  //     return {
+  //       key: appointment.id,
+  //       salon: appointment.salonname,
+  //       date: dayjs(appointment.date).format("MM/DD/YYYY"),
+  //       time: dayjs(appointment.time).format("HH:mm"),
+  //       whoWith: appointment.whoWith,
+  //       service: appointment.service,
+  //       price: appointment.price,
+  //       notes: appointment.notes,
+  //     };
+  //   });
+  // } else {
+  //   console.log("no appointments...yet");
+  //   const dataSource = [];
+  // }
   const dataSource = appointments.map((appointment) => {
     return {
       key: appointment.id,
@@ -155,21 +183,25 @@ export default function HomeAppointmentsView({
 
   return (
     <>
-      <div className={styles.appTable}>
-        {dataSource.length > 0 ? (
-          <Table
-            columns={columns.filter((item) => !item.hidden)}
-            dataSource={dataSource}
-            size="small"
-            className={styles.apptTable}
-          />
-        ) : (
-          <p>
-            There are no last-minute openings available right now! Come back
-            later or sign up for notifications below.
-          </p>
-        )}
-      </div>
+      {!isApptsLoading ? (
+        <div className={styles.appTable}>
+          {dataSource.length > 0 ? (
+            <Table
+              columns={columns.filter((item) => !item.hidden)}
+              dataSource={dataSource}
+              size="small"
+              className={styles.apptTable}
+            />
+          ) : (
+            <p>
+              There are no last-minute openings available right now! Come back
+              later or sign up for notifications below.
+            </p>
+          )}
+        </div>
+      ) : (
+        <div></div>
+      )}
       <Modal
         title="Information about this appointment"
         open={infoModalOpen}
