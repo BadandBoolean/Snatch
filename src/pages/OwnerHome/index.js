@@ -50,7 +50,11 @@ export default function OwnerHome({
   };
 
   if (session === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <div className={styles.loadingDivWrapper}>
+        <Spin size="large" />
+      </div>
+    );
   }
 
   // deny access if user is not logged in as salon owner - also add option that if user is authenticated BUT doesn't have a salon?
@@ -82,7 +86,7 @@ export default function OwnerHome({
     editSalonForm.setFieldsValue({
       salonname: salonDetails.name,
       salonphone: salonDetails.phone,
-      salonaddress: salonDetails.address,
+      salonemailaddress: salonDetails.address,
       bookingOptions: salonDetails.bookingOptions,
       bookingInfo: salonDetails.bookingInfo,
     });
@@ -245,9 +249,7 @@ export default function OwnerHome({
     <>
       <div className={styles.InfoTextWrapper} style={{ margin: "10px" }}>
         <div className={styles.InfoTextBox}>
-          <span className={styles.InfoTextStyle}>
-            Salon: {salonDetails.name}
-          </span>
+          <span className={styles.InfoTextStyle}>{salonDetails.name}</span>
         </div>
       </div>
       <div className={styles.buttonBarWrapper}>

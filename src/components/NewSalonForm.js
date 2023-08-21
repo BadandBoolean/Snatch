@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Modal } from "antd/lib";
+import { Form, Input, Button, Checkbox, Modal, InputNumber } from "antd/lib";
 const { TextArea } = Input;
 
 export default function NewSalonForm({
@@ -46,7 +46,12 @@ export default function NewSalonForm({
             },
           ]}
         >
-          <Input maxLength={10} />
+          <Input
+            addonBefore="+1"
+            maxLength={12}
+            style={{ width: "100%" }}
+            placeholder="xxx xxx xxxx"
+          />
         </Form.Item>
         <Form.Item
           label="Email Address"
@@ -73,6 +78,7 @@ export default function NewSalonForm({
         <Form.Item name="bookingInfo" label="Additional Info">
           <TextArea
             showCount
+            autoSize={{ minRows: 3, maxRows: 5 }}
             maxLength={300}
             placeholder="Add any additional information for clients to know before they book an appointment e.g 'First-come, first-served', 'Walk-ins welcome'"
           />
