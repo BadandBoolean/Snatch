@@ -56,6 +56,13 @@
     color: #2d19b1;
 }
 
+.loadingDivWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 100vh;
+}
+
 @media (max-width: 837px) {
     .signedInHasSalonDivWrapper {
         width: 100%;

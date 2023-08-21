@@ -115,7 +115,13 @@ export default function Home({ userDetails, salonDetails }) {
   return (
     <>
       <Hero />
-      {status === "loading" && <h2>Loading ...</h2>}
+      {status === "loading" ? (
+        <div className={styles.loadingDivWrapper}>
+          <Spin size="large" />
+        </div>
+      ) : (
+        <></>
+      )}
       {status === "authenticated" && (
         <>
           <br />
