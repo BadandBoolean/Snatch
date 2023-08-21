@@ -228,6 +228,7 @@ export default function ViewAppointmentsAsOwner({
           <Form.Item label="Additional Information" name="notes">
             <TextArea
               showCount
+              autoSize={{ minRows: 3, maxRows: 5 }}
               maxLength={300}
               placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
             />

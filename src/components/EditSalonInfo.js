@@ -3,14 +3,15 @@ import React from "react";
 import {
   Form,
   Input,
-  InputNumber,
   Button,
   Modal,
   DatePicker,
   TimePicker,
   Checkbox,
+  InputNumber,
 } from "antd/lib";
 import dayjs from "dayjs";
+import { MaskedInput } from "antd-mask-input";
 const { TextArea } = Input;
 
 export default function EditSalonInfo({
@@ -52,7 +53,12 @@ export default function EditSalonInfo({
               },
             ]}
           >
-            <Input maxLength={10} />
+            <Input
+              addonBefore="+1"
+              maxLength={12}
+              style={{ width: "100%" }}
+              placeholder="xxx xxx xxxx"
+            />
           </Form.Item>
           <Form.Item
             label="Email Address"
@@ -79,6 +85,7 @@ export default function EditSalonInfo({
           <Form.Item name="bookingInfo" label="Additional Info">
             <TextArea
               showCount
+              autoSize={{ minRows: 3, maxRows: 5 }}
               placeholder="Add any additional information for clients to know before they book an appointment e.g 'First-come, first-served', 'Walk-ins welcome'"
               maxLength={300}
             />

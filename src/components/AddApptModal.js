@@ -93,6 +93,7 @@ export default function AddApptModal({
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
             <TextArea
+              autoSize={{ minRows: 3, maxRows: 5 }}
               showCount
               maxLength={300}
               placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
