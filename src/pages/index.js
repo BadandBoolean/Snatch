@@ -189,11 +189,7 @@ export default function Home({ userDetails, salonDetails }) {
 export async function getServerSideProps(context) {
   let session = await getSession(context);
   let user = null;
-
   let salon = null;
-  let salonsPublic = null;
-
-  salonsPublic = await prisma.salon.findMany();
   if (!!session) {
     // console.log(appointment);
     user = await prisma.user.findUnique({
@@ -210,7 +206,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       userDetails: user || null,
-
       salonDetails: salon || null,
     },
   };
