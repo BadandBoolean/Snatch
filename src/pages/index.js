@@ -34,7 +34,6 @@ export default function Home({ userDetails, salonDetails }) {
   }
 
   const handleFinishForm = async (values) => {
-    // values.preventDefault();
     // console.log(session);
     // console.log(userDetails);
 
