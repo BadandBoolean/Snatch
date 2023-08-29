@@ -19,10 +19,28 @@ model Salon {
   ownerId        String        @unique // scalar field which is foreign key of salon model. does not exist in the database
   name           String
   phone          String // for now
-  address        String
+  address        String        @default("no website") // WEB ADDRESS
   bookingInfo    String        @default("Please call us to book an appointment")
   bookingOptions String[]      @default(["Phone", "website", "Walk-in"])
   appointments   Appointment[] // this is a relation field which does not exist in the database 
+  stylists       Stylist[] // this is a relation field which does not exist in the database     
+  services       Service[] // this is a relation field which does not exist in the database    
+}
+
+model Stylist {
+  id        String @id @default(cuid())
+  salon     Salon  @relation(fields: [salonId], references: [id]) // references the id of the salon model
+  salonname String @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
+  salonId   String // scalar field which is foreign key of stylist model. does not exist in the database
+  name      String
+}
+
+model Service {
+  id        String @id @default(cuid())
+  salon     Salon  @relation(fields: [salonId], references: [id]) // references the id of the salon model
+  salonname String @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
+  salonId   String // scalar field which is foreign key of service model. does not exist in the database
+  name      String
 }
 
 model Appointment {

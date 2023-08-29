@@ -61,14 +61,8 @@ export default function EditSalonInfo({
             />
           </Form.Item>
           <Form.Item
-            label="Email Address"
+            label="Website" // CHANGE!!!!!!!
             name="salonemailaddress"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Salon's Email Address!", // EMAIL ADDRESS not physical address!
-              },
-            ]}
           >
             <Input maxLength={50} />
           </Form.Item>
