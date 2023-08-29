@@ -309,6 +309,7 @@ export default function OwnerHome({
         handleDontEdit={handleDontEdit}
         handleEditSubmit={handleEditSubmit}
         editForm={editForm}
+        salonId={salonDetails.id}
       />
       <EditSalonInfo
         editSalonOpen={editSalonOpen}
