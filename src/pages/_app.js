@@ -8,7 +8,6 @@ import Footer from "../components/Footer";
 import DevelopmentAlert from "../components/DevelopmentAlert";
 import { ErrorBoundary } from "react-error-boundary";
 // todo: add logging when error shows in error boundary.
-export { reportWebVitals } from "next-axiom";
 
 function Fallback({ error, resetErrorBoundary }) {
   return (
