@@ -1,8 +1,9 @@
 import prisma from "../../../../lib/prisma";
+import { Logger } from "next-axiom";
 
 export default async (req, res) => {
-  console.log("IN THE API");
-  console.log(req.query);
+  const log = new Logger();
+  log.info("in getting stylists API");
   const { salon } = req.query;
   try {
     const stylists = await prisma.stylist.findMany({
@@ -12,6 +13,7 @@ export default async (req, res) => {
     res.status(200).json({ stylists });
   } catch (error) {
     res.status(400).json({ message: error.message });
+    log.error("error in getting stylists API", { error: error });
   }
   res.end();
 };
