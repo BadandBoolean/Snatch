@@ -53,16 +53,7 @@ export default function NewSalonForm({
             placeholder="xxx xxx xxxx"
           />
         </Form.Item>
-        <Form.Item
-          label="Email Address"
-          name="salonemailaddress"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Salon's Email Address!", // EMAIL ADDRESS not physical address!
-            },
-          ]}
-        >
+        <Form.Item label="Website" name="salonemailaddress">
           <Input maxLength={50} />
         </Form.Item>
         <Form.Item

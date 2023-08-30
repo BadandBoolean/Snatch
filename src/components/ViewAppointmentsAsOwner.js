@@ -10,7 +10,9 @@ import {
   Input,
   DatePicker,
   InputNumber,
+  Select,
 } from "antd/lib";
+import { PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
 const { TextArea } = Input;
@@ -31,7 +33,76 @@ export default function ViewAppointmentsAsOwner({
   handleDontEdit,
   handleEditSubmit,
   editForm,
+  salonId,
 }) {
+  const [services, setServices] = useState([]);
+  const [stylists, setStylists] = useState([]);
+  const [addStylist, setAddStylist] = useState("");
+  const [addService, setAddService] = useState("");
+  const [changeTrigger, setChangeTrigger] = useState(false);
+
+  useEffect(() => {
+    fetch(`./api/getServices/${salonId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setServices(data.services);
+      });
+    fetch(`./api/getStylists/${salonId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setStylists(data.stylists);
+      });
+    setChangeTrigger(false);
+  }, [changeTrigger]);
+
+  const serviceOptions = services.map((service) => {
+    return { label: service.name, value: service.name };
+  });
+
+  const stylistOptions = stylists.map((stylist) => {
+    return { value: stylist.name, label: stylist.name };
+  });
+
+  const onAddStylist = (event) => {
+    setAddStylist(event.target.value);
+  };
+
+  const onAddService = (event) => {
+    setAddService(event.target.value);
+  };
+
+  const clickAddStylist = () => {
+    fetch("./api/amendStylist", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "add",
+        stylist: addStylist,
+        salonId: salonId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setAddStylist("");
+    setChangeTrigger(true);
+  };
+
+  const clickAddService = () => {
+    fetch("./api/amendService", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "add",
+        service: addService,
+        salonId: salonId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setAddService("");
+    setChangeTrigger(true);
+  };
+
   // expanded columns
   const expandedRowRender = (record) => {
     const columns = [
@@ -208,10 +279,51 @@ export default function ViewAppointmentsAsOwner({
               },
             ]}
           >
-            <Input />
+            <Select
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Input
+                      placeholder="Add a stylist"
+                      onChange={onAddStylist}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={clickAddStylist}
+                    >
+                      Add Stylist
+                    </Button>
+                  </div>
+                </>
+              )}
+              options={stylistOptions}
+            />
           </Form.Item>
-          <Form.Item label="Service Type" name="servicetype">
-            <Input />
+          <Form.Item label="Service" name="servicetype">
+            <Select
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Input
+                      placeholder="Add a service"
+                      minLength={1}
+                      onChange={onAddService}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={clickAddService}
+                    >
+                      Add Service
+                    </Button>
+                  </div>
+                </>
+              )}
+              options={serviceOptions}
+            />
           </Form.Item>
           <Form.Item
             label="Price"

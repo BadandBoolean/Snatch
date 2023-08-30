@@ -7,9 +7,13 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import DevelopmentAlert from "../components/DevelopmentAlert";
 import { ErrorBoundary } from "react-error-boundary";
-// todo: add logging when error shows in error boundary.
+
+import { useLogger } from "next-axiom";
 
 function Fallback({ error, resetErrorBoundary }) {
+  const logger = useLogger();
+  logger.error("Error boundary error hit!", { error });
+
   return (
     <div className={styles.containerWrapper}>
       <div className={styles.container}>

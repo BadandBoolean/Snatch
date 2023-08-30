@@ -6,9 +6,15 @@ import {
   Modal,
   DatePicker,
   TimePicker,
+  Select,
+  Button,
+  Divider,
+  Space,
 } from "antd/lib";
 import dayjs from "dayjs";
 const { TextArea } = Input;
+import { useEffect, useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 
 const disabledDate = (current) => {
   // Can not select days before today only.
@@ -21,7 +27,76 @@ export default function AddApptModal({
   open,
   confirmLoading,
   form,
+  salonId,
 }) {
+  const [services, setServices] = useState([]);
+  const [stylists, setStylists] = useState([]);
+  const [addStylist, setAddStylist] = useState("");
+  const [addService, setAddService] = useState("");
+  const [changeTrigger, setChangeTrigger] = useState(false);
+
+  useEffect(() => {
+    fetch(`./api/getServices/${salonId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setServices(data.services);
+      });
+    fetch(`./api/getStylists/${salonId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setStylists(data.stylists);
+      });
+    setChangeTrigger(false);
+  }, [changeTrigger]);
+
+  const serviceOptions = services.map((service) => {
+    return { label: service.name, value: service.name };
+  });
+
+  const stylistOptions = stylists.map((stylist) => {
+    return { value: stylist.name, label: stylist.name };
+  });
+
+  const onAddStylist = (event) => {
+    setAddStylist(event.target.value);
+  };
+
+  const onAddService = (event) => {
+    setAddService(event.target.value);
+  };
+
+  const clickAddStylist = () => {
+    fetch("./api/amendStylist", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "add",
+        stylist: addStylist,
+        salonId: salonId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setAddStylist("");
+    setChangeTrigger(true);
+  };
+
+  const clickAddService = () => {
+    fetch("./api/amendService", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "add",
+        service: addService,
+        salonId: salonId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setAddService("");
+    setChangeTrigger(true);
+  };
+
   return (
     <>
       <Modal
@@ -74,10 +149,50 @@ export default function AddApptModal({
               },
             ]}
           >
-            <Input />
+            <Select
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Input
+                      placeholder="Add a stylist"
+                      onChange={onAddStylist}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={clickAddStylist}
+                    >
+                      Add Stylist
+                    </Button>
+                  </div>
+                </>
+              )}
+              options={stylistOptions}
+            />
           </Form.Item>
-          <Form.Item label="Service Type" name="servicetype">
-            <Input />
+          <Form.Item label="Service" name="servicetype">
+            <Select
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Input
+                      placeholder="Add a service"
+                      onChange={onAddService}
+                    />
+                    <Button
+                      type="text"
+                      icon={<PlusOutlined />}
+                      onClick={clickAddService}
+                    >
+                      Add Service
+                    </Button>
+                  </div>
+                </>
+              )}
+              options={serviceOptions}
+            />
           </Form.Item>
           <Form.Item
             label="Price"

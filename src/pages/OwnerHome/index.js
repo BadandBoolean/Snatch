@@ -1,25 +1,16 @@
 import { useState, useEffect } from "react";
-import { signOut } from "next-auth/react";
 import { useSession, getSession } from "next-auth/react";
 import AddApptModal from "../../components/AddApptModal.js";
 import ViewAppointmentsAsOwner from "../../components/ViewAppointmentsAsOwner.js";
 import prisma from "../../../lib/prisma";
-import { Form, Button, Spin } from "antd/lib";
+import { Form, Button, Spin, Tabs } from "antd/lib";
 import { useRouter } from "next/router";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
 import styles from "../../styles/OwnerHome.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
+import StylistBlock from "../../components/StylistBlock.js";
+import ServiceBlock from "../../components/ServiceBlock.js";
 
-// TODO LIST:
-// baababaaabeeebdeeee
-// ADD PINWHEEL FOR SERVER-SIDE RENDERING OF APPOINTMENTS
-// Change default vals to initial vals to get rid of console error
-// add a sign out button.
-// add a go to see appointments as salon owner button.
-// create the list to view appointments!
-
-// only access this page if you are logged in??? or else u gotta redirect to log in ??????????
-// something like 'owners access only'
 export default function OwnerHome({
   userDetails,
   allAppointments,
@@ -245,6 +236,24 @@ export default function OwnerHome({
     router.push("/");
   };
 
+  const onChangeTab = (key) => {
+    // may not need!
+    console.log(key);
+  };
+
+  const tabItems = [
+    {
+      key: "1",
+      label: "Stylists",
+      children: <StylistBlock salonId={salonDetails.id} />,
+    },
+    {
+      key: "2",
+      label: "Services",
+      children: <ServiceBlock salonId={salonDetails.id} />,
+    },
+  ];
+
   return (
     <>
       <div className={styles.InfoTextWrapper} style={{ margin: "10px" }}>
@@ -286,8 +295,8 @@ export default function OwnerHome({
         confirmLoading={confirmLoading}
         open={open}
         form={form}
+        salonId={salonDetails.id}
       />
-
       <ViewAppointmentsAsOwner
         appointments={allAppointments}
         handleDelete={handleDelete}
@@ -300,14 +309,22 @@ export default function OwnerHome({
         handleDontEdit={handleDontEdit}
         handleEditSubmit={handleEditSubmit}
         editForm={editForm}
+        salonId={salonDetails.id}
       />
-
       <EditSalonInfo
         editSalonOpen={editSalonOpen}
         editSalonForm={editSalonForm}
         handleEditSalonCancel={handleEditSalonCancel}
         confirmLoading={confirmLoading}
         handleEditSalonSubmit={handleEditSalonSubmit}
+      />
+      <Tabs
+        centered
+        style={{ minHeight: "30vh" }}
+        size="middle"
+        defaultActiveKey="1"
+        items={tabItems}
+        onChange={onChangeTab}
       />
     </>
   );
