@@ -8,11 +8,13 @@ export default async (req, res) => {
     // console.log("IN THE API");
     const phone = bod.phone;
     const email = bod.email;
+    const salon = bod.salon;
     try {
       if (phone) {
         const clientphonenum = await prisma.ClientPhoneNumber.create({
           data: {
             clientphone: phone,
+            salonId: salon,
           },
         });
       }
@@ -20,6 +22,7 @@ export default async (req, res) => {
         const clientemailaddr = await prisma.ClientEmailAddress.create({
           data: {
             clientemail: email,
+            salonId: salon,
           },
         });
       }

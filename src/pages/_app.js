@@ -5,7 +5,6 @@ import { ConfigProvider } from "antd/lib";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import DevelopmentAlert from "../components/DevelopmentAlert";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { useLogger } from "next-axiom";
@@ -43,7 +42,6 @@ export default function App({ Component, pageProps }) {
             },
           }}
         >
-          <DevelopmentAlert />
           <NavBar />
           <Component {...pageProps} />
           <Footer />

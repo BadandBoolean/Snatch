@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Modal,
-  DatePicker,
-  TimePicker,
-} from "antd/lib";
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { Form, Input, Button, Select } from "antd/lib";
 import styles from "../styles/ContactForm.module.css";
 
 export default function GetContactInfoForm({
@@ -16,6 +8,23 @@ export default function GetContactInfoForm({
   handleAddContactInfo,
   contactFormTitle,
 }) {
+  const [salonsLoading, setSalonsLoading] = useState(true);
+  const [salons, setSalons] = useState([]);
+
+  useEffect(() => {
+    fetch(`./api/getAllSalons`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSalons(data.salons);
+        setSalonsLoading(false);
+      });
+  }, []);
+
+  const options = salons.map((salon) => {
+    return { value: salon.id, label: salon.name };
+  });
+  options.unshift({ value: "", label: "All salons" });
+
   return (
     <>
       <div className={styles.contactWrapper}>
@@ -65,6 +74,28 @@ export default function GetContactInfoForm({
                   <Input
                     placeholder="Enter your phone number (optional)"
                     maxLength={15}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label={
+                    <p
+                      style={{
+                        fontSize: "16px",
+                        color: "white",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Select a salon
+                    </p>
+                  }
+                  name="salonselect"
+                >
+                  <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder="Filter by salon"
+                    defaultValue={""}
+                    options={!salonsLoading && options}
                   />
                 </Form.Item>
                 <Form.Item>
