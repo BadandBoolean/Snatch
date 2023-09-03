@@ -111,11 +111,13 @@ model VerificationToken {
 model ClientPhoneNumber {
   id          String @id @default(cuid())
   clientphone String
+  salonId     String @default("") // salon of interest to this person. if blank then they selected 'all salons'.
 }
 
 model ClientEmailAddress {
   id          String @id @default(cuid())
   clientemail String
+  salonId     String @default("") // salon of interest to this person. if blank then they selected 'all salons'.
 }
 
 model RegisteredPartners {

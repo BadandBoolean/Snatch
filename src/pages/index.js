@@ -9,6 +9,8 @@ import GetContactInfoForm from "../components/GetContactInfoForm.js";
 import { Form, Spin } from "antd/lib";
 import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
+import PickSalon from "../components/PickSalon.js";
+import DevelopmentAlert from "../components/DevelopmentAlert";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -23,6 +25,8 @@ export default function Home({ userDetails, salonDetails }) {
     "Get notified about last-minute appointments:"
   );
   const [isRedirecting, setIsRedirecting] = useState(false);
+  // the showingSalonId determines which salon's appointments should be shown on the screen.
+  const [showingSalonId, setShowingSalonId] = useState("");
 
   useEffect(() => {
     setHydrated(true);
@@ -69,6 +73,7 @@ export default function Home({ userDetails, salonDetails }) {
         body: JSON.stringify({
           phone: values.phonenumber,
           email: values.emailaddress,
+          salon: values.salonselect,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -113,6 +118,7 @@ export default function Home({ userDetails, salonDetails }) {
 
   return (
     <>
+      {!session && <DevelopmentAlert />}
       <Hero />
       {status === "loading" ? (
         <div className={styles.loadingDivWrapper}>
@@ -170,11 +176,14 @@ export default function Home({ userDetails, salonDetails }) {
         newSalonForm={newSalonForm}
         handleCancelNewSalon={handleCancelNewSalon}
       />
+      <PickSalon setShowingSalonId={setShowingSalonId} />
       <HomeAppointmentsView
+        showingSalonId={showingSalonId}
         salonDetails={salonDetails}
         infoModalOpen={infoModalOpen}
         setInfoModalOpen={showInfoModal}
         handleOkInfoModal={handleOkInfoModal}
+        salonId={showingSalonId}
       />
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}

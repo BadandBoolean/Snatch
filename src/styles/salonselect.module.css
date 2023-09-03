@@ -1,0 +1,23 @@
+.divWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.placementDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 96%;
+}
+
+@media (max-width: 430px) {
+    .placementDiv {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
+}

@@ -22,7 +22,6 @@ export default function OwnerHome({
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const router = useRouter();
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [deleteApptOpen, setDeleteApptOpen] = useState(false);
   const [apptId, setApptId] = useState(null);
   const [editApptOpen, setEditApptOpen] = useState(false);
@@ -30,14 +29,11 @@ export default function OwnerHome({
   const [editSalonForm] = Form.useForm();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  useEffect(() => {
-    setIsRefreshing(false);
-  }, [allAppointments, salonDetails, userDetails]);
+  useEffect(() => {}, [allAppointments, salonDetails, userDetails]);
 
   // refresh data on page when a new query is added to DB.
   const refreshData = () => {
     router.replace(router.asPath);
-    setIsRefreshing(true);
   };
 
   if (session === undefined) {

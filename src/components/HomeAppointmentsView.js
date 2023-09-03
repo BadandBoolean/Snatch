@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
+import { useLogger } from "next-axiom";
 
 // can in future filter by salon
 // can also filter by day
@@ -11,20 +12,42 @@ export default function HomeAppointmentsView({
   infoModalOpen,
   setInfoModalOpen,
   handleOkInfoModal,
+  salonId,
 }) {
+  const logger = useLogger();
   const [infoModalData, setInfoModalData] = useState({});
   const [bookingData, setBookingData] = useState({});
   const [appointments, setAppointments] = useState([]);
   const [isApptsLoading, setApptsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("./api/getAllAppts")
-      .then((res) => res.json())
-      .then((data) => {
-        setAppointments(data.appointments);
-        setApptsLoading(false);
-      });
-  }, []);
+    if (!salonId) {
+      // get all appointments, regardless of salon.
+      fetch(`./api/getAllAppts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setAppointments(data.appointments);
+          setApptsLoading(false);
+        });
+    } else {
+      fetch(`./api/getApptsBySalon/${salonId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setAppointments(data.appointments);
+          setApptsLoading(false);
+        });
+    }
+  }, [salonId]);
 
   const columns = [
     {
