@@ -3,6 +3,7 @@ import { authOptions } from "./auth/[...nextauth]";
 import { Logger } from "next-axiom";
 import prisma from "../../../lib/prisma";
 import dayjs from "dayjs";
+import { message } from "antd";
 var localizedFormat = require("dayjs/plugin/localizedFormat");
 dayjs.extend(localizedFormat);
 // first recieve list of subscribers
@@ -74,14 +75,13 @@ export default async (req, res) => {
       );
       console.log(textSubscribers);
 
-      textSubscribers.map((subscriber) => {
-        twilioclient.messages
-          .create({
-            body: textBody,
-            to: `+1${subscriber}`,
-            from: `${process.env.TWILIO_NUMBER}`,
-          })
-          .then((message) => console.log(message.sid));
+      textSubscribers.map(async (subscriber) => {
+        await twilioclient.messages.create({
+          body: textBody,
+          to: `+1${subscriber}`,
+          from: `${process.env.TWILIO_NUMBER}`,
+        });
+        console.log(message.sid);
         console.log(`sent text to ${subscriber}`);
       });
     } catch (error) {
