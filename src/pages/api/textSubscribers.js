@@ -32,6 +32,9 @@ export default async (req, res) => {
     try {
       // get all subscribers
       if (env === "development") {
+        console.log(
+          "if you can read this and you're in preview you shouldn't be here"
+        );
         textSubscribers = await prisma.salon.findUnique({
           where: {
             id: salonId,
@@ -42,6 +45,7 @@ export default async (req, res) => {
         });
         textSubscribers = textSubscribers.phoneSubsDev;
       } else {
+        console.log("you SHOULD be here");
         textSubscribers = await prisma.salon.findUnique({
           where: {
             id: salonId,
@@ -56,8 +60,7 @@ export default async (req, res) => {
       log.error(error);
       res.status(400).json({ message: error.message });
     }
-    // now we have the subscribers. we need to send them a text.
-    // need to fix the format of apptDate and apptTime
+
     apptDate = dayjs(apptDate).format("LL");
     apptTime = dayjs(apptTime).format("h:mm a");
     const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.vercel.app for booking instructions!\n\nText STOP to unsubscribe.`;
@@ -76,6 +79,7 @@ export default async (req, res) => {
           to: `+1${subscriber}`,
           from: `${process.env.TWILIO_NUMBER}`,
         });
+        console.log(`sent text to ${subscriber}`);
       });
     } catch (error) {
       log.error(error);

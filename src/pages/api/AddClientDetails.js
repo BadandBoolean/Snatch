@@ -19,9 +19,13 @@ export default async (req, res) => {
         salons = [];
         salons.push(temp);
       }
-      log.info("salons:", salons);
+      // log.info("salons:", salons);
+      console.log("the salons are: ", salons);
       // now go through each salon, and fill in the phone number and email depending on the environment.
       if (process.env.NODE_ENV === "development") {
+        console.log(
+          "if you can read this and you're in preview you shouldn't be here"
+        );
         if (phone) {
           salons.forEach(async (salon) => {
             const updateSalon = await prisma.salon.update({
@@ -51,7 +55,10 @@ export default async (req, res) => {
           });
         }
       } else {
+        console.log("if you can read this and you're in preview that is GOOD");
         if (phone) {
+          console.log("updaring phone for salons: ", salons);
+          console.log("phone is: ", phone);
           salons.forEach(async (salon) => {
             const updateSalon = await prisma.salon.update({
               where: {
