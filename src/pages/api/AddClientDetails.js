@@ -59,20 +59,23 @@ export default async (req, res) => {
         if (phone) {
           console.log("updaring phone for salons: ", salons);
           console.log("phone is: ", phone);
-          salons.forEach(async (salon) => {
-            const updateSalon = await prisma.salon.update({
-              where: {
-                id: salon,
-              },
-              data: {
-                phoneSubsProd: {
-                  push: phone,
+
+          await Promise.all(
+            salons.map(async (salon) => {
+              const updateSalon = await prisma.salon.update({
+                where: {
+                  id: salon,
                 },
-              },
-            });
-            console.log("updateSalon: ", updateSalon);
-            console.log("updated for this salon: ", salon);
-          });
+                data: {
+                  phoneSubsProd: {
+                    push: phone,
+                  },
+                },
+              });
+              console.log("updateSalon: ", updateSalon);
+              console.log("updated for this salon: ", salon);
+            })
+          );
         }
         if (email) {
           salons.forEach(async (salon) => {
