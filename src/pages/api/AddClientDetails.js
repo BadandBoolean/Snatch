@@ -70,6 +70,8 @@ export default async (req, res) => {
                 },
               },
             });
+            console.log("updateSalon: ", updateSalon);
+            console.log("updated for this salon: ", salon);
           });
         }
         if (email) {
