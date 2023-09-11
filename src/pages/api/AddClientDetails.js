@@ -1,37 +1,93 @@
 import prisma from "../../../lib/prisma";
+import { Logger } from "next-axiom";
 
-// appointment is tied to salon, not owner.
 export default async (req, res) => {
+  const log = new Logger();
   if (req.method === "POST") {
     const bod = req.body;
-    // console.log(bod);
-    // console.log("IN THE API");
     const phone = bod.phone;
     const email = bod.email;
-    const salon = bod.salon;
+    let salons = bod.salon;
     try {
-      if (phone) {
-        const clientphonenum = await prisma.ClientPhoneNumber.create({
-          data: {
-            clientphone: phone,
-            salonId: salon,
-          },
-        });
+      // if all salons has been selected, get em all
+      if (salons === "") {
+        salons = await prisma.salon.findMany();
+        salons = salons.map((salon) => salon.id);
+      } else {
+        // add the salons string to a new array
+        const temp = salons;
+        salons = [];
+        salons.push(temp);
       }
-      if (email) {
-        const clientemailaddr = await prisma.ClientEmailAddress.create({
-          data: {
-            clientemail: email,
-            salonId: salon,
-          },
-        });
+      log.info("salons:", salons);
+      // now go through each salon, and fill in the phone number and email depending on the environment.
+      if (process.env.NODE_ENV === "development") {
+        if (phone) {
+          salons.forEach(async (salon) => {
+            const updateSalon = await prisma.salon.update({
+              where: {
+                id: salon,
+              },
+              data: {
+                phoneSubsDev: {
+                  push: phone,
+                },
+              },
+            });
+          });
+        }
+        if (email) {
+          salons.forEach(async (salon) => {
+            const updateSalon = await prisma.salon.update({
+              where: {
+                id: salon,
+              },
+              data: {
+                emailSubsDev: {
+                  push: email,
+                },
+              },
+            });
+          });
+        }
+      } else {
+        if (phone) {
+          salons.forEach(async (salon) => {
+            const updateSalon = await prisma.salon.update({
+              where: {
+                id: salon,
+              },
+              data: {
+                phoneSubsProd: {
+                  push: phone,
+                },
+              },
+            });
+          });
+        }
+        if (email) {
+          salons.forEach(async (salon) => {
+            const updateSalon = await prisma.salon.update({
+              where: {
+                id: salon,
+              },
+              data: {
+                emailSubsProd: {
+                  push: email,
+                },
+              },
+            });
+          });
+        }
       }
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(500).json({ error: error.message });
+      log.error(error);
     }
+    res.status(200);
   } else {
-    // trying to GET here instead of POST
-    res.status(401);
+    log.error("method not allowed in AddClientDetails");
+    res.status(405).json({ message: "method not allowed" });
   }
   res.end();
 };

@@ -103,7 +103,7 @@ export default function OwnerHome({
     setTimeout(() => {
       setDeleteApptOpen(false);
       setConfirmLoading(false);
-    }, 2000);
+    }, 100);
     refreshData();
   };
 
@@ -140,7 +140,7 @@ export default function OwnerHome({
     setTimeout(() => {
       setEditSalonOpen(false);
       setConfirmLoading(false);
-    }, 2000);
+    }, 100);
     editSalonForm.resetFields();
     refreshData();
   };
@@ -167,18 +167,29 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
-      const sendmessage = await fetch("./api/textAdminNumber", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // generate the query data.
+      // const queryData = {
+      //   salonId: salonDetails.id,
+      //   salonName: salonDetails.name,
+      //   apptDate: values.apptdate,
+      //   apptTime: values.appttime,
+      //   apptService: values.servicetype,
+      //   apptPrice: values.price,
+      //   apptStylist: values.stylist,
+      //   changeType: "edit",
+      // };
+      // const sendmessage = await fetch(`./api/textSubscribers/${queryData}`, {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
     }
     setConfirmLoading(true);
     setTimeout(() => {
       setEditApptOpen(false);
       setConfirmLoading(false);
-    }, 2000);
+    }, 100);
     // now have to reload window to see new appointment
     form.resetFields();
     refreshData();
@@ -210,8 +221,20 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
-      const sendmessage = await fetch("./api/textAdminNumber", {
-        method: "GET",
+      // generate the query data.
+      const queryData = {
+        salonId: salonDetails.id,
+        salonName: salonDetails.name,
+        apptDate: values.apptdate,
+        apptTime: values.appttime,
+        apptService: values.servicetype,
+        apptPrice: values.price,
+        apptStylist: values.stylist,
+        changeType: "add",
+      };
+      const sendmessage = await fetch(`./api/textSubscribers`, {
+        method: "POST",
+        body: JSON.stringify(queryData),
         headers: {
           "Content-Type": "application/json",
         },
@@ -221,7 +244,7 @@ export default function OwnerHome({
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-    }, 2000);
+    }, 100);
     // now have to reload window to see new appointment
     form.resetFields();
     refreshData();

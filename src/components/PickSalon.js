@@ -35,7 +35,6 @@ export default function PickSalon({ setShowingSalonId }) {
           showSearch
           style={{ width: 200 }}
           placeholder="Filter by salon"
-          defaultValue={""}
           options={!salonsLoading && options}
           onChange={onSelectSalon}
         />

@@ -25,6 +25,10 @@ model Salon {
   appointments   Appointment[] // this is a relation field which does not exist in the database 
   stylists       Stylist[] // this is a relation field which does not exist in the database     
   services       Service[] // this is a relation field which does not exist in the database    
+  phoneSubsDev   String[]
+  phoneSubsProd  String[]
+  emailSubsDev   String[]
+  emailSubsProd  String[]
 }
 
 model Stylist {
@@ -106,18 +110,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model ClientPhoneNumber {
-  id          String @id @default(cuid())
-  clientphone String
-  salonId     String @default("") // salon of interest to this person. if blank then they selected 'all salons'.
-}
-
-model ClientEmailAddress {
-  id          String @id @default(cuid())
-  clientemail String
-  salonId     String @default("") // salon of interest to this person. if blank then they selected 'all salons'.
 }
 
 model RegisteredPartners {

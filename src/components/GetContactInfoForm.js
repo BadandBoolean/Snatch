@@ -88,13 +88,13 @@ export default function GetContactInfoForm({
                       Select a salon
                     </p>
                   }
+                  initialValue={""}
                   name="salonselect"
                 >
                   <Select
                     showSearch
                     style={{ width: 200 }}
                     placeholder="Filter by salon"
-                    defaultValue={""}
                     options={!salonsLoading && options}
                   />
                 </Form.Item>
