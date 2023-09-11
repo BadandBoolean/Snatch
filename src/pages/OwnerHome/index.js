@@ -232,7 +232,7 @@ export default function OwnerHome({
         apptStylist: values.stylist,
         changeType: "add",
       };
-      const sendmessage = await fetch(`./api/textSubscribers`, {
+      const sendmessage = await fetch("./api/textSubscribers", {
         method: "POST",
         body: JSON.stringify(queryData),
         headers: {
