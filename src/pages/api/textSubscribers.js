@@ -3,7 +3,6 @@ import { authOptions } from "./auth/[...nextauth]";
 import { Logger } from "next-axiom";
 import prisma from "../../../lib/prisma";
 import dayjs from "dayjs";
-import { message } from "antd";
 var localizedFormat = require("dayjs/plugin/localizedFormat");
 dayjs.extend(localizedFormat);
 // first recieve list of subscribers
