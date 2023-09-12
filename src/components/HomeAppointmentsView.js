@@ -4,6 +4,7 @@ import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
 import { useLogger } from "next-axiom";
+import Link from "next/link";
 
 // can in future filter by salon
 // can also filter by day
@@ -221,6 +222,11 @@ export default function HomeAppointmentsView({
                 <span style={{ textAlign: "center" }}>
                   There are no last-minute openings available right now! Come
                   back later or sign up for notifications below.
+                  <br />
+                  Want to see your local salons list their appointments here?{" "}
+                  <Link href="mailto:aliya.ismagilova99@gmail.com">
+                    Tell us about them!
+                  </Link>
                 </span>
               </div>
             </div>
