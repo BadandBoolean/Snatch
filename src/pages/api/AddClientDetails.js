@@ -120,7 +120,7 @@ export default async (req, res) => {
           });
           console.log("salonName retrieved: ", salonName);
           messagebod = `Welcome to Snatch!
-          You have opted in to receive notifications whenever ${salonName} has a last-minute cancellation!
+          You have opted in to receive notifications whenever ${salonName.name} has a last-minute cancellation!
           \nText STOP to unsubscribe`;
         }
 
