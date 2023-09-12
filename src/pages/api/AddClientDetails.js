@@ -109,9 +109,19 @@ export default async (req, res) => {
         You have opted in to receive notifications!
         \nText STOP to unsubscribe`;
         } else {
+          // we need to RETRIEVE the salon name from the salon id.
+          const salonName = await prisma.salon.findUnique({
+            where: {
+              id: numSalons,
+            },
+            select: {
+              name: true,
+            },
+          });
+          console.log("salonName retrieved: ", salonName);
           messagebod = `Welcome to Snatch!
-        You have opted in to receive notifications whenever ${numSalons} has a last-minute cancellation!
-        \nText STOP to unsubscribe`;
+          You have opted in to receive notifications whenever ${salonName} has a last-minute cancellation!
+          \nText STOP to unsubscribe`;
         }
 
         let message = await twilioclient.messages.create({
