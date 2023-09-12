@@ -3,11 +3,15 @@ import { Logger } from "next-axiom";
 
 export default async (req, res) => {
   const log = new Logger();
+  const twiliosid = process.env.TWILIO_SID;
+  const twilioauth = process.env.TWILIO_TOKEN;
+  const twilioclient = require("twilio")(twiliosid, twilioauth);
   if (req.method === "POST") {
     const bod = req.body;
     const phone = bod.phone;
     const email = bod.email;
     let salons = bod.salon;
+    const numSalons = bod.salon;
     try {
       // if all salons has been selected, get em all
       if (salons === "") {
@@ -91,6 +95,32 @@ export default async (req, res) => {
             });
           });
         }
+      }
+
+      // now we have to send a text to the user to let them know they have opted in for notifications!
+      // ONLY text if the user's phone number is valid (10 digits)
+      const regex = /^\d{10}$/;
+      if (!regex.test(phone)) {
+        console.log(`${phone} is not valid. Not sending text.`);
+      } else {
+        let messagebod;
+        if (numSalons === "") {
+          messagebod = `Welcome to Snatch!
+        You have opted in to receive notifications!
+        \nText STOP to unsubscribe`;
+        } else {
+          messagebod = `Welcome to Snatch!
+        You have opted in to receive notifications whenever ${numSalons} has a last-minute cancellation!
+        \nText STOP to unsubscribe`;
+        }
+
+        let message = await twilioclient.messages.create({
+          body: messagebod,
+          to: `+1${phone}`,
+          from: `${process.env.TWILIO_NUMBER}`,
+        });
+        console.log(message.sid);
+        console.log(`sent text to ${phone}`);
       }
     } catch (error) {
       res.status(500).json({ error: error.message });
