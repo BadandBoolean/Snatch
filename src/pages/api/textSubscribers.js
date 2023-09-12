@@ -33,7 +33,7 @@ export default async (req, res) => {
       // get all subscribers
       if (env === "development") {
         console.log(
-          "if you can read this and you're in preview you shouldn't be here"
+          "if you can read this and you're in preview/production you shouldn't be here"
         );
         textSubscribers = await prisma.salon.findUnique({
           where: {
@@ -45,7 +45,7 @@ export default async (req, res) => {
         });
         textSubscribers = textSubscribers.phoneSubsDev;
       } else {
-        console.log("you SHOULD be here");
+        console.log("you SHOULD be here (production or preview logs");
         textSubscribers = await prisma.salon.findUnique({
           where: {
             id: salonId,
