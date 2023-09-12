@@ -221,6 +221,10 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
+
+      console.log("THE TIME IS");
+      console.log(values.appttime);
+
       // generate the query data.
       const queryData = {
         salonId: salonDetails.id,

@@ -4,13 +4,16 @@ import { Logger } from "next-axiom";
 import prisma from "../../../lib/prisma";
 import dayjs from "dayjs";
 var localizedFormat = require("dayjs/plugin/localizedFormat");
+var utc = require("dayjs/plugin/utc");
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 // first recieve list of subscribers
 // then retrieve query data for which salon to notify for.
 // for the subscribers who have all or that salon, notify them. may need to pool/multithread for fairness.
 // return ok.
 
 export default async (req, res) => {
+  dayjs.utc();
   const log = new Logger();
   const session = await getServerSession(req, res, authOptions);
   const twiliosid = process.env.TWILIO_SID;
