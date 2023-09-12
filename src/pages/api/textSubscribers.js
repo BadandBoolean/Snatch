@@ -13,7 +13,6 @@ dayjs.extend(localizedFormat);
 // return ok.
 
 export default async (req, res) => {
-  dayjs.utc();
   const log = new Logger();
   const session = await getServerSession(req, res, authOptions);
   const twiliosid = process.env.TWILIO_SID;
