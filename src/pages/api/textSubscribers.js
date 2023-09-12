@@ -75,15 +75,17 @@ export default async (req, res) => {
       );
       console.log(textSubscribers);
 
-      textSubscribers.map(async (subscriber) => {
-        await twilioclient.messages.create({
-          body: textBody,
-          to: `+1${subscriber}`,
-          from: `${process.env.TWILIO_NUMBER}`,
-        });
-        console.log(message.sid);
-        console.log(`sent text to ${subscriber}`);
-      });
+      await Promise.all(
+        textSubscribers.map(async (subscriber) => {
+          let message = await twilioclient.messages.create({
+            body: textBody,
+            to: `+1${subscriber}`,
+            from: `${process.env.TWILIO_NUMBER}`,
+          });
+          console.log(message.sid);
+          console.log(`sent text to ${subscriber}`);
+        })
+      );
     } catch (error) {
       log.error(error);
       res.status(400).json({ message: error.message });
