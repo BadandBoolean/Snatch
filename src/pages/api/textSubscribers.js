@@ -4,9 +4,9 @@ import { Logger } from "next-axiom";
 import prisma from "../../../lib/prisma";
 import dayjs from "dayjs";
 var localizedFormat = require("dayjs/plugin/localizedFormat");
-var utc = require("dayjs/plugin/utc");
+
 dayjs.extend(localizedFormat);
-dayjs.extend(utc);
+
 // first recieve list of subscribers
 // then retrieve query data for which salon to notify for.
 // for the subscribers who have all or that salon, notify them. may need to pool/multithread for fairness.
@@ -67,12 +67,13 @@ export default async (req, res) => {
     apptDate = dayjs(apptDate).format("LL");
     // how to stop the time from formatting to UTC?
 
-    console.log("the appointment time before format is is");
+    console.log("the appointment time before format is");
     console.log(apptTime);
-    apptTime = dayjs(apptTime, "HH:mm");
+    apptTime = dayjs(apptTime, "HH:mm").format("h:mm a");
     // apptTime = dayjs(apptTime).local().format("h:mm a");
     console.log("the appointment time is");
     console.log(apptTime);
+
     const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.vercel.app for booking instructions!\n\nText STOP to unsubscribe.`;
     // now we need to send the text to each subscriber.
     try {
