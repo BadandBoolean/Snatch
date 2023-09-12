@@ -10,6 +10,7 @@ import styles from "../../styles/OwnerHome.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
 import StylistBlock from "../../components/StylistBlock.js";
 import ServiceBlock from "../../components/ServiceBlock.js";
+import dayjs from "dayjs";
 
 export default function OwnerHome({
   userDetails,
@@ -222,20 +223,21 @@ export default function OwnerHome({
         },
       });
 
-      console.log("THE TIME IS");
-      console.log(values.appttime);
+      // convert to format
+      const convertedTime = dayjs(values.appttime).format("h:mm A");
 
       // generate the query data.
       const queryData = {
         salonId: salonDetails.id,
         salonName: salonDetails.name,
         apptDate: values.apptdate,
-        apptTime: values.appttime,
+        apptTime: convertedTime,
         apptService: values.servicetype,
         apptPrice: values.price,
         apptStylist: values.stylist,
         changeType: "add",
       };
+
       const sendmessage = await fetch("./api/textSubscribers", {
         method: "POST",
         body: JSON.stringify(queryData),
@@ -261,7 +263,7 @@ export default function OwnerHome({
 
   const onChangeTab = (key) => {
     // may not need!
-    console.log(key);
+    // console.log(key);
   };
 
   const tabItems = [

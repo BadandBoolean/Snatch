@@ -64,13 +64,6 @@ export default async (req, res) => {
     }
 
     apptDate = dayjs(apptDate).format("LL");
-    // how to stop the time from formatting to UTC?
-
-    console.log("the appointment time before format is");
-    console.log(apptTime);
-    apptTime = dayjs(apptTime, "HH:mm").format("h:mm a");
-    // apptTime = dayjs(apptTime).local().format("h:mm a");
-    console.log("the appointment time is");
     console.log(apptTime);
 
     const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.vercel.app for booking instructions!\n\nText STOP to unsubscribe.`;
