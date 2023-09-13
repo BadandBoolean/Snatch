@@ -10,7 +10,7 @@ export default function Document() {
       <Head>
         <meta
           property="og:title"
-          content="Snatch: Book a last-minute appointment"
+          content="Snatch: Book a last-minute appointment at your favourite salon"
         />
         <meta
           property="og:image"
@@ -20,7 +20,10 @@ export default function Document() {
           property="description"
           content="Snatch: Book somebody else's canceled appointment at your favorite salon."
         />
-        <meta property="og:description" content="Book an appointment" />
+        <meta
+          property="og:description"
+          content="Book a last-minute appointment at your favorite salon"
+        />
         <meta property="og:url" content="https://wearesnatch.vercel.app" />
       </Head>
       <title>Snatch</title>
