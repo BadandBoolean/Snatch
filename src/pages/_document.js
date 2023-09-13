@@ -1,5 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { AxiomWebVitals } from "next-axiom";
+import { ogImg } from "../public/ogimg.png";
 
 export default function Document() {
   return (
