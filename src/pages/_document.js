@@ -10,7 +10,10 @@ export default function Document() {
       <Head>
         <title>Snatch</title>
         <meta property="og:title" content="Snatch" />
-        <meta property="og:image" content="/ogimg.png" />
+        <meta
+          property="og:image"
+          content="https://wearesnatch.vercel.app/ogimg.png"
+        />
         <meta
           property="description"
           content="Snatch: Book somebody else's canceled appointment at your favorite salon."
