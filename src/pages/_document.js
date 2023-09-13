@@ -16,10 +16,7 @@ export default function Document() {
           property="og:image"
           content="https://wearesnatch.vercel.app/ogimg1.png"
         />
-        <meta
-          property="description"
-          content="Snatch: Book somebody else's canceled appointment at your favorite salon."
-        />
+        <meta property="description" content="Snatch: Book an appointment." />
         <meta
           property="og:description"
           content="Book a last-minute appointment at your favorite salon"
