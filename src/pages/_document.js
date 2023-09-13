@@ -1,6 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { AxiomWebVitals } from "next-axiom";
-import { ogImg } from "../public/ogimg.png";
 
 export default function Document() {
   return (
@@ -12,7 +11,7 @@ export default function Document() {
         <meta property="og:title" content="Snatch" />
         <meta
           property="og:image"
-          content="https://wearesnatch.vercel.app/ogimg.png"
+          content="https://wearesnatch.vercel.app/linkimg"
         />
         <meta
           property="description"
