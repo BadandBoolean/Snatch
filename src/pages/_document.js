@@ -9,10 +9,7 @@ export default function Document() {
       <AxiomWebVitals />
       <Head>
         <meta property="og:title" content="Snatch" />
-        <meta
-          property="og:image"
-          content="https://wearesnatch.vercel.app/linkimg"
-        />
+        <meta property="og:image" content="https://ibb.co/XZc7Jd8" />
         <meta
           property="description"
           content="Snatch: Book somebody else's canceled appointment at your favorite salon."
