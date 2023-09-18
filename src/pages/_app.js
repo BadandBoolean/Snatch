@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { ErrorBoundary } from "react-error-boundary";
+import { Analytics } from "@vercel/analytics/react";
 
 import { useLogger } from "next-axiom";
 
@@ -44,6 +45,7 @@ export default function App({ Component, pageProps }) {
         >
           <NavBar />
           <Component {...pageProps} />
+          <Analytics />
           <Footer />
         </ConfigProvider>
       </SessionProvider>
