@@ -29,7 +29,7 @@ export default function unauthorizedsignup() {
           to go back to the home page. <br />
           <Link
             style={{ textDecoration: "none" }}
-            href="mailto:aliya.ismagilova99@gmail.com"
+            href="mailto:team@wearesnatch.com"
           >
             Contact the developers
           </Link>{" "}

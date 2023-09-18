@@ -20,7 +20,7 @@ export default function Footer() {
                 textDecoration: "none",
                 cursor: "pointer",
               }}
-              href="mailto:aliya.ismagilova99@gmail.com"
+              href="mailto:team@wearesnatch.com"
             >
               Contact Us
             </Link>
