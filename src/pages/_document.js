@@ -8,11 +8,17 @@ export default function Document() {
 
       <AxiomWebVitals />
       <Head>
-        <title>Snatch</title>
-        <meta property="og:title" content="Snatch" />
+
+
+
+        <meta
+          property="og:title"
+          content="Snatch: Book a last-minute appointment at your favourite salon"
+        />
         <meta
           property="og:image"
-          content="https://wearesnatch.vercel.app/ogimg.png"
+          content="https://wearesnatch.vercel.app/ogimg1.png"
+
         />
         <meta
           property="description"
@@ -24,6 +30,7 @@ export default function Document() {
         />
         <meta property="og:url" content="https://wearesnatch.vercel.app" />
       </Head>
+      <title>Snatch</title>
       <body>
         <Main />
         <NextScript />
