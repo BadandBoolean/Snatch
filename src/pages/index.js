@@ -11,6 +11,7 @@ import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
 import PickSalon from "../components/PickSalon.js";
 import DevelopmentAlert from "../components/DevelopmentAlert";
+import About from "../components/About";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -185,6 +186,8 @@ export default function Home({ userDetails, salonDetails }) {
         handleOkInfoModal={handleOkInfoModal}
         salonId={showingSalonId}
       />
+      <hr style={{ color: "#2D19B1", width: "90%", marginBottom: "20px" }} />
+      <About />
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}
         handleAddContactInfo={handleAddContactInfo}

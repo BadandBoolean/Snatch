@@ -224,7 +224,10 @@ export default function HomeAppointmentsView({
                   back later or sign up for notifications below.
                   <br />
                   Want to see your local salons list their appointments here?{" "}
-                  <Link href="mailto:aliya.ismagilova99@gmail.com">
+                  <Link
+                    style={{ color: "#4831D4", textDecoration: "none" }}
+                    href="team@wearesnatch.com"
+                  >
                     Tell us about them!
                   </Link>
                 </span>
