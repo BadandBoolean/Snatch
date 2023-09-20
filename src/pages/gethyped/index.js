@@ -4,6 +4,7 @@ import { Form, Input, Button, Spin } from "antd/lib";
 import { useLogger } from "next-axiom";
 import { useState } from "react";
 const { TextArea } = Input;
+import prisma from "../../../lib/prisma";
 
 export default function GetHyped({ userDetails }) {
   const { data: session, status } = useSession();
