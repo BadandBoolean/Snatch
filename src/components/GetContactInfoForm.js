@@ -72,6 +72,7 @@ export default function GetContactInfoForm({
                   name="phonenumber"
                 >
                   <Input
+                    addonBefore="+1"
                     placeholder="Enter your phone number (optional)"
                     maxLength={15}
                   />

@@ -54,7 +54,11 @@ export default function NewSalonForm({
           />
         </Form.Item>
         <Form.Item label="Website" name="salonemailaddress">
-          <Input maxLength={50} />
+          <Input
+            addonBefore="www."
+            onInput={(e) => (e.target.value = e.target.value.toLowerCase())}
+            maxLength={50}
+          />
         </Form.Item>
         <Form.Item
           name="bookingOptions"
