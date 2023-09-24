@@ -64,7 +64,11 @@ export default function EditSalonInfo({
             label="Website" // CHANGE!!!!!!!
             name="salonemailaddress"
           >
-            <Input maxLength={50} />
+            <Input
+              addonBefore="www."
+              onInput={(e) => (e.target.value = e.target.value.toLowerCase())}
+              maxLength={50}
+            />
           </Form.Item>
           <Form.Item
             name="bookingOptions"
