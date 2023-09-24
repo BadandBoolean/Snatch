@@ -53,6 +53,9 @@ export default function GetContactInfoForm({
                   name="emailaddress"
                 >
                   <Input
+                    onInput={(e) =>
+                      (e.target.value = e.target.value.toLowerCase())
+                    }
                     placeholder="Enter your email address (optional)"
                     maxLength={50}
                   />
