@@ -14,23 +14,53 @@
 }
 
 .ownerHomeButton {
-    background-color: #2d19b1;
-    color: white;
+    background-color: white;
+    color: #2d19b1;
     border: 2px solid white;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
+    border-color: #2d19b1;
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 30%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 30%;
     cursor: pointer;
     width: 100%;
     
     height: auto;
-    box-shadow: -2px -2px #3D1FFF, 2px 2px #3D1FFF;
+    
 }
 
-.buttonText {
+.salonOwnerHomeButton {
+    background-color: white;
+    color: #2d19b1;
+    border: 2px solid white;
+    border-color: #2d19b1;
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    margin-top: 30px;
+    margin-bottom: 30px;
+    
+    cursor: pointer;
+    width: 100%;
+    
+    height: auto;
+    
+}
+
+.buttonTextSalon {
     font-size: 1rem;
     font-weight: 600;
     
+    
+}
+.buttonText {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: normal;  
 }
 
 .buttonBoxMobileOnly {
@@ -89,6 +119,18 @@
         display: flex;
         justify-content: center;
         width: 100%;
+    }
+
+    .salonOwnerHomeButton {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .buttonText {
+        font-size: 1rem;
+        font-weight: 600;
+         
     }
 
 

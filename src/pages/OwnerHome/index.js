@@ -281,36 +281,53 @@ export default function OwnerHome({
 
   return (
     <>
-      <div className={styles.InfoTextWrapper} style={{ margin: "10px" }}>
-        <div className={styles.InfoTextBox}>
-          <span className={styles.InfoTextStyle}>{salonDetails.name}</span>
+      <div className={styles.colourWrapper}>
+        <div className={styles.InfoTextWrapper}>
+          <div className={styles.InfoTextBox}>
+            <span className={styles.InfoTextStyle}>{salonDetails.name}</span>
+          </div>
         </div>
-      </div>
-      <div className={styles.buttonBarWrapper}>
-        <div className={styles.buttonBar}>
-          <Button className={buttonstyles.ownerHomeButton} onClick={showModal}>
-            <span className={buttonstyles.buttonText}>Add New Appointment</span>
-          </Button>
 
-          <Button
-            className={buttonstyles.ownerHomeButton}
-            onClick={showSalonEditModal}
-          >
-            <span className={buttonstyles.buttonText}>
-              Edit Salon Information
-            </span>
-          </Button>
-
-          <Button
-            className={buttonstyles.ownerHomeButton}
-            onClick={handleGoHome}
-          >
-            {isRedirecting ? (
-              <Spin />
-            ) : (
-              <span className={buttonstyles.buttonText}>Home</span>
-            )}
-          </Button>
+        <div className={styles.buttonBarWrapper}>
+          <div className={styles.buttonBar}>
+            <div className={styles.buttBox}>
+              <Button
+                className={buttonstyles.salonOwnerHomeButton}
+                onClick={showModal}
+              >
+                <span className={buttonstyles.buttonText}>
+                  Add New Appointment
+                </span>
+              </Button>
+            </div>
+            <div className={styles.buttBox}>
+              <Button
+                className={buttonstyles.salonOwnerHomeButton}
+                onClick={showSalonEditModal}
+              >
+                <span className={buttonstyles.buttonText}>
+                  Edit Salon Information
+                </span>
+              </Button>
+            </div>
+            <div className={styles.buttBox}>
+              <Button
+                className={buttonstyles.salonOwnerHomeButton}
+                onClick={handleGoHome}
+              >
+                {isRedirecting ? (
+                  <Spin />
+                ) : (
+                  <span
+                    style={{ paddingRight: "50px", paddingLeft: "50px" }}
+                    className={buttonstyles.buttonTextSalon}
+                  >
+                    Home
+                  </span>
+                )}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <AddApptModal
