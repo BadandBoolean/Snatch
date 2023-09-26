@@ -9,15 +9,33 @@
 .placementDiv {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     width: 96%;
 }
 
-@media (max-width: 430px) {
+
+
+
+
+@media (max-width: 720px) {
     .placementDiv {
         width: 100%;
         display: flex;
+
+        flex-direction: column;
         justify-content: center;
         padding: 10px;
+    }
+
+    .formwidth {
+        width: 90%;
+    }
+
+    .pickSalonDiv {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: right;
     }
 }

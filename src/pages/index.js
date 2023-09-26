@@ -12,6 +12,8 @@ import styles from "../styles/PublicHome.module.css";
 import PickSalon from "../components/PickSalon.js";
 import DevelopmentAlert from "../components/DevelopmentAlert";
 import About from "../components/About";
+import FilterByLocation from "../components/FilterByLocation";
+import salonselectstyles from "../styles/salonselect.module.css";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -117,6 +119,10 @@ export default function Home({ userDetails, salonDetails }) {
     router.push("/OwnerHome");
   };
 
+  const handleFilterLocation = async (values) => {
+    console.log(values);
+  };
+
   return (
     <>
       {!session && <DevelopmentAlert />}
@@ -177,7 +183,12 @@ export default function Home({ userDetails, salonDetails }) {
         newSalonForm={newSalonForm}
         handleCancelNewSalon={handleCancelNewSalon}
       />
-      <PickSalon setShowingSalonId={setShowingSalonId} />
+      <div className={salonselectstyles.divWrapper}>
+        <div className={salonselectstyles.placementDiv}>
+          <FilterByLocation handleFilterLocation={handleFilterLocation} />
+          <PickSalon setShowingSalonId={setShowingSalonId} />
+        </div>
+      </div>
       <HomeAppointmentsView
         showingSalonId={showingSalonId}
         salonDetails={salonDetails}

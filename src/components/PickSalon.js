@@ -29,16 +29,14 @@ export default function PickSalon({ setShowingSalonId }) {
   };
 
   return (
-    <div className={styles.divWrapper}>
-      <div className={styles.placementDiv}>
-        <Select
-          showSearch
-          style={{ width: 200 }}
-          placeholder="Filter by salon"
-          options={!salonsLoading && options}
-          onChange={onSelectSalon}
-        />
-      </div>
+    <div className={styles.pickSalonDiv}>
+      <Select
+        showSearch
+        style={{ width: 200 }}
+        placeholder="Filter by salon"
+        options={!salonsLoading && options}
+        onChange={onSelectSalon}
+      />
     </div>
   );
 }
