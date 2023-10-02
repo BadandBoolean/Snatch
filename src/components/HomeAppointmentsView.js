@@ -259,8 +259,12 @@ export default function HomeAppointmentsView({
             </b>
           </p>
           <p>
-            Call the salon at {bookingPhone} to book an appointment or online:{" "}
-            {bookingLink}
+            Call the salon to book: {bookingPhone}
+            <br />
+            Book this appointment online:{" "}
+            <a target="_blank" rel="noopener" href={bookingLink}>
+              {bookingLink}
+            </a>
           </p>
         </>
       );
