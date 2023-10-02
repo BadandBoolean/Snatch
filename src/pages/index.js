@@ -27,6 +27,9 @@ export default function Home({ userDetails, salonDetails }) {
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
   );
+  const [isFilteringByDist, setIsFilteringByDist] = useState(false);
+  const [userZip, setUserZip] = useState("");
+  const [searchRadius, setSearchRadius] = useState(0); // if it is 0, then we are not filtering by distance.
   const [isRedirecting, setIsRedirecting] = useState(false);
   // the showingSalonId determines which salon's appointments should be shown on the screen.
   const [showingSalonId, setShowingSalonId] = useState("");
@@ -120,7 +123,13 @@ export default function Home({ userDetails, salonDetails }) {
   };
 
   const handleFilterLocation = async (values) => {
+    console.log(isFilteringByDist);
+    setIsFilteringByDist(true); // this should trigger the picksalon field to default to allsalons which is more of a UI thing.
+    console.log(isFilteringByDist);
     console.log(values);
+    console.log(isFilteringByDist);
+    setUserZip(values.zipcode);
+    setSearchRadius(values.radius);
   };
 
   return (
@@ -185,17 +194,26 @@ export default function Home({ userDetails, salonDetails }) {
       />
       <div className={salonselectstyles.divWrapper}>
         <div className={salonselectstyles.placementDiv}>
-          <FilterByLocation handleFilterLocation={handleFilterLocation} />
-          <PickSalon setShowingSalonId={setShowingSalonId} />
+          <FilterByLocation
+            isFilteringByDist={isFilteringByDist}
+            handleFilterLocation={handleFilterLocation}
+          />
+          <PickSalon
+            isFilteringByDist={isFilteringByDist}
+            setIsFilteringByDist={setIsFilteringByDist}
+            setShowingSalonId={setShowingSalonId}
+          />
         </div>
       </div>
       <HomeAppointmentsView
-        showingSalonId={showingSalonId}
         salonDetails={salonDetails}
         infoModalOpen={infoModalOpen}
         setInfoModalOpen={showInfoModal}
         handleOkInfoModal={handleOkInfoModal}
         salonId={showingSalonId}
+        isFilteringByDist={isFilteringByDist}
+        userZip={userZip}
+        searchRadius={searchRadius}
       />
       <hr style={{ color: "#2D19B1", width: "90%", marginBottom: "20px" }} />
       <About />

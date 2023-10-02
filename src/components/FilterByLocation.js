@@ -4,16 +4,18 @@ import React from "react";
 import { Input, Form, Select, Button } from "antd/lib";
 import styles from "../styles/salonselect.module.css";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 export default function FilterByLocation({ handleFilterLocation }) {
   let size = useWindowSize();
   // make the options 1, 3, 5, 10, 25 but add on miles in the list to each of them
-  const options = [1, 3, 5, 10, 25].map((distance) => {
+  const options = [3, 5, 10, 25, 50].map((distance) => {
     return {
       value: distance,
       label: distance + (distance === 1 ? " mile" : " miles"),
     };
   });
+  // don't forget to filter out illegal chars in zipcode
 
   return (
     <Form
@@ -21,8 +23,20 @@ export default function FilterByLocation({ handleFilterLocation }) {
       onFinish={handleFilterLocation}
       layout={size.width > 720 ? "inline" : "horizontal"}
     >
-      <Form.Item name="zipcode">
-        <Input placeholder="Filter by zip code" />
+      <Form.Item
+        rules={[
+          {
+            pattern: new RegExp("^[0-9]{5}(?:-[0-9]{4})?$"),
+            message: "Please input a valid zipcode!",
+          },
+        ]}
+        name="zipcode"
+      >
+        <Input
+          prefix={<EnvironmentOutlined className="site-form-item-icon" />}
+          placeholder="Your zipcode (e.g 90210)"
+          maxLength={5}
+        />
       </Form.Item>
       <Form.Item name="radius">
         <Select placeholder="Distance (miles)" options={options} />
