@@ -5,12 +5,14 @@ import { useLogger } from "next-axiom";
 import { useState } from "react";
 const { TextArea } = Input;
 import prisma from "../../../lib/prisma";
+import AddAptAdmn from "../../components/AddAptAdmn";
 
 export default function GetHyped({ userDetails }) {
   const { data: session, status } = useSession();
   const log = useLogger();
   const [sendTextForm] = Form.useForm();
   const [isTextSent, setIsTextSent] = useState(false);
+  const [apptform] = Form.useForm();
 
   if (session === undefined) {
     return (
@@ -74,6 +76,28 @@ export default function GetHyped({ userDetails }) {
     sendTextForm.resetFields();
     setIsTextSent(true);
   };
+
+  const handleFinishApptForm = async (values) => {
+    const response = await fetch("./api/addApptHype", {
+      method: "POST",
+      body: JSON.stringify({
+        salonname: values.salonname,
+        appttime: values.appttime,
+        apptdate: values.apptdate,
+        stylist: values.stylist,
+        servicetype: values.servicetype,
+        price: values.price,
+        notes: values.notes,
+        location: values.location,
+        zipcode: values.zipcode,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    apptform.resetFields();
+    log.info(response);
+  };
   // return a form to fill out with the text body and the phone number to text
   return (
     <div
@@ -136,6 +160,10 @@ export default function GetHyped({ userDetails }) {
             </Button>
           </Form.Item>
         </Form>
+        <AddAptAdmn
+          apptform={apptform}
+          handleFinishApptForm={handleFinishApptForm}
+        />
       </div>
     </div>
   );

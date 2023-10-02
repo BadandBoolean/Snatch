@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { Select } from "antd/lib";
 import styles from "../styles/salonselect.module.css";
 
-export default function PickSalon({ setShowingSalonId }) {
+export default function PickSalon({
+  setShowingSalonId,
+  isFilteringByDist,
+  setIsFilteringByDist,
+}) {
   const [salons, setSalons] = useState([]);
   const [salonsLoading, setSalonsLoading] = useState(true);
 
@@ -14,7 +18,7 @@ export default function PickSalon({ setShowingSalonId }) {
         setSalons(data.salons);
         setSalonsLoading(false);
       });
-  }, []);
+  }, [setShowingSalonId, isFilteringByDist]);
 
   const options = salons.map((salon) => {
     return { value: salon.id, label: salon.name };
@@ -25,20 +29,21 @@ export default function PickSalon({ setShowingSalonId }) {
 
   const onSelectSalon = (value) => {
     // passes the id of the salon who's appointments to get.
+    setIsFilteringByDist(false);
     setShowingSalonId(value);
   };
 
   return (
-    <div className={styles.divWrapper}>
-      <div className={styles.placementDiv}>
-        <Select
-          showSearch
-          style={{ width: 200 }}
-          placeholder="Filter by salon"
-          options={!salonsLoading && options}
-          onChange={onSelectSalon}
-        />
-      </div>
+    <div className={styles.pickSalonDiv}>
+      <Select
+        showSearch
+        style={{ width: 200 }}
+        placeholder="Filter by salon"
+        options={!salonsLoading && options}
+        onChange={onSelectSalon}
+        // set the default value to be "" if isfilteringbydist is true
+        defaultValue={""}
+      />
     </div>
   );
 }

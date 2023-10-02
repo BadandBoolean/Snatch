@@ -48,19 +48,23 @@ model Service {
 }
 
 model Appointment {
-  id          String   @id @default(cuid())
-  salon       Salon    @relation(fields: [salonId], references: [id]) // references the id of the salon model
-  salonname   String   @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
-  salonId     String // scalar field which is foreign key of appointment model. does not exist in the database
-  date        DateTime // date of appt .... might want to store as just the date @db.Date
-  time        DateTime // time of appt ... might want to store as just the time. @db.Time(x) where x is the precision??? is it?
-  whoWith     String // TODO: map to user i.e salon owner UNLESS it is done by not the salon owner
-  service     String
-  price       Float
-  isAvailable Boolean  @default(true)
-  notes       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  salon        Salon?   @relation(fields: [salonId], references: [id]) // references the id of the salon model
+  salonname    String   @default("Salon Name") // this is assigned in the fron, helps us with some of the table config, also used by admin to make appointment
+  salonId      String? // scalar field which is foreign key of appointment model. does not exist in the database. OPTIONAL
+  date         DateTime // date of appt .... might want to store as just the date @db.Date
+  time         DateTime // time of appt ... might want to store as just the time. @db.Time(x) where x is the precision??? is it?
+  whoWith      String // TODO: map to user i.e salon owner UNLESS it is done by not the salon owner
+  service      String
+  price        Float
+  isAvailable  Boolean  @default(true)
+  location     String   @default("") // PHYSICAL ADDRESS. can be mapped to salon address maybe later. 
+  zipcode      String   @default("") // ZIPCODE ... maybe won't be used
+  notes        String
+  bookingLink  String? // WEB ADDRESS only for admin input
+  bookingPhone String? // PHONE NUMBER only for admin input
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 // -------- AUTH -------------- //

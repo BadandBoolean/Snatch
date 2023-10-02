@@ -14,6 +14,9 @@ export default function HomeAppointmentsView({
   setInfoModalOpen,
   handleOkInfoModal,
   salonId,
+  isFilteringByDist,
+  userZip,
+  searchRadius,
 }) {
   const logger = useLogger();
   const [infoModalData, setInfoModalData] = useState({});
@@ -22,33 +25,60 @@ export default function HomeAppointmentsView({
   const [isApptsLoading, setApptsLoading] = useState(true);
 
   useEffect(() => {
-    if (!salonId) {
-      // get all appointments, regardless of salon.
-      fetch(`./api/getAllAppts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setAppointments(data.appointments);
-          setApptsLoading(false);
-        });
+    console.log("salonId", salonId);
+    console.log("isFilteringByDist", isFilteringByDist);
+    if (!isFilteringByDist) {
+      if (!salonId) {
+        // get all appointments, regardless of salon.
+        fetch(`./api/getAllAppts`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setAppointments(data.appointments);
+            setApptsLoading(false);
+          });
+      } else {
+        fetch(`./api/getApptsBySalon/${salonId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setAppointments(data.appointments);
+            setApptsLoading(false);
+          });
+      }
     } else {
-      fetch(`./api/getApptsBySalon/${salonId}`, {
-        method: "GET",
+      // we are filtering by distance so we have to get all appointments and then get their distance wrt to the inputed distance of the user.
+      // then we have to filter out the ones that are too far away.
+      // then we have to sort them by distance.
+      // then we have to set the appointments to the sorted list.
+      fetch(`./api/findApptsInRad`, {
+        method: "POST",
+        body: JSON.stringify({
+          userZip: userZip,
+          searchRadius: searchRadius,
+        }),
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((res) => res.json())
         .then((data) => {
-          setAppointments(data.appointments);
+          logger.info("Appointments filtered by distance", {
+            appointments: data.filteredAppointments,
+          }); // change, too much
+          setAppointments(data.filteredAppointments);
           setApptsLoading(false);
         });
     }
-  }, [salonId]);
+  }, [salonId, isFilteringByDist, userZip, searchRadius]);
 
   const columns = [
     {
@@ -91,6 +121,30 @@ export default function HomeAppointmentsView({
       hidden: true,
     },
     {
+      title: "Booking Phone",
+      dataIndex: "bookingPhone",
+      key: "bookingPhone",
+      hidden: true,
+    },
+    {
+      title: "Booking Link",
+      dataIndex: "bookingLink",
+      key: "bookingLink",
+      hidden: true,
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
+      hidden: true,
+    },
+    {
+      title: "Zipcode",
+      dataIndex: "zipcode",
+      key: "zipcode",
+      hidden: true,
+    },
+    {
       title: "",
       key: "action",
       render: (_, record) => (
@@ -103,15 +157,19 @@ export default function HomeAppointmentsView({
   // we need to put 4 appointment data points into the booking modal instead.
 
   const openInfoModal = async (record) => {
+    // we don't necessarily now have a salon attached to the salon id!! if we are setting the salon manually then we need to add some of the salon details from the appt itself
     // console.log(record);
-    const response = await fetch(`./api/getSalon/${record.key}`, {
+
+    const response = await fetch(`./api/getApptDetails/${record.key}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const salonDetails = await response.json();
-    // console.log(salonDetails);
+    // if the salonDetails object is empty, then we have to get the salon details from the appointment itself
+    console.log("HERE ARE THE SALON DETAILS");
+    console.log(salonDetails);
     setBookingData(salonDetails);
     setInfoModalData(record);
     setInfoModalOpen(true);
@@ -145,6 +203,10 @@ export default function HomeAppointmentsView({
       service: appointment.service,
       price: appointment.price,
       notes: appointment.notes,
+      bookingPhone: appointment.bookingPhone,
+      bookingLink: appointment.bookingLink,
+      location: appointment.location,
+      zipcode: appointment.zipcode,
     };
   });
 
@@ -154,55 +216,112 @@ export default function HomeAppointmentsView({
     let whoWith = infoModalData.whoWith;
     let service = infoModalData.service;
     let price = infoModalData.price;
-    let hasPhone = bookingData.salon.bookingOptions.includes("Phone");
-    let hasWebsite = bookingData.salon.bookingOptions.includes("website");
-    let hasWalkIn = bookingData.salon.bookingOptions.includes("Walk-in");
-    let hasAdditionalInfo = bookingData.salon.bookingInfo.length > 0;
-    return (
-      <>
-        <p>
-          <b>Stylist: </b>
-          {whoWith}
-        </p>
-        <p>
-          <b>Available Services: </b>
-          {service}
-        </p>
-        <p>
-          <b>Price: </b>
-          {price}
-        </p>
-        <p>
-          <b>Additional Notes from the Salon: </b>
-          {notes}
-        </p>
-        <hr />
-        <p style={{ fontSize: "1rem" }}>
-          <b>
-            {"\uD83D\uDCC6 \u26A0\uFE0F"} How to book this appointment:{" "}
-            {"\u26A0\uFE0F \uD83D\uDCC6"}
-          </b>
-        </p>
-        {hasPhone ? (
+    // check if bookingData has any value.
+    if (Object.keys(bookingData).length === 0) {
+      // make an address out of the location and zipcode
+      let loc = infoModalData.location + " " + infoModalData.zipcode;
+      let bookingPhone = infoModalData.bookingPhone;
+      let bookingLink = infoModalData.bookingLink;
+
+      return (
+        <>
           <p>
-            Call the salon at {bookingData.salon.phone} to book an appointment.
+            <b>Stylist: </b>
+            {whoWith}
           </p>
-        ) : null}
-
-        {hasWebsite ? (
-          <p>Visit {bookingData.salon.address} to book an appointment</p>
-        ) : null}
-
-        {hasWalkIn ? <p>Walk in to the salon to book an appointment</p> : null}
-
-        {hasAdditionalInfo ? (
           <p>
-            Additional Information for booking this appointment:
-            {bookingData.salon.bookingInfo}
+            <b>Available Services: </b>
+            {service}
           </p>
-        ) : null}
-      </>
-    );
+          <p>
+            <b>Price: </b>
+            {price}
+          </p>
+          <p>
+            <b>Additional Notes from the Salon: </b>
+            {notes}
+          </p>
+          <p>
+            <b>Salon Location: </b>
+            <a
+              target="_blank"
+              rel="noopener"
+              href={`https://www.google.com/maps/search/?api=1&query=${loc}`}
+            >
+              {loc}
+            </a>
+          </p>
+          <hr />
+          <p style={{ fontSize: "1rem" }}>
+            <b>
+              {"\uD83D\uDCC6 \u26A0\uFE0F"} How to book this appointment:{" "}
+              {"\u26A0\uFE0F \uD83D\uDCC6"}
+            </b>
+          </p>
+          <p>
+            Call the salon to book: {bookingPhone}
+            <br />
+            Book this appointment online:{" "}
+            <a target="_blank" rel="noopener" href={bookingLink}>
+              {bookingLink}
+            </a>
+          </p>
+        </>
+      );
+    } else {
+      let hasPhone = bookingData.salon.bookingOptions.includes("Phone");
+      let hasWebsite = bookingData.salon.bookingOptions.includes("website");
+      let hasWalkIn = bookingData.salon.bookingOptions.includes("Walk-in");
+      let hasAdditionalInfo = bookingData.salon.bookingInfo.length > 0;
+      return (
+        <>
+          <p>
+            <b>Stylist: </b>
+            {whoWith}
+          </p>
+          <p>
+            <b>Available Services: </b>
+            {service}
+          </p>
+          <p>
+            <b>Price: </b>
+            {price}
+          </p>
+          <p>
+            <b>Additional Notes from the Salon: </b>
+            {notes}
+          </p>
+          <hr />
+          <p style={{ fontSize: "1rem" }}>
+            <b>
+              {"\uD83D\uDCC6 \u26A0\uFE0F"} How to book this appointment:{" "}
+              {"\u26A0\uFE0F \uD83D\uDCC6"}
+            </b>
+          </p>
+          {hasPhone ? (
+            <p>
+              Call the salon at {bookingData.salon.phone} to book an
+              appointment.
+            </p>
+          ) : null}
+
+          {hasWebsite ? (
+            <p>Visit {bookingData.salon.address} to book an appointment</p>
+          ) : null}
+
+          {hasWalkIn ? (
+            <p>Walk in to the salon to book an appointment</p>
+          ) : null}
+
+          {hasAdditionalInfo ? (
+            <p>
+              Additional Information for booking this appointment:
+              {bookingData.salon.bookingInfo}
+            </p>
+          ) : null}
+        </>
+      );
+    }
   };
 
   return (
@@ -219,18 +338,31 @@ export default function HomeAppointmentsView({
           ) : (
             <div className={styles.noApptsWrapper}>
               <div className={styles.noApptsDiv}>
-                <span style={{ textAlign: "center" }}>
-                  There are no last-minute openings available right now! Come
-                  back later or sign up for notifications below.
-                  <br />
-                  Want to see your local salons list their appointments here?{" "}
-                  <Link
-                    style={{ color: "#4831D4", textDecoration: "none" }}
-                    href="team@wearesnatch.com"
-                  >
-                    Tell us about them!
-                  </Link>
-                </span>
+                {!isFilteringByDist ? (
+                  <span style={{ textAlign: "center" }}>
+                    There are no last-minute openings available right now! Come
+                    back later or sign up for notifications below.
+                    <br />
+                    Want to see your local salons list their appointments here?{" "}
+                    <Link
+                      style={{ color: "#4831D4", textDecoration: "none" }}
+                      href="team@wearesnatch.com"
+                    >
+                      Tell us about them!
+                    </Link>
+                  </span>
+                ) : (
+                  <span style={{ textAlign: "center" }}>
+                    Looks like we are a little far away from you! 🌎 <br />
+                    Want Snatch to come to your city? 🌆{" "}
+                    <Link
+                      style={{ color: "#4831D4", textDecoration: "none" }}
+                      href="team@wearesnatch.com"
+                    >
+                      Reach out to us!
+                    </Link>
+                  </span>
+                )}
               </div>
             </div>
           )}
