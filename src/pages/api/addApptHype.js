@@ -18,6 +18,8 @@ export default async (req, res) => {
     const notes = bod.notes;
     const location = bod.location;
     const zipcode = bod.zipcode;
+    const bookingLink = bod.bookingLink;
+    const bookingPhone = bod.bookingPhone;
     try {
       const appt = await prisma.appointment.create({
         data: {
@@ -31,6 +33,8 @@ export default async (req, res) => {
           isAvailable: true,
           location: location,
           zipcode: zipcode,
+          bookingLink: bookingLink,
+          bookingPhone: bookingPhone,
         },
       });
     } catch (error) {

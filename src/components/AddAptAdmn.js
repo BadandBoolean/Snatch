@@ -128,6 +128,12 @@ export default function AddAptAdmn({ handleFinishApptForm, apptform }) {
             placeholder="e.g: 'Cash only for this appointment', 'Hair color not available'"
           />
         </Form.Item>
+        <Form.Item label="Booking Link (full)" name="bookingLink">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Booking Phone (with + 1)" name="bookingPhone">
+          <Input />
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit

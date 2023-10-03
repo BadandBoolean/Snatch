@@ -8,6 +8,11 @@ import Link from "next/link";
 
 // can in future filter by salon
 // can also filter by day
+// need to do the dollar sign before price but need to escape it in the <p> like this:
+// <p>
+//   <b>Price: </b>
+//   ${price}
+// </p>
 
 export default function HomeAppointmentsView({
   infoModalOpen,
@@ -234,8 +239,7 @@ export default function HomeAppointmentsView({
             {service}
           </p>
           <p>
-            <b>Price: </b>
-            {price}
+            <b>Price: </b>${price}
           </p>
           <p>
             <b>Additional Notes from the Salon: </b>
@@ -284,8 +288,7 @@ export default function HomeAppointmentsView({
             {service}
           </p>
           <p>
-            <b>Price: </b>
-            {price}
+            <b>Price: </b>${price}
           </p>
           <p>
             <b>Additional Notes from the Salon: </b>

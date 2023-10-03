@@ -6,7 +6,7 @@
     
     width: 100%;
     background-color: white; /*change this colour*/
-    padding-bottom: 20px;
+
 }
 
 .innerDiv {
@@ -110,4 +110,27 @@
         width: 100%;
         margin: auto;
     }
+
+    .pic1Div {
+        position:absolute;
+        padding-left: 150px;
+        padding-top: 30px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .pic2Div {
+        position:absolute;
+        padding-left: 40px;
+        padding-top: 300px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
 }
+
+

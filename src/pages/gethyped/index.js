@@ -90,6 +90,8 @@ export default function GetHyped({ userDetails }) {
         notes: values.notes,
         location: values.location,
         zipcode: values.zipcode,
+        bookingLink: values.bookingLink,
+        bookingPhone: values.bookingPhone,
       }),
       headers: {
         "Content-Type": "application/json",

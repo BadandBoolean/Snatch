@@ -1,0 +1,58 @@
+.divWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    
+    padding-bottom: 40px;
+    margin-bottom: -40px;
+}
+
+.innerDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.partnersOuterDiv {
+    display: flex;
+    padding-bottom: 40px;
+    justify-content: center;
+    width: 100%;
+}
+
+.partnersDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80%;
+    
+}
+
+.textDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    font-weight: 700 ;
+}
+
+.logostyles {
+    display: flex;
+    justify-content: center;
+    flex-basis: 50%;
+    margin: auto;
+    
+
+}
+
+.logos {
+    max-width: 100%;
+    height: auto;
+}
