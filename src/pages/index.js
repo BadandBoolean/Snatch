@@ -14,6 +14,7 @@ import DevelopmentAlert from "../components/DevelopmentAlert";
 import About from "../components/About";
 import FilterByLocation from "../components/FilterByLocation";
 import salonselectstyles from "../styles/salonselect.module.css";
+import PartnersPanel from "../components/PartnersPanel";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -217,6 +218,7 @@ export default function Home({ userDetails, salonDetails }) {
       />
       <hr style={{ color: "#2D19B1", width: "90%", marginBottom: "20px" }} />
       <About />
+      <PartnersPanel />
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}
         handleAddContactInfo={handleAddContactInfo}
