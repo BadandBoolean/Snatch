@@ -31,7 +31,7 @@ export default function unauthorizedsignup() {
             style={{ textDecoration: "none" }}
             href="mailto:team@wearesnatch.com"
           >
-            Contact the developers
+            Drop us an email
           </Link>{" "}
           if you believe this is an error.
         </div>
