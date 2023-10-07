@@ -56,7 +56,7 @@ model Appointment {
   time         DateTime // time of appt ... might want to store as just the time. @db.Time(x) where x is the precision??? is it?
   whoWith      String // TODO: map to user i.e salon owner UNLESS it is done by not the salon owner
   service      String
-  price        Float
+  price        String
   isAvailable  Boolean  @default(true)
   location     String   @default("") // PHYSICAL ADDRESS. can be mapped to salon address maybe later. 
   zipcode      String   @default("") // ZIPCODE ... maybe won't be used
@@ -120,4 +120,10 @@ model RegisteredPartners {
   id           String @id @default(cuid())
   partnername  String
   partneremail String
+}
+
+model phoneSubMainList {
+  subscriberid String   @id @default(cuid()) // subscriber id I guess
+  phonenum     String
+  salonid      String[] @default([]) // salon that they have subbed to, if any? array so this can be multiple salons
 }

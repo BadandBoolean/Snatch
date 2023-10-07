@@ -178,7 +178,7 @@ export default function ViewAppointmentsAsOwner({
   const editAppt = (record) => {
     editForm.setFieldsValue({
       apptdate: dayjs(record.date),
-      appttime: dayjs(record.time, "HH:mm"),
+      appttime: dayjs(record.time, "hh:mm a"),
       stylist: record.whoWith,
       servicetype: record.service,
       price: record.price,
@@ -191,7 +191,7 @@ export default function ViewAppointmentsAsOwner({
     return {
       key: appointment.id,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
-      time: dayjs(appointment.time).format("HH:mm"),
+      time: dayjs(appointment.time).format("hh:mm a"),
       whoWith: appointment.whoWith,
       service: appointment.service,
       price: appointment.price,
@@ -255,7 +255,7 @@ export default function ViewAppointmentsAsOwner({
               },
             ]}
           >
-            <TimePicker format={"HH:mm"} />
+            <TimePicker minuteStep={15} format={"hh:mm a"} />
           </Form.Item>
           <Form.Item
             label="Appointment Date"

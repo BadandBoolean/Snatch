@@ -162,9 +162,8 @@ export default function HomeAppointmentsView({
   // we need to put 4 appointment data points into the booking modal instead.
 
   const openInfoModal = async (record) => {
-    // we don't necessarily now have a salon attached to the salon id!! if we are setting the salon manually then we need to add some of the salon details from the appt itself
-    // console.log(record);
-
+    // we don't necessarily now have a salon attached to the salon id!
+    // record.key is the appointment id not the salon id.
     const response = await fetch(`./api/getApptDetails/${record.key}`, {
       method: "GET",
       headers: {
@@ -203,7 +202,7 @@ export default function HomeAppointmentsView({
       key: appointment.id,
       salon: appointment.salonname,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
-      time: dayjs(appointment.time).format("HH:mm"),
+      time: dayjs(appointment.time).format("hh:mm a"),
       whoWith: appointment.whoWith,
       service: appointment.service,
       price: appointment.price,
@@ -277,6 +276,12 @@ export default function HomeAppointmentsView({
       let hasWebsite = bookingData.salon.bookingOptions.includes("website");
       let hasWalkIn = bookingData.salon.bookingOptions.includes("Walk-in");
       let hasAdditionalInfo = bookingData.salon.bookingInfo.length > 0;
+      // make a clickable link of out the website
+      let website;
+      hasWebsite
+        ? (website = "https://" + bookingData.salon.address)
+        : (website = "");
+
       return (
         <>
           <p>
@@ -309,19 +314,20 @@ export default function HomeAppointmentsView({
           ) : null}
 
           {hasWebsite ? (
-            <p>Visit {bookingData.salon.address} to book an appointment</p>
+            <p>
+              Visit{" "}
+              <Link target="_blank" rel="noopener" href={website}>
+                {bookingData.salon.address}
+              </Link>{" "}
+              to book this appointment
+            </p>
           ) : null}
 
           {hasWalkIn ? (
             <p>Walk in to the salon to book an appointment</p>
           ) : null}
 
-          {hasAdditionalInfo ? (
-            <p>
-              Additional Information for booking this appointment:
-              {bookingData.salon.bookingInfo}
-            </p>
-          ) : null}
+          {hasAdditionalInfo ? <p>{bookingData.salon.bookingInfo}</p> : null}
         </>
       );
     }
