@@ -19,7 +19,7 @@ export default function AddAptAdmn({ handleFinishApptForm, apptform }) {
         form={apptform}
         onFinish={handleFinishApptForm}
         initialValues={{
-          appttime: dayjs("12:00", "HH:mm"),
+          appttime: dayjs("12:00", "hh:mm a"),
           price: 100,
           servicetype: "Any",
         }}
@@ -46,7 +46,7 @@ export default function AddAptAdmn({ handleFinishApptForm, apptform }) {
             },
           ]}
         >
-          <TimePicker format={"HH:mm"} />
+          <TimePicker minuteStep={15} format={"hh:mm a"} />
         </Form.Item>
         <Form.Item
           label="Appointment Date"

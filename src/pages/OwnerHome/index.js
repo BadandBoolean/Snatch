@@ -383,8 +383,6 @@ export async function getServerSideProps(context) {
   let salon = null;
   let appointment = null;
   if (!!session) {
-    appointment = await prisma.appointment.findMany({});
-    // console.log(appointment);
     user = await prisma.user.findUnique({
       where: {
         email: session.user.email,
@@ -395,6 +393,11 @@ export async function getServerSideProps(context) {
         ownerId: user.id,
       },
     });
+    appointment = await prisma.appointment.findMany({
+      where: {
+        salonId: salon.id,
+      },
+    }); // this should fix things...
   }
   console;
   return {

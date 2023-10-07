@@ -110,8 +110,8 @@ export default function AddApptModal({
           form={form}
           onFinish={handleSubmit}
           initialValues={{
-            appttime: dayjs("12:00", "HH:mm"),
-            price: 100,
+            appttime: dayjs("12:00", "hh:mm"),
+            price: "100",
             servicetype: "Any",
           }}
         >
@@ -125,7 +125,7 @@ export default function AddApptModal({
               },
             ]}
           >
-            <TimePicker format={"HH:mm"} />
+            <TimePicker minuteStep={15} format={"hh:mm a"} />
           </Form.Item>
           <Form.Item
             label="Appointment Date"
@@ -204,7 +204,7 @@ export default function AddApptModal({
               },
             ]}
           >
-            <InputNumber addonBefore="$" />
+            <Input placeholder="e.g 150-275" addonBefore="$" />
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
             <TextArea

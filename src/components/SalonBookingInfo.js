@@ -4,6 +4,7 @@ import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
 
+// LMFAOOOOO THIS ISN'T EVEN USED ANYWHERE YOU JUST WROTE IT TWICE IM DEAD. THIS IS DUPLICATED IN HOMEAPPOINTMENTSVIEW.JS
 export default function SalonBookingInfo({
   salon,
   salonInfoPublic,
@@ -51,12 +52,7 @@ export default function SalonBookingInfo({
 
         {hasWalkIn ? <p>Walk into the salon to book an appointment</p> : null}
 
-        {hasAdditionalInfo ? (
-          <p>
-            Additional Information for booking this appointment:
-            {bookingModalData.salon.bookingInfo}
-          </p>
-        ) : null}
+        {hasAdditionalInfo ? <p>{bookingModalData.salon.bookingInfo}</p> : null}
       </>
     );
   };
