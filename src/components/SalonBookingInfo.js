@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Table, Space, Button, Modal, Form } from "antd/lib";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
+import Link from "next/link";
 
 // LMFAOOOOO THIS ISN'T EVEN USED ANYWHERE YOU JUST WROTE IT TWICE IM DEAD. THIS IS DUPLICATED IN HOMEAPPOINTMENTSVIEW.JS
 export default function SalonBookingInfo({
