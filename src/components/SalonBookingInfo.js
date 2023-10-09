@@ -38,8 +38,9 @@ export default function SalonBookingInfo({
       <>
         {hasPhone ? (
           <p>
-            Call the salon at {bookingModalData.salon.phone} to book an
-            appointment
+            Call the salon at{" "}
+            <Link href={`tel:${bookingPhone}`}>{bookingData.salon.phone}</Link>{" "}
+            to book an appointment
           </p>
         ) : null}
 

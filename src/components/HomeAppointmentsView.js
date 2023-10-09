@@ -262,7 +262,8 @@ export default function HomeAppointmentsView({
             </b>
           </p>
           <p>
-            Call the salon to book: {bookingPhone}
+            Call the salon to book:{" "}
+            <Link href={`tel:${bookingPhone}`}>{bookingPhone}</Link>
             <br />
             Book this appointment online:{" "}
             <a target="_blank" rel="noopener" href={bookingLink}>
@@ -308,8 +309,11 @@ export default function HomeAppointmentsView({
           </p>
           {hasPhone ? (
             <p>
-              Call the salon at {bookingData.salon.phone} to book an
-              appointment.
+              Call the salon at{" "}
+              <Link href={`tel:${bookingPhone}`}>
+                {bookingData.salon.phone}
+              </Link>{" "}
+              to book an appointment.
             </p>
           ) : null}
 
