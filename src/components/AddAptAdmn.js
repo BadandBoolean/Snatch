@@ -94,7 +94,7 @@ export default function AddAptAdmn({ handleFinishApptForm, apptform }) {
             },
           ]}
         >
-          <InputNumber addonbefore="$" />
+          <Input placeholder="e.g 150-275" addonbefore="$" />
         </Form.Item>
         <Form.Item
           label="Physical Address"
