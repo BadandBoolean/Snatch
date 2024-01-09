@@ -10,7 +10,6 @@ import { Form, Spin } from "antd/lib";
 import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
 import PickSalon from "../components/PickSalon.js";
-import DevelopmentAlert from "../components/DevelopmentAlert";
 import About from "../components/About";
 import FilterByLocation from "../components/FilterByLocation";
 import salonselectstyles from "../styles/salonselect.module.css";
@@ -135,7 +134,6 @@ export default function Home({ userDetails, salonDetails }) {
 
   return (
     <>
-      {!session && <DevelopmentAlert />}
       <Hero />
       {status === "loading" ? (
         <div className={styles.loadingDivWrapper}>

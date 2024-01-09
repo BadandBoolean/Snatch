@@ -35,8 +35,6 @@ export default function handler(req, res) {
   res.status(200).json({ name: "John Doe" });
 }
 
-// HELLO FUTURE ME THIS IS WHAT WE DID AND WHATWE HAVE TO CONSIDER TOMORROW:
-
-// 1. we are doing the entire distance/sorting by dist process in HomeAppointmentsView.js. The handle functions for filterbylocation
-// and picksalon simply set the states which determine the activity in HomeAppointmentsView.js.
-// 2. how do we await the useStates to change before we do any of the conditional fetching?
+// things to implement
+// deprecating searching by salon. search by stylist instead.
+// make appointment screen more attractive for customers.
