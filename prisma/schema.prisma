@@ -39,6 +39,28 @@ model Stylist {
   name      String
 }
 
+// salon that you are associated with? // make a new field?
+// Roadster: big name or very popular master stylists who are booked up very frequently. 
+// these stylists are not necessarily attached to any salon in particular they are their own provider. 
+// provider is Stylist actually! but there is a many to one relationship between them. 
+// ideal:
+// is there a way we can keep the old model and also have the new one? 
+// how we would design it from scratch:
+
+// A provider can be a salon or a stylist. Ideally it is a stylist and a master stylist at that. 
+model Provider {
+  id            String   @id @default(cuid())
+  firstname     String
+  lastname      String
+  salonname     String   @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
+  phonenumber   String
+  bookingLink   String
+  website       String
+  physAddress   String
+  phoneSubsdev  String[]
+  phoneSubsprod String[]
+}
+
 model Service {
   id        String @id @default(cuid())
   salon     Salon  @relation(fields: [salonId], references: [id]) // references the id of the salon model
