@@ -1,3 +1,5 @@
+// Get the subscriber phone and email details (when people subscribe to get text notifications from the salon)
+
 import prisma from "../../../lib/prisma";
 import { Logger } from "next-axiom";
 
@@ -17,6 +19,14 @@ export default async (req, res) => {
       if (salons === "") {
         salons = await prisma.salon.findMany();
         salons = salons.map((salon) => salon.id);
+        // add this subscriber to the list of all phone subscribers
+        if (phone) {
+          const num = await prisma.AllSalonsPhoneNums.create({
+            data: {
+              phonenum: phone,
+            },
+          });
+        }
       } else {
         // add the salons string to a new array
         const temp = salons;
