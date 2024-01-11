@@ -1,7 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 // prisma schema:
-// whenever yo update this run: prisma migrate dev and will regenerate the prisma client
+// whenever yo update this run: npx prisma migrate dev and will regenerate the prisma client
 // might also need to run prisma generate to update the prisma client
 
 generator client {
@@ -148,4 +148,9 @@ model phoneSubMainList {
   subscriberid String   @id @default(cuid()) // subscriber id I guess
   phonenum     String
   salonid      String[] @default([]) // salon that they have subbed to, if any? array so this can be multiple salons
+}
+
+model AllSalonsPhoneNums {
+  subscriberid String @id @default(cuid())
+  phonenum     String
 }

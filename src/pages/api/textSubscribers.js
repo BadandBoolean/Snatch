@@ -63,10 +63,24 @@ export default async (req, res) => {
       res.status(400).json({ message: error.message });
     }
 
+    // get the list of all subscribers
+    const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
+      select: {
+        phonenum: true,
+      },
+    });
+
+    // add the subscribers to the list of subscribers
+    textSubscribers = textSubscribers.concat(
+      allSubscribers.map((subscriber) => subscriber.phonenum)
+    );
+
+    console.log("textSubscribers: ", textSubscribers);
+
     apptDate = dayjs(apptDate).format("LL");
     console.log(apptTime);
 
-    const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.vercel.app for booking instructions!\n\nText STOP to unsubscribe.`;
+    const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.com for booking instructions!\n\nText STOP to unsubscribe.`;
     // now we need to send the text to each subscriber.
     try {
       // quickly validate that the number is a ten digit integer.
