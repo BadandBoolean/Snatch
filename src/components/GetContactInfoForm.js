@@ -87,28 +87,6 @@ export default function GetContactInfoForm({
                         fontWeight: "600",
                       }}
                     >
-                      Email
-                    </p>
-                  }
-                  name="emailaddress"
-                >
-                  <Input
-                    onInput={(e) =>
-                      (e.target.value = e.target.value.toLowerCase())
-                    }
-                    placeholder="Enter your email address (optional)"
-                    maxLength={50}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label={
-                    <p
-                      style={{
-                        fontSize: "16px",
-                        color: "white",
-                        fontWeight: "600",
-                      }}
-                    >
                       Phone Number
                     </p>
                   }

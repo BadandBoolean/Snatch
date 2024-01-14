@@ -13,22 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// TODO: THIS IS GOING TO BECOME SYNONYMOUS WITH PROVIDER! 
 model Salon {
-  id             String        @id @default(cuid()) // primary key referenced by foreign key in appointment model
-  owner          User          @relation(fields: [ownerId], references: [id]) // references the id of the user model
-  ownerId        String        @unique // scalar field which is foreign key of salon model. does not exist in the database
-  name           String
-  phone          String // for now
-  address        String        @default("no website") // WEB ADDRESS
-  bookingInfo    String        @default("Please call us to book an appointment")
-  bookingOptions String[]      @default(["Phone", "website", "Walk-in"])
-  appointments   Appointment[] // this is a relation field which does not exist in the database 
-  stylists       Stylist[] // this is a relation field which does not exist in the database     
-  services       Service[] // this is a relation field which does not exist in the database    
-  phoneSubsDev   String[]
-  phoneSubsProd  String[]
-  emailSubsDev   String[]
-  emailSubsProd  String[]
+  id              String        @id @default(cuid()) // primary key referenced by foreign key in appointment model
+  owner           User          @relation(fields: [ownerId], references: [id]) // references the id of the user model
+  ownerId         String        @unique // scalar field which is foreign key of salon model. does not exist in the database
+  name            String
+  phone           String // for now
+  address         String        @default("no website") // WEB ADDRESS
+  bookingInfo     String        @default("Please call us to book an appointment")
+  bookingOptions  String[]      @default(["Phone", "website", "Walk-in"])
+  appointments    Appointment[] // this is a relation field which does not exist in the database 
+  stylists        Stylist[] // this is a relation field which does not exist in the database     
+  services        Service[] // this is a relation field which does not exist in the database    
+  phoneSubsDev    String[]
+  phoneSubsProd   String[]
+  emailSubsDev    String[]
+  emailSubsProd   String[]
+  calendarUrl     String        @default("") // Address of calendar that they already have
+  curriCalApptIds String[]      @default([]) // array of appointment ids that are in the calendar
+}
+
+// EXISTING APPTS! NOT THE CANCELED ONES. USED TO COMPARE, functions as previous iteration of webevents
+model CurrentiCalAppointment {
+  iCalApptId String   @id
+  duration   Int
+  startTime  DateTime
+  providerId String
 }
 
 model Stylist {
@@ -47,7 +58,7 @@ model Stylist {
 // is there a way we can keep the old model and also have the new one? 
 // how we would design it from scratch:
 
-// A provider can be a salon or a stylist. Ideally it is a stylist and a master stylist at that. 
+// TODO: DELETE THIS MODEL  
 model Provider {
   id            String   @id @default(cuid())
   firstname     String
@@ -87,6 +98,8 @@ model Appointment {
   bookingPhone String? // PHONE NUMBER only for admin input
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  duration     Int?
+  icalApptId   String? // id of the appointment IF it was taken from the calendar. 
 }
 
 // -------- AUTH -------------- //
@@ -144,6 +157,7 @@ model RegisteredPartners {
   partneremail String
 }
 
+// TODO: DELETE THIS MODEL
 model phoneSubMainList {
   subscriberid String   @id @default(cuid()) // subscriber id I guess
   phonenum     String

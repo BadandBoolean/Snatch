@@ -15,6 +15,7 @@ export default async (req, res) => {
     const salonEmail = bod.salonaddress;
     const AdditionalBookingInfo = bod.bookingInfo;
     const bookingOptions = bod.bookingOptions;
+    const calendarUrl = bod.calendarUrl;
 
     try {
       const updateSalon = await prisma.salon.update({
@@ -25,6 +26,7 @@ export default async (req, res) => {
           address: salonEmail,
           bookingInfo: AdditionalBookingInfo,
           bookingOptions: bookingOptions,
+          calendarUrl: calendarUrl,
         },
       });
     } catch (error) {

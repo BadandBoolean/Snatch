@@ -16,10 +16,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import styles from "../styles/tables.module.css";
 const { TextArea } = Input;
-// logic if you do NOT have any appointments.
-// logic to view appointments if you have them
-// logic to edit appointments
-// logic to delete appointments
+
+// TODO: updated version for iCalappointments -> you will be able to see these by seeing what is in the salon ical array
 
 export default function ViewAppointmentsAsOwner({
   appointments,
@@ -335,7 +333,7 @@ export default function ViewAppointmentsAsOwner({
               },
             ]}
           >
-            <InputNumber addonBefore="$" />
+            <Input addonBefore="$" />
           </Form.Item>
           <Form.Item label="Additional Information" name="notes">
             <TextArea
