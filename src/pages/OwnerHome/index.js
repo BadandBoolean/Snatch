@@ -131,6 +131,7 @@ export default function OwnerHome({
           salonaddress: values.salonemailaddress,
           bookingInfo: values.bookingInfo,
           bookingOptions: values.bookingOptions,
+          calendarUrl: values.calendarUrl,
         }),
         headers: {
           "Content-Type": "application/json",

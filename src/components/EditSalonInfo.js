@@ -88,6 +88,40 @@ export default function EditSalonInfo({
               maxLength={300}
             />
           </Form.Item>
+          <div>
+            <p>
+              <span style={{ color: "red" }}>**NEW**</span> Type in the iCal URL
+              for your existing booking software calendar to start tracking your
+              cancellations! <br /> Instructions for how to find your iCal URL:
+              <br />
+              <a
+                href="https://support.schedulicity.com/en/articles/956383-how-do-i-share-schedulicity-to-my-calendar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Schedulicity
+              </a>
+              <br />
+              <a
+                href="https://support.vagaro.com/hc/en-us/articles/204347720-How-to-Share-Your-Vagaro-Calendar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Vagaro
+              </a>
+              <br />
+              <a
+                href="https://glossgenius.com/blog/getting-started-with-glossgenius"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GlossGenius
+              </a>
+            </p>
+          </div>
+          <Form.Item name="calendarUrl" label="Calendar URL">
+            <Input placeholder=" e.g https://calendar.google.com/calendar/ical/4742874247294729429group.calendar.google.com/public/basic.ics" />
+          </Form.Item>
         </Form>
       </Modal>
     </>
