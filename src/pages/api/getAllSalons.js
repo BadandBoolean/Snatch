@@ -1,6 +1,8 @@
 import prisma from "../../../lib/prisma";
+import { Logger } from "next-axiom";
 
 export default async (req, res) => {
+  const log = new Logger();
   try {
     const salons = await prisma.salon.findMany({
       orderBy: {
