@@ -13,6 +13,7 @@ export default async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
     log.error("error in getting all salons", { error: error });
+    console.log("error in getting all salons", { error: error });
   }
   res.end();
 };
