@@ -14,6 +14,7 @@ import About from "../components/About";
 import FilterByLocation from "../components/FilterByLocation";
 import salonselectstyles from "../styles/salonselect.module.css";
 import PartnersPanel from "../components/PartnersPanel";
+import NewStylistTypeform from "../components/NewStylistTypeform";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -23,6 +24,7 @@ export default function Home({ userDetails, salonDetails }) {
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
   const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
+  const [newStylistModalOpen, setNewStylistModalOpen] = useState(false);
   const [newSalonForm] = Form.useForm();
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
@@ -72,6 +74,14 @@ export default function Home({ userDetails, salonDetails }) {
     }
   };
 
+  const handleFinishTypeformAndRedirect = async () => {
+    window.location.reload();
+    // holy fucking shit that worked. nice.
+    if (userDetails.hasSalon) {
+      router.push("/OwnerHome");
+    }
+  };
+
   const handleAddContactInfo = async (values) => {
     if (values.phonenumber || values.emailaddress) {
       const response = await fetch("./api/AddClientDetails", {
@@ -108,13 +118,13 @@ export default function Home({ userDetails, salonDetails }) {
     setInfoModalOpen(false);
   };
 
-  const openMakeNewSalonModal = () => {
-    setNewSalonModalOpen(true);
+  const openMakeNewStylistModal = () => {
+    setNewStylistModalOpen(true);
     // console.log("we are in this modal");
   };
 
-  const handleCancelNewSalon = () => {
-    setNewSalonModalOpen(false);
+  const handleCancelNewStylist = () => {
+    setNewStylistModalOpen(false);
   };
 
   const handleGoSalonPage = () => {
@@ -150,7 +160,7 @@ export default function Home({ userDetails, salonDetails }) {
               <div className={styles.buttonBoxMobileOnly}>
                 {!!userDetails && !userDetails.hasSalon ? (
                   <Button
-                    onClick={openMakeNewSalonModal}
+                    onClick={openMakeNewStylistModal}
                     className={styles.ownerHomeButton}
                   >
                     {isRedirecting ? (
@@ -180,16 +190,16 @@ export default function Home({ userDetails, salonDetails }) {
           </div>
         </>
       )}
-      <NewSalonForm
-        handleFinishForm={handleFinishForm}
-        newSalonModalOpen={
-          newSalonModalOpen &&
+      <NewStylistTypeform
+        handleFinishTypeformAndRedirect={handleFinishTypeformAndRedirect}
+        newStylistModalOpen={
+          newStylistModalOpen &&
           status === "authenticated" &&
           !!userDetails &&
           !userDetails.hasSalon
         }
-        newSalonForm={newSalonForm}
-        handleCancelNewSalon={handleCancelNewSalon}
+        hiddenUserEmail={!!session ? session.user.email : ""}
+        handleCancelNewStylist={handleCancelNewStylist}
       />
       <div className={salonselectstyles.divWrapper}>
         <div className={salonselectstyles.placementDiv}>
