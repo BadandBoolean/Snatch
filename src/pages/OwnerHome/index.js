@@ -77,6 +77,7 @@ export default function OwnerHome({
       salonemailaddress: salonDetails.address,
       bookingOptions: salonDetails.bookingOptions,
       bookingInfo: salonDetails.bookingInfo,
+      calendarUrl: salonDetails.calendarUrl,
     });
 
     setEditSalonOpen(true);
