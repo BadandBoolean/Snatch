@@ -13,7 +13,7 @@
     
     align-items: center;
     background: #2d19b1;
-    background: linear-gradient(180deg, rgb(45, 25, 177, 1) 0%, rgba(124,104,255,1) 50%, rgba(0,212,255,0) 100%); 
+    background: linear-gradient(180deg, #2d19b1 0%, #7c68ff 50%, rgba(0, 212, 255, 0) 100%); 
     
 }
 
