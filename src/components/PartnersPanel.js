@@ -24,6 +24,13 @@ export default function PartnersPanel({}) {
             >
               <img className={styles.logos} src="/salonmoonylogo.png" />
             </a>
+            <a
+              className={styles.logostyles}
+              target="_blank"
+              href="https://seattle.scissorsscotch.com/"
+            >
+              <img className={styles.logos} src="/scissorsandscotch.png" />
+            </a>
           </div>
         </div>
       </div>
