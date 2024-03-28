@@ -24,7 +24,7 @@ export default function EditSalonInfo({
   return (
     <>
       <Modal
-        title="Edit Salon Information"
+        title="Edit Your Profile"
         open={editSalonOpen}
         onOk={editSalonForm.submit}
         confirmLoading={confirmLoading}
@@ -32,27 +32,18 @@ export default function EditSalonInfo({
       >
         <Form form={editSalonForm} onFinish={handleEditSalonSubmit}>
           <Form.Item
-            label="Salon Name"
+            label="Name"
             name="salonname"
             rules={[
               {
                 required: true,
-                message: "Please input your Salon's name!",
+                message: "Please input your name!",
               },
             ]}
           >
             <Input maxLength={30} />
           </Form.Item>
-          <Form.Item
-            label="Phone"
-            name="salonphone"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Salon's contact number!", // on second thoughts is this needed?
-              },
-            ]}
-          >
+          <Form.Item label="Phone" name="salonphone">
             <Input
               addonBefore="+1"
               maxLength={12}
@@ -72,7 +63,7 @@ export default function EditSalonInfo({
           </Form.Item>
           <Form.Item
             name="bookingOptions"
-            label="How can clients book an appointment?"
+            label="How can clients book an appointment with you?"
           >
             <Checkbox.Group>
               <Checkbox value="website">Website</Checkbox>

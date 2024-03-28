@@ -215,8 +215,6 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
           duration: appt.duration,
           icalApptId: appt.iCalApptId,
           price: "Call to confirm",
-          whoWith: "",
-          service: "",
           notes: "",
           salon: {
             connect: { id: salon.id },

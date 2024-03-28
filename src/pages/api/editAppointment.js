@@ -9,8 +9,6 @@ export default async (req, res) => {
 
     const appttime = bod.appttime;
     const apptdate = bod.apptdate;
-    const stylist = bod.stylist;
-    const servicetype = bod.servicetype;
     const price = bod.price;
     const notes = bod.notes;
     const id = bod.id;
@@ -24,8 +22,6 @@ export default async (req, res) => {
           salonname: salonname,
           time: appttime,
           date: apptdate,
-          whoWith: stylist,
-          service: servicetype ? servicetype : "",
           price: price,
           notes: notes ? notes : "",
           isAvailable: true,

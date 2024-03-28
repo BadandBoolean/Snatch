@@ -25,9 +25,7 @@ export default async (req, res) => {
   const salonName = queryData.salonName;
   let apptDate = queryData.apptDate;
   let apptTime = queryData.apptTime;
-  const apptService = queryData.apptService;
   const apptPrice = queryData.apptPrice;
-  const apptStylist = queryData.apptStylist;
   const changeType = queryData.changeType;
   let textSubscribers = null;
   if (session) {
@@ -80,7 +78,7 @@ export default async (req, res) => {
     apptDate = dayjs(apptDate).format("LL");
     console.log(apptTime);
 
-    const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nAvailable Stylist: ${apptStylist}\nAvailable Service(s): ${apptService}\nPrice: $${apptPrice}\nVisit https://wearesnatch.com for booking instructions!\n\nText STOP to unsubscribe.`;
+    const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nPrice: $${apptPrice}\nVisit https://wearesnatch.com for booking instructions!\n\nText STOP to unsubscribe.`;
     // now we need to send the text to each subscriber.
     try {
       // quickly validate that the number is a ten digit integer.

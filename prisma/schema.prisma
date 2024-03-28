@@ -14,24 +14,45 @@ datasource db {
 }
 
 // TODO: THIS IS GOING TO BECOME SYNONYMOUS WITH PROVIDER! 
+// steps to enact this: 
+// Get rid of stylists column
+// make a new column for RealSalon. 
+// move all information to new RealSalon before deleting
+
 model Salon {
-  id              String        @id @default(cuid()) // primary key referenced by foreign key in appointment model
-  owner           User          @relation(fields: [ownerId], references: [id]) // references the id of the user model
-  ownerId         String        @unique // scalar field which is foreign key of salon model. does not exist in the database
-  name            String
-  phone           String // for now
-  address         String        @default("no website") // WEB ADDRESS
-  bookingInfo     String        @default("Please call us to book an appointment")
-  bookingOptions  String[]      @default(["Phone", "website", "Walk-in"])
-  appointments    Appointment[] // this is a relation field which does not exist in the database 
-  stylists        Stylist[] // this is a relation field which does not exist in the database     
-  services        Service[] // this is a relation field which does not exist in the database    
-  phoneSubsDev    String[]
-  phoneSubsProd   String[]
-  emailSubsDev    String[]
-  emailSubsProd   String[]
-  calendarUrl     String        @default("") // Address of calendar that they already have
-  curriCalApptIds String[]      @default([]) // array of appointment ids that are in the calendar
+  id             String        @id @default(cuid()) // primary key referenced by foreign key in appointment model
+  owner          User          @relation(fields: [ownerId], references: [id]) // references the id of the user model
+  ownerId        String        @unique // scalar field which is foreign key of salon model. does not exist in the database
+  name           String // changed to be the first and last name of the salon owner
+  phone          String        @default("") // optional
+  address        String        @default("no website") // WEB ADDRESS
+  bookingInfo    String        @default("Please call us to book an appointment")
+  bookingOptions String[]      @default(["Phone", "website", "Walk-in"])
+  appointments   Appointment[] // this is a relation field which does not exist in the database 
+
+  phoneSubsDev     String[]
+  phoneSubsProd    String[]
+  emailSubsDev     String[]
+  emailSubsProd    String[]
+  calendarUrl      String     @default("") // Address of calendar that they already have
+  curriCalApptIds  String[]   @default([]) // array of appointment ids that are in the calendar
+  realSalon        RealSalon? @relation(fields: [realSalonId], references: [id]) // references the id of the realSalon model OPTIONAL FOR NOW TO NOT BREAK SET UP
+  realSalonId      String? // scalar field which is foreign key of salon model. does not exist in the database
+  allowWalkIns     Boolean    @default(true)
+  acceptNewClients Boolean    @default(true)
+  email            String     @default("") // shared, optional
+  hasRealSalon     Boolean    @default(false) // if they have a real salon
+}
+
+// One to many real salon to salon (really, stylists)
+model RealSalon {
+  id              String        @id @default(cuid())
+  salonname       String        @default("")
+  stylists        Salon[] // this is a relation field which does not exist in the database
+  physicalAddress String        @default("")
+  emailAddress    String        @default("") // shared, optional
+  phoneNumber     String        @default("") // shared, optional
+  appointments    Appointment[] // this is a relation field which does not exist in the database
 }
 
 // EXISTING APPTS! NOT THE CANCELED ONES. USED TO COMPARE, functions as previous iteration of webevents
@@ -42,64 +63,26 @@ model CurrentiCalAppointment {
   providerId String
 }
 
-model Stylist {
-  id        String @id @default(cuid())
-  salon     Salon  @relation(fields: [salonId], references: [id]) // references the id of the salon model
-  salonname String @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
-  salonId   String // scalar field which is foreign key of stylist model. does not exist in the database
-  name      String
-}
-
-// salon that you are associated with? // make a new field?
-// Roadster: big name or very popular master stylists who are booked up very frequently. 
-// these stylists are not necessarily attached to any salon in particular they are their own provider. 
-// provider is Stylist actually! but there is a many to one relationship between them. 
-// ideal:
-// is there a way we can keep the old model and also have the new one? 
-// how we would design it from scratch:
-
-// TODO: DELETE THIS MODEL  
-model Provider {
-  id            String   @id @default(cuid())
-  firstname     String
-  lastname      String
-  salonname     String   @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
-  phonenumber   String
-  bookingLink   String
-  website       String
-  physAddress   String
-  phoneSubsdev  String[]
-  phoneSubsprod String[]
-}
-
-model Service {
-  id        String @id @default(cuid())
-  salon     Salon  @relation(fields: [salonId], references: [id]) // references the id of the salon model
-  salonname String @default("Salon Name") // this is assigned in the fron, helps us with some of the table config
-  salonId   String // scalar field which is foreign key of service model. does not exist in the database
-  name      String
-}
-
 model Appointment {
-  id           String   @id @default(cuid())
-  salon        Salon?   @relation(fields: [salonId], references: [id]) // references the id of the salon model
-  salonname    String   @default("Salon Name") // this is assigned in the fron, helps us with some of the table config, also used by admin to make appointment
+  id           String     @id @default(cuid())
+  salon        Salon?     @relation(fields: [salonId], references: [id]) // references the id of the salon model
+  salonname    String     @default("Salon Name") // this is assigned in the fron, helps us with some of the table config, also used by admin to make appointment
   salonId      String? // scalar field which is foreign key of appointment model. does not exist in the database. OPTIONAL
   date         DateTime // date of appt .... might want to store as just the date @db.Date
   time         DateTime // time of appt ... might want to store as just the time. @db.Time(x) where x is the precision??? is it?
-  whoWith      String // TODO: map to user i.e salon owner UNLESS it is done by not the salon owner
-  service      String
   price        String
-  isAvailable  Boolean  @default(true)
-  location     String   @default("") // PHYSICAL ADDRESS. can be mapped to salon address maybe later. 
-  zipcode      String   @default("") // ZIPCODE ... maybe won't be used
+  isAvailable  Boolean    @default(true)
+  location     String     @default("") // PHYSICAL ADDRESS. can be mapped to salon address maybe later. 
+  zipcode      String     @default("") // ZIPCODE ... maybe won't be used
   notes        String
   bookingLink  String? // WEB ADDRESS only for admin input
   bookingPhone String? // PHONE NUMBER only for admin input
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   duration     Int?
   icalApptId   String? // id of the appointment IF it was taken from the calendar. 
+  realSalon    RealSalon? @relation(fields: [realSalonId], references: [id]) // references the id of the realSalon model OPTIONAL FOR NOW TO NOT BREAK SET UP
+  realSalonId  String? // scalar field which is foreign key of appointment model. does not exist in the database. OPTIONAL
 }
 
 // -------- AUTH -------------- //
@@ -137,7 +120,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  hasSalon      Boolean   @default(false)
+  hasSalon      Boolean   @default(false) // SALON PERSONA, also known as stylist profile?
   accounts      Account[]
   sessions      Session[]
   salon         Salon?
@@ -155,13 +138,6 @@ model RegisteredPartners {
   id           String @id @default(cuid())
   partnername  String
   partneremail String
-}
-
-// TODO: DELETE THIS MODEL
-model phoneSubMainList {
-  subscriberid String   @id @default(cuid()) // subscriber id I guess
-  phonenum     String
-  salonid      String[] @default([]) // salon that they have subbed to, if any? array so this can be multiple salons
 }
 
 model AllSalonsPhoneNums {

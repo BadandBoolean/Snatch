@@ -7,9 +7,8 @@ import { Form, Button, Spin, Tabs } from "antd/lib";
 import { useRouter } from "next/router";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
 import styles from "../../styles/OwnerHome.module.css";
+import herostyles from "../../styles/Hero.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
-import StylistBlock from "../../components/StylistBlock.js";
-import ServiceBlock from "../../components/ServiceBlock.js";
 import dayjs from "dayjs";
 
 export default function OwnerHome({
@@ -160,9 +159,7 @@ export default function OwnerHome({
           id: apptId,
           appttime: values.appttime,
           apptdate: values.apptdate,
-          stylist: values.stylist,
           price: values.price,
-          servicetype: values.servicetype,
           notes: values.notes,
           salonname: salonDetails.name,
         }),
@@ -170,23 +167,6 @@ export default function OwnerHome({
           "Content-Type": "application/json",
         },
       });
-      // generate the query data.
-      // const queryData = {
-      //   salonId: salonDetails.id,
-      //   salonName: salonDetails.name,
-      //   apptDate: values.apptdate,
-      //   apptTime: values.appttime,
-      //   apptService: values.servicetype,
-      //   apptPrice: values.price,
-      //   apptStylist: values.stylist,
-      //   changeType: "edit",
-      // };
-      // const sendmessage = await fetch(`./api/textSubscribers/${queryData}`, {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
     }
     setConfirmLoading(true);
     setTimeout(() => {
@@ -214,9 +194,7 @@ export default function OwnerHome({
         body: JSON.stringify({
           appttime: values.appttime,
           apptdate: values.apptdate,
-          stylist: values.stylist,
           price: values.price,
-          servicetype: values.servicetype,
           notes: values.notes,
           salonname: salonDetails.name,
         }),
@@ -234,9 +212,7 @@ export default function OwnerHome({
         salonName: salonDetails.name,
         apptDate: values.apptdate,
         apptTime: convertedTime,
-        apptService: values.servicetype,
         apptPrice: values.price,
-        apptStylist: values.stylist,
         changeType: "add",
       };
 
@@ -262,24 +238,6 @@ export default function OwnerHome({
     setIsRedirecting(true);
     router.push("/");
   };
-
-  const onChangeTab = (key) => {
-    // may not need!
-    // console.log(key);
-  };
-
-  const tabItems = [
-    {
-      key: "1",
-      label: "Stylists",
-      children: <StylistBlock salonId={salonDetails.id} />,
-    },
-    {
-      key: "2",
-      label: "Services",
-      children: <ServiceBlock salonId={salonDetails.id} />,
-    },
-  ];
 
   return (
     <>
@@ -307,9 +265,7 @@ export default function OwnerHome({
                 className={buttonstyles.salonOwnerHomeButton}
                 onClick={showSalonEditModal}
               >
-                <span className={buttonstyles.buttonText}>
-                  Edit Salon Information
-                </span>
+                <span className={buttonstyles.buttonText}>Edit Profile</span>
               </Button>
             </div>
             <div className={styles.buttBox}>
@@ -327,6 +283,9 @@ export default function OwnerHome({
                     Home
                   </span>
                 )}
+              </Button>
+              <Button>
+                <span className={buttonstyles.buttonTextSalon}>Logout</span>
               </Button>
             </div>
           </div>
@@ -361,14 +320,6 @@ export default function OwnerHome({
         handleEditSalonCancel={handleEditSalonCancel}
         confirmLoading={confirmLoading}
         handleEditSalonSubmit={handleEditSalonSubmit}
-      />
-      <Tabs
-        centered
-        style={{ minHeight: "30vh" }}
-        size="middle"
-        defaultActiveKey="1"
-        items={tabItems}
-        onChange={onChangeTab}
       />
     </>
   );

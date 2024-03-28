@@ -14,6 +14,7 @@ import About from "../components/About";
 import FilterByLocation from "../components/FilterByLocation";
 import salonselectstyles from "../styles/salonselect.module.css";
 import PartnersPanel from "../components/PartnersPanel";
+import NewStylistTypeform from "../components/NewStylistTypeform";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -23,6 +24,7 @@ export default function Home({ userDetails, salonDetails }) {
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
   const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
+  const [newStylistModalOpen, setNewStylistModalOpen] = useState(false);
   const [newSalonForm] = Form.useForm();
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
@@ -72,6 +74,34 @@ export default function Home({ userDetails, salonDetails }) {
     }
   };
 
+  const handleFinishTypeformAndRedirect = async (payload) => {
+    console.log("payload: ", payload);
+    const fields = payload.fields;
+    const response = await fetch("./api/typeFormPostNewStylist", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: fields[1],
+        lastName: fields[2],
+        salonName: fields[3],
+        website: fields[4],
+        phone: fields[5],
+        email: fields[6],
+        acceptWalkIns: fields[7],
+        acceptNewClients: fields[8],
+        iCalURL: fields[9],
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("response: ", response);
+    window.location.reload();
+    console.log(userDetails);
+    if (userDetails.hasSalon) {
+      router.push("/OwnerHome");
+    }
+  };
+
   const handleAddContactInfo = async (values) => {
     if (values.phonenumber || values.emailaddress) {
       const response = await fetch("./api/AddClientDetails", {
@@ -108,13 +138,13 @@ export default function Home({ userDetails, salonDetails }) {
     setInfoModalOpen(false);
   };
 
-  const openMakeNewSalonModal = () => {
-    setNewSalonModalOpen(true);
+  const openMakeNewStylistModal = () => {
+    setNewStylistModalOpen(true);
     // console.log("we are in this modal");
   };
 
-  const handleCancelNewSalon = () => {
-    setNewSalonModalOpen(false);
+  const handleCancelNewStylist = () => {
+    setNewStylistModalOpen(false);
   };
 
   const handleGoSalonPage = () => {
@@ -150,14 +180,14 @@ export default function Home({ userDetails, salonDetails }) {
               <div className={styles.buttonBoxMobileOnly}>
                 {!!userDetails && !userDetails.hasSalon ? (
                   <Button
-                    onClick={openMakeNewSalonModal}
+                    onClick={openMakeNewStylistModal}
                     className={styles.ownerHomeButton}
                   >
                     {isRedirecting ? (
                       <Spin />
                     ) : (
                       <span className={styles.buttonText}>
-                        Register your Salon
+                        Register Your Provider Profile
                       </span>
                     )}
                   </Button>
@@ -180,16 +210,16 @@ export default function Home({ userDetails, salonDetails }) {
           </div>
         </>
       )}
-      <NewSalonForm
-        handleFinishForm={handleFinishForm}
-        newSalonModalOpen={
-          newSalonModalOpen &&
+      <NewStylistTypeform
+        handleFinishTypeformAndRedirect={handleFinishTypeformAndRedirect}
+        newStylistModalOpen={
+          newStylistModalOpen &&
           status === "authenticated" &&
           !!userDetails &&
           !userDetails.hasSalon
         }
-        newSalonForm={newSalonForm}
-        handleCancelNewSalon={handleCancelNewSalon}
+        hiddenUserEmail={!!session ? session.user.email : ""}
+        handleCancelNewStylist={handleCancelNewStylist}
       />
       <div className={salonselectstyles.divWrapper}>
         <div className={salonselectstyles.placementDiv}>
