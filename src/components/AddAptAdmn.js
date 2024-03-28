@@ -60,30 +60,7 @@ export default function AddAptAdmn({ handleFinishApptForm, apptform }) {
         >
           <DatePicker />
         </Form.Item>
-        <Form.Item
-          label="Stylist"
-          name="stylist"
-          rules={[
-            {
-              required: true,
-              message: "Please input the name of the stylist",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Service Type"
-          name="servicetype"
-          rules={[
-            {
-              required: true,
-              message: "Please input the type of service",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+
         <Form.Item
           label="Price"
           name="price"

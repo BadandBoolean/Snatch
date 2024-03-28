@@ -34,7 +34,3 @@
 export default function handler(req, res) {
   res.status(200).json({ name: "John Doe" });
 }
-
-// things to implement
-// deprecating searching by salon. search by stylist instead.
-// make appointment screen more attractive for customers.

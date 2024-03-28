@@ -74,9 +74,29 @@ export default function Home({ userDetails, salonDetails }) {
     }
   };
 
-  const handleFinishTypeformAndRedirect = async () => {
+  const handleFinishTypeformAndRedirect = async (payload) => {
+    console.log("payload: ", payload);
+    const fields = payload.fields;
+    const response = await fetch("./api/typeFormPostNewStylist", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: fields[1],
+        lastName: fields[2],
+        salonName: fields[3],
+        website: fields[4],
+        phone: fields[5],
+        email: fields[6],
+        acceptWalkIns: fields[7],
+        acceptNewClients: fields[8],
+        iCalURL: fields[9],
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("response: ", response);
     window.location.reload();
-    // holy fucking shit that worked. nice.
+    console.log(userDetails);
     if (userDetails.hasSalon) {
       router.push("/OwnerHome");
     }
@@ -167,7 +187,7 @@ export default function Home({ userDetails, salonDetails }) {
                       <Spin />
                     ) : (
                       <span className={styles.buttonText}>
-                        Register your Salon
+                        Register Your Provider Profile
                       </span>
                     )}
                   </Button>

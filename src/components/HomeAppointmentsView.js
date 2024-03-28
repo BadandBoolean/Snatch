@@ -102,18 +102,6 @@ export default function HomeAppointmentsView({
       key: "time",
     },
     {
-      title: "With",
-      dataIndex: "whoWith",
-      key: "whoWith",
-      hidden: true,
-    },
-    {
-      title: "Service",
-      dataIndex: "service",
-      key: "service",
-      hidden: true,
-    },
-    {
       title: "Price",
       dataIndex: "price",
       key: "price",
@@ -178,33 +166,13 @@ export default function HomeAppointmentsView({
     setInfoModalData(record);
     setInfoModalOpen(true);
   };
-  // if (appointments) {
-  //   console.log("HERE ARE THE APPOINTMENTS");
-  //   console.log(appointments);
-  //   const dataSource = appointments.map((appointment) => {
-  //     return {
-  //       key: appointment.id,
-  //       salon: appointment.salonname,
-  //       date: dayjs(appointment.date).format("MM/DD/YYYY"),
-  //       time: dayjs(appointment.time).format("HH:mm"),
-  //       whoWith: appointment.whoWith,
-  //       service: appointment.service,
-  //       price: appointment.price,
-  //       notes: appointment.notes,
-  //     };
-  //   });
-  // } else {
-  //   console.log("no appointments...yet");
-  //   const dataSource = [];
-  // }
+
   const dataSource = appointments.map((appointment) => {
     return {
       key: appointment.id,
       salon: appointment.salonname,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
       time: dayjs(appointment.time).format("hh:mm a"),
-      whoWith: appointment.whoWith,
-      service: appointment.service,
       price: appointment.price,
       notes: appointment.notes,
       bookingPhone: appointment.bookingPhone,
@@ -217,8 +185,6 @@ export default function HomeAppointmentsView({
   const InfoModalText = () => {
     // console.log(infoModalData);
     let notes = infoModalData.notes;
-    let whoWith = infoModalData.whoWith;
-    let service = infoModalData.service;
     let price = infoModalData.price;
     // check if bookingData has any value.
     if (Object.keys(bookingData).length === 0) {
@@ -229,14 +195,6 @@ export default function HomeAppointmentsView({
 
       return (
         <>
-          <p>
-            <b>Stylist: </b>
-            {whoWith}
-          </p>
-          <p>
-            <b>Available Services: </b>
-            {service}
-          </p>
           <p>
             <b>Price: </b>${price}
           </p>
@@ -285,14 +243,6 @@ export default function HomeAppointmentsView({
 
       return (
         <>
-          <p>
-            <b>Stylist: </b>
-            {whoWith}
-          </p>
-          <p>
-            <b>Available Services: </b>
-            {service}
-          </p>
           <p>
             <b>Price: </b>${price}
           </p>

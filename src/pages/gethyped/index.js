@@ -84,8 +84,6 @@ export default function GetHyped({ userDetails }) {
         salonname: values.salonname,
         appttime: values.appttime,
         apptdate: values.apptdate,
-        stylist: values.stylist,
-        servicetype: values.servicetype,
         price: values.price,
         notes: values.notes,
         location: values.location,
@@ -128,7 +126,7 @@ export default function GetHyped({ userDetails }) {
           name="basic"
           initialValues={{
             textBody:
-              "There is an appointment available at SALONNAME!\n\nDetails: DATE at TIME\nAvailable Stylist: STYLIST\nAvailable Service(s): Any\nPrice: Inquire for more.\nSalon location: LOCATION\nCall salon to schedule or visit their website\n\nBrought to you by Snatch.\n\nText STOP to unsubscribe.",
+              "There is an appointment available at SALONNAME!\n\nDetails: DATE at TIME\nPrice: Inquire for more.\nSalon location: LOCATION\nCall salon to schedule or visit their website\n\nBrought to you by Snatch.\n\nText STOP to unsubscribe.",
             textNumber: "",
           }}
         >

@@ -33,87 +33,9 @@ export default function ViewAppointmentsAsOwner({
   editForm,
   salonId,
 }) {
-  const [services, setServices] = useState([]);
-  const [stylists, setStylists] = useState([]);
-  const [addStylist, setAddStylist] = useState("");
-  const [addService, setAddService] = useState("");
-  const [changeTrigger, setChangeTrigger] = useState(false);
-
-  useEffect(() => {
-    fetch(`./api/getServices/${salonId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setServices(data.services);
-      });
-    fetch(`./api/getStylists/${salonId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setStylists(data.stylists);
-      });
-    setChangeTrigger(false);
-  }, [changeTrigger]);
-
-  const serviceOptions = services.map((service) => {
-    return { label: service.name, value: service.name };
-  });
-
-  const stylistOptions = stylists.map((stylist) => {
-    return { value: stylist.name, label: stylist.name };
-  });
-
-  const onAddStylist = (event) => {
-    setAddStylist(event.target.value);
-  };
-
-  const onAddService = (event) => {
-    setAddService(event.target.value);
-  };
-
-  const clickAddStylist = () => {
-    fetch("./api/amendStylist", {
-      method: "POST",
-      body: JSON.stringify({
-        action: "add",
-        stylist: addStylist,
-        salonId: salonId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setAddStylist("");
-    setChangeTrigger(true);
-  };
-
-  const clickAddService = () => {
-    fetch("./api/amendService", {
-      method: "POST",
-      body: JSON.stringify({
-        action: "add",
-        service: addService,
-        salonId: salonId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setAddService("");
-    setChangeTrigger(true);
-  };
-
   // expanded columns
   const expandedRowRender = (record) => {
     const columns = [
-      {
-        title: "With",
-        dataIndex: "whoWith",
-        key: "whoWith",
-      },
-      {
-        title: "Service",
-        dataIndex: "service",
-        key: "service",
-      },
       {
         title: "Price",
         dataIndex: "price",
@@ -129,8 +51,6 @@ export default function ViewAppointmentsAsOwner({
     const data = [
       {
         key: record.id,
-        whoWith: record.whoWith,
-        service: record.service,
         price: record.price,
         notes: record.notes,
       },
@@ -177,8 +97,6 @@ export default function ViewAppointmentsAsOwner({
     editForm.setFieldsValue({
       apptdate: dayjs(record.date),
       appttime: dayjs(record.time, "hh:mm a"),
-      stylist: record.whoWith,
-      servicetype: record.service,
       price: record.price,
       notes: record.notes,
     });
@@ -190,8 +108,6 @@ export default function ViewAppointmentsAsOwner({
       key: appointment.id,
       date: dayjs(appointment.date).format("MM/DD/YYYY"),
       time: dayjs(appointment.time).format("hh:mm a"),
-      whoWith: appointment.whoWith,
-      service: appointment.service,
       price: appointment.price,
       notes: appointment.notes,
     };
@@ -267,62 +183,7 @@ export default function ViewAppointmentsAsOwner({
           >
             <DatePicker disabledDate={disabledDate} />
           </Form.Item>
-          <Form.Item
-            label="Stylist"
-            name="stylist"
-            rules={[
-              {
-                required: true,
-                message: "Please input the name of the stylist",
-              },
-            ]}
-          >
-            <Select
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Input
-                      placeholder="Add a stylist"
-                      onChange={onAddStylist}
-                    />
-                    <Button
-                      type="text"
-                      icon={<PlusOutlined />}
-                      onClick={clickAddStylist}
-                    >
-                      Add Stylist
-                    </Button>
-                  </div>
-                </>
-              )}
-              options={stylistOptions}
-            />
-          </Form.Item>
-          <Form.Item label="Service" name="servicetype">
-            <Select
-              dropdownRender={(menu) => (
-                <>
-                  {menu}
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Input
-                      placeholder="Add a service"
-                      minLength={1}
-                      onChange={onAddService}
-                    />
-                    <Button
-                      type="text"
-                      icon={<PlusOutlined />}
-                      onClick={clickAddService}
-                    >
-                      Add Service
-                    </Button>
-                  </div>
-                </>
-              )}
-              options={serviceOptions}
-            />
-          </Form.Item>
+
           <Form.Item
             label="Price"
             name="price"
