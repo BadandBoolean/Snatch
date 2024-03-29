@@ -8,7 +8,34 @@
     background: #2d19b1;
     background: linear-gradient(180deg, #2d19b1 0%, #7c68ff 50%, rgba(0, 212, 255, 0) 100%); 
     width: 100%;
-    height: 55vh;
+    height: 70vh;
+    display: flex;
+    
+    align-items: center;
+    flex-direction: column;
+
+    
+
+
+
+    
+}
+
+.colourWrapperPlaces {
+    background: #2d19b1;
+    background: linear-gradient(180deg, #2d19b1 0%, #7c68ff 50%, rgba(0, 212, 255, 0) 100%); 
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    
+    
+    flex-direction: column;
+
+    
+
+
+
+    
 }
 
 
@@ -17,15 +44,81 @@
     justify-content: center;
     align-items: center;
     flex: column;
-    width: 90%;
+    width: 100%;
+    padding: 10px;
+}
+
+.InfoTextBoxPlaces {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
     padding: 10px;
 }
 
 .InfoTextStyle {
-    font-size: 20px;
+    font-size: 25px;
+
     font-weight: 600;
-    margin-top: 20px;
-    color: black
+    
+    
+    color: white;
+}
+
+.centerProviders {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+}
+
+.InfoTextStylePlaces {
+    font-size: 10px;
+    width: 100%;
+    font-weight: 200;
+    display: flex;
+    justify-content: center;
+    
+    color: white;
+}
+
+.InfoTextStyleProviders {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    width: 100%;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    
+    
+    color: white;
+}
+
+/*make font italic*/
+.InfoTextStyleSalonName {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: white !important;
+    text-shadow: -1px -2px #02fefe, 2px 1px #fe02e9;
+    
+    text-align: right
+}
+
+.InfoTextStyleSalonNameBig {
+    display: flex;
+    justify-content: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-style: italic;
+    font-weight: 600;
+    color: white !important;
+    text-shadow: -2px -2px white, 2px 2px black;
+    
+    text-align: right
 }
 
 
@@ -58,6 +151,34 @@
     padding: 100vh;
 }
 
+.ggohreg {
+    display: block;
+    position: absolute;
+    top: 160px;
+    left: 200px;
+    z-index: 1000;
+    height: 160px;
+    width: 160px;
+
+}
+
+@media (max-width: 1090px) {
+    .ggohreg {
+        visibility: hidden;
+        width: 0px;
+        height: 0px;
+        
+    }
+}
+
+.ggohmobile {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+    
+
+}
+
 @media (max-width: 550px) {
     .buttonBar {
         display: flex;
@@ -66,6 +187,22 @@
         align-items: center;
         width: 95%;
        
+    }
+
+   
+
+
+
+    .ggohmobile {
+        visibility: visible;
+        display: block;
+        position: absolute;
+        top: 660px;
+        right: 20px;
+        z-index: 1000;
+        height: 130px;
+        width: 130px;
+    
     }
 
     .buttBox {

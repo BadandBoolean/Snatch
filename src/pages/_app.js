@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }) {
             },
           }}
         >
-          {Component.name !== "OwnerHome" && <NavBar />}
+          <NavBar />
           <Component {...pageProps} />
           <Analytics />
           <Footer />
