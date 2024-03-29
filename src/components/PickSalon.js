@@ -25,7 +25,7 @@ export default function PickSalon({
   });
 
   // add the 'all' option
-  options.unshift({ value: "", label: "All salons" });
+  options.unshift({ value: "", label: "All Providers" });
 
   const onSelectSalon = (value) => {
     // passes the id of the salon who's appointments to get.

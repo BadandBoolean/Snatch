@@ -58,7 +58,7 @@ export default function NavBar({}) {
               placement="bottomRight"
             >
               <button className={styles.customButton}>
-                Welcome, {session.user.name}! <DownOutlined />
+                Welcome back! <DownOutlined />
               </button>
             </Dropdown>
           )}
@@ -67,3 +67,5 @@ export default function NavBar({}) {
     </div>
   );
 }
+
+// TODO: randomise the output of the business login button!!!

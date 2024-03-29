@@ -63,7 +63,7 @@ export default function GetContactInfoForm({
   const options = salons.map((salon) => {
     return { value: salon.id, label: salon.name };
   });
-  options.unshift({ value: "", label: "All salons" });
+  options.unshift({ value: "", label: "All" });
 
   return (
     <>

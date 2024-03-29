@@ -49,6 +49,41 @@
     margin: 10px;
 }
 
+.contactOuterDivoh {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 0.2);
+    border-radius: 15px;
+}
+
+.contactMiddleDivoh {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 0.5); 
+ 
+    border-radius: 15px;
+    margin: 13px;
+
+}
+
+.contactDivoh {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 1); 
+    border-radius: 15px;
+    margin: 10px;
+}
+
 .contactForm {
     padding: 10px;
 }

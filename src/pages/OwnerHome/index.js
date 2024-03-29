@@ -7,7 +7,7 @@ import { Form, Button, Spin, Tabs } from "antd/lib";
 import { useRouter } from "next/router";
 import EditSalonInfo from "../../components/EditSalonInfo.js";
 import styles from "../../styles/OwnerHome.module.css";
-import herostyles from "../../styles/Hero.module.css";
+import contactformstyles from "../../styles/ContactForm.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
 import dayjs from "dayjs";
 
@@ -15,6 +15,7 @@ export default function OwnerHome({
   userDetails,
   allAppointments,
   salonDetails,
+  realSalon,
 }) {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
@@ -28,8 +29,9 @@ export default function OwnerHome({
   const [editSalonOpen, setEditSalonOpen] = useState(false);
   const [editSalonForm] = Form.useForm();
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isRedirectingSalon, setIsRedirectingSalon] = useState(false);
 
-  useEffect(() => {}, [allAppointments, salonDetails, userDetails]);
+  useEffect(() => {}, [allAppointments, salonDetails, userDetails, realSalon]);
 
   // refresh data on page when a new query is added to DB.
   const refreshData = () => {
@@ -50,7 +52,7 @@ export default function OwnerHome({
   }
 
   if (!userDetails.hasSalon) {
-    return <p>You don&apos;t have a salon!</p>;
+    return <p>You don&apos;t have a profile!</p>;
   }
 
   const showEditAppt = (apptid) => {
@@ -70,6 +72,7 @@ export default function OwnerHome({
 
   const showSalonEditModal = () => {
     // console.log(salonDetails);
+    console.log(realSalon.salonname);
     editSalonForm.setFieldsValue({
       salonname: salonDetails.name,
       salonphone: salonDetails.phone,
@@ -77,6 +80,7 @@ export default function OwnerHome({
       bookingOptions: salonDetails.bookingOptions,
       bookingInfo: salonDetails.bookingInfo,
       calendarUrl: salonDetails.calendarUrl,
+      realSalon: realSalon.salonname,
     });
 
     setEditSalonOpen(true);
@@ -239,12 +243,36 @@ export default function OwnerHome({
     router.push("/");
   };
 
+  const handleGoRealSalonPage = () => {
+    setIsRedirectingSalon(true);
+    router.push(`/places/${realSalon.id}`);
+  };
+
   return (
     <>
       <div className={styles.colourWrapper}>
-        <div className={styles.InfoTextWrapper}>
-          <div className={styles.InfoTextBox}>
-            <span className={styles.InfoTextStyle}>{salonDetails.name}</span>
+        <img src="/ggoh.jpg" alt="logo" className={styles.ggohreg} />
+        <img src="/ggoh.jpg" alt="logo" className={styles.ggohmobile} />
+        <div className={contactformstyles.contactOuterDivoh}>
+          <div className={contactformstyles.contactMiddleDivoh}>
+            <div className={contactformstyles.contactDivoh}>
+              <div className={styles.InfoTextWrapper}>
+                <div className={styles.InfoTextBox}>
+                  <span className={styles.InfoTextStyle}>
+                    {salonDetails.name}
+                  </span>
+                </div>
+              </div>
+              <div className={styles.InfoTextWrapper}>
+                {realSalon && (
+                  <div className={styles.InfoTextBox}>
+                    <span className={styles.InfoTextStyleSalonName}>
+                      {realSalon.salonname}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -284,10 +312,23 @@ export default function OwnerHome({
                   </span>
                 )}
               </Button>
-              <Button>
-                <span className={buttonstyles.buttonTextSalon}>Logout</span>
-              </Button>
             </div>
+            {realSalon && (
+              <div className={styles.buttBox}>
+                <Button
+                  className={buttonstyles.salonOwnerHomeButton}
+                  onClick={handleGoRealSalonPage}
+                >
+                  {isRedirectingSalon ? (
+                    <Spin />
+                  ) : (
+                    <span className={buttonstyles.buttonTextSalon}>
+                      {realSalon.salonname}
+                    </span>
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -335,6 +376,7 @@ export async function getServerSideProps(context) {
   let user = null;
   let salon = null;
   let appointment = null;
+  let realSalon = null;
   if (!!session) {
     user = await prisma.user.findUnique({
       where: {
@@ -351,13 +393,24 @@ export async function getServerSideProps(context) {
         salonId: salon.id,
       },
     }); // this should fix things...
+    console.log(salon.hasRealSalon);
+    // find the realsalon
+    if (salon.hasRealSalon) {
+      console.log("has real salon");
+      realSalon = await prisma.realSalon.findUnique({
+        where: {
+          id: salon.realSalonId,
+        },
+      });
+    }
   }
-  console;
+
   return {
     props: {
       userDetails: user || null,
       allAppointments: JSON.parse(JSON.stringify(appointment)) || null,
       salonDetails: salon || null,
+      realSalon: realSalon || null,
     },
   };
 }

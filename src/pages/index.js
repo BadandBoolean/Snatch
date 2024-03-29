@@ -164,6 +164,11 @@ export default function Home({ userDetails, salonDetails }) {
 
   return (
     <>
+      <img
+        src="/ggreal3.png"
+        alt="welcometosnatch"
+        className={styles.greekgod}
+      />
       <Hero />
       {status === "loading" ? (
         <div className={styles.loadingDivWrapper}>

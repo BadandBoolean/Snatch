@@ -9,8 +9,10 @@ import {
   TimePicker,
   Checkbox,
   InputNumber,
+  Tooltip,
 } from "antd/lib";
 import dayjs from "dayjs";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { MaskedInput } from "antd-mask-input";
 const { TextArea } = Input;
 
@@ -42,6 +44,22 @@ export default function EditSalonInfo({
             ]}
           >
             <Input maxLength={30} />
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Salon&nbsp;
+                <Tooltip
+                  placement="top"
+                  title={<span>Contact us to change this! ❤️</span>}
+                >
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </span>
+            }
+            name="realSalon"
+          >
+            <Input disabled placeholder="Salon coming soon ❤️ " />
           </Form.Item>
           <Form.Item label="Phone" name="salonphone">
             <Input
