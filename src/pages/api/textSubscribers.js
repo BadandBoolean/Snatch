@@ -78,7 +78,7 @@ export default async (req, res) => {
     apptDate = dayjs(apptDate).format("LL");
     console.log(apptTime);
 
-    const textBody = `Someone just canceled their appointment at ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nPrice: $${apptPrice}\nVisit https://wearesnatch.com for booking instructions!\n\nText STOP to unsubscribe.`;
+    const textBody = `Someone just canceled their appointment with ${salonName}!\n\nDetails: ${apptDate} at ${apptTime}\nPrice: $${apptPrice}\nVisit https://wearesnatch.com for booking instructions!\n\nText STOP to unsubscribe.`;
     // now we need to send the text to each subscriber.
     try {
       // quickly validate that the number is a ten digit integer.
