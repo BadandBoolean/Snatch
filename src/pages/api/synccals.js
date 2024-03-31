@@ -52,16 +52,24 @@ export default async (req, res) => {
         `appointmentsCancelled for ${salon.name}: ${appointmentsCancelled}`
       );
       if (appointmentsCancelled.length > 0) {
-        updatedSalonWithCancels = await HandleAddCancelledAppointments(
+        newCancellationsAdded = await HandleAddCancelledAppointments(
           appointmentsCancelled,
-          updatedSalon // this is the updated salon AFTER NEW ICAL APPTS HAVE BEEN ADDED
+          updatedSalon // this is the new appointments listed for the salon that were cancelled by someone else
         );
-        console.log("AddedCancelledAppointments: ", updatedSalonWithCancels);
+        console.log("AddedCancelledAppointments: ", newCancellationsAdded);
+        // then notify customers of new appointments.
+
+        // appointmentscancelled is the ids of the appointments that were cancelled
+        try {
+          const notified = await notify(newCancellationsAdded, updatedSalon);
+        } catch (error) {
+          console.log("Notify Error caught in syncals:", error);
+        }
       } else {
         console.log("No cancelled appointments");
         updatedSalonWithCancels = updatedSalon;
       }
-      // finally: check that there are no appointments in Appointment which start at the same time as an appointment in CurrentiCalAppointment FOR THE SAME PROVIDER
+      // TODO finally: check that there are no appointments in Appointment which start at the same time as an appointment in CurrentiCalAppointment FOR THE SAME PROVIDER
       // if there are, delete them from Appointment
       //   let clashingAppointments = await HandleDeleteClashingAppointments(salon);
       //   console.log("clashingAppointments: ", clashingAppointments);
@@ -156,7 +164,7 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         },
       }
     );
-
+    let createdAppointmentsToNotify = [];
     const creationPromises = appointmentsToTransfer.map(async (appt) => {
       // b. create appointment in appointment table
       // need to convert the startTime string which is currently in UTC to two separate fields: date and time both of which are in local time
@@ -175,11 +183,13 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
           },
         },
       });
+      createdAppointmentsToNotify.push(createdappt);
       console.log("createdappt: ", createdappt);
     });
 
     // c. wait for all promises to resolve
     await Promise.all(creationPromises);
+    console.log("createdAppointmentsToNotify: ", createdAppointmentsToNotify);
 
     // 3. remove all of these currenticalappointments which have an id in appointmentsCancelled
     const deletedAppointments = await prisma.CurrentiCalAppointment.deleteMany({
