@@ -42,6 +42,7 @@ model Salon {
   acceptNewClients Boolean    @default(true)
   email            String     @default("") // shared, optional
   hasRealSalon     Boolean    @default(false) // if they have a real salon
+  servicetype      String? // type of service they provide, for the GPT generation
 }
 
 // One to many real salon to salon (really, stylists)
@@ -141,6 +142,12 @@ model RegisteredPartners {
 }
 
 model AllSalonsPhoneNums {
+  subscriberid String @id @default(cuid())
+  phonenum     String
+}
+
+//this is the DEV version of the model above. ONLY to be used in DEV when testing chat gpt 
+model AllProvidersPhoneDev {
   subscriberid String @id @default(cuid())
   phonenum     String
 }

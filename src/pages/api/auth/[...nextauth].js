@@ -31,7 +31,7 @@ export const authOptions = {
           partneremail: user.user.email,
         },
       });
-      const isAllowedToSignIn = !!findUser; // !!findUser or true; can be changed to allow spontaneous signups
+      const isAllowedToSignIn = true; // !!findUser or true; can be changed to allow spontaneous signups
       if (isAllowedToSignIn) {
         return true;
       } else {
