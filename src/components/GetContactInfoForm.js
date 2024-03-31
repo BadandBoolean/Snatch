@@ -90,6 +90,12 @@ export default function GetContactInfoForm({
                       Phone Number
                     </p>
                   }
+                  rules={[
+                    {
+                      pattern: new RegExp(/^[0-9]*$/),
+                      message: "Please input only numbers! e.g 9173249214",
+                    },
+                  ]}
                   name="phonenumber"
                 >
                   <Input
@@ -107,7 +113,7 @@ export default function GetContactInfoForm({
                         fontWeight: "600",
                       }}
                     >
-                      Select a salon
+                      Take your pick:
                     </p>
                   }
                   initialValue={""}
