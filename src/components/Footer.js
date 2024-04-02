@@ -8,7 +8,7 @@ export default function Footer() {
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
           <p className={styles.footerText}>
-            © 2023 Snatch <span style={{ color: "#02fefe" }}>(Beta)</span>
+            © 2024 Snatch <span style={{ color: "#02fefe" }}>(Beta)</span>
           </p>
         </div>
         <div className={styles.footerRight}>
