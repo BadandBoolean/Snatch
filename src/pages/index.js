@@ -249,9 +249,9 @@ export default function Home({ userDetails, salonDetails }) {
         userZip={userZip}
         searchRadius={searchRadius}
       />
-      <hr style={{ color: "#2D19B1", width: "90%", marginBottom: "20px" }} />
+
       <About />
-      <hr style={{ color: "#2D19B1", width: "90%", marginTop: "20px" }} />
+
       <PartnersPanel />
 
       <GetContactInfoForm
