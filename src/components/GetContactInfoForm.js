@@ -122,7 +122,7 @@ export default function GetContactInfoForm({
                   <Select
                     showSearch
                     style={{ width: 200 }}
-                    placeholder="Filter by salon"
+                    placeholder="Filter by provider"
                     options={!salonsLoading && options}
                   />
                 </Form.Item>
