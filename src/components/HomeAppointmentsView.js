@@ -260,7 +260,7 @@ export default function HomeAppointmentsView({
           {hasPhone ? (
             <p>
               Call the salon at{" "}
-              <Link href={`tel:${bookingPhone}`}>
+              <Link href={`tel:${bookingData.salon.phone}`}>
                 {bookingData.salon.phone}
               </Link>{" "}
               to book an appointment.
