@@ -87,7 +87,7 @@ export default function HomeAppointmentsView({
 
   const columns = [
     {
-      title: "Salon",
+      title: "Provider",
       dataIndex: "salon",
       key: "salon",
     },

@@ -2,6 +2,9 @@
 
 import ical from "node-ical";
 import prisma from "../../../lib/prisma";
+import dayjs from "dayjs";
+var localizedFormat = require("dayjs/plugin/localizedFormat");
+dayjs.extend(localizedFormat);
 
 export default async (req, res) => {
   try {
@@ -113,67 +116,12 @@ const GetEventIdsFromWebEvents = async (newWebEvents) => {
   }
 };
 
-// const HandleDeleteClashingAppointments = async (salon) => {
-//   try {
-//     // Fetch appointments from CurrentiCalAppointment for this salon
-//     const currentiCalAppointments =
-//       await prisma.currentiCalAppointment.findMany({
-//         where: { providerId: salon.id },
-//       });
-
-//     // For each appointment, check for clashes in the Appointment model
-//     const deletePromises = currentiCalAppointments.map(async (icalAppt) => {
-//       // Extract date and time from icalAppt.startTime
-//       const icalDate = icalAppt.startTime.toISOString().split("T")[0];
-//       const icalTime = icalAppt.startTime
-//         .toISOString()
-//         .split("T")[1]
-//         .substring(0, 8); // HH:mm:ss
-
-//       // Find matching appointments in Appointment model
-//       const matchingAppointments = await prisma.appointment.findMany({
-//         where: {
-//           AND: [
-//             {
-//               salonId: salon.id,
-//               date: {
-//                 gte: new Date(`${icalDate}T00:00:00`),
-//                 lte: new Date(`${icalDate}T23:59:59`),
-//               },
-//             },
-//             {
-//               time: {
-//                 gte: new Date(`1970-01-01T${icalTime}`),
-//                 lte: new Date(`1970-01-01T${icalTime}`),
-//               },
-//             },
-//           ],
-//         },
-//       });
-
-//       // Delete matching appointments
-//       return Promise.all(
-//         matchingAppointments.map((appt) =>
-//           prisma.appointment.delete({ where: { id: appt.id } })
-//         )
-//       );
-//     });
-
-//     // Await all delete operations
-//     const results = await Promise.all(deletePromises);
-
-//     return results.flat();
-//   } catch (error) {
-//     console.log("HandleDeleteClashingAppointments Error:", error);
-//     throw error;
-//   }
-// };
-
 const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
   try {
     // 1. remove from salon.curriCalApptIds
     // 2. add to Appointment table for showing
     // 3. remove from currenicalappointments
+    // 4. alert customers via text!
 
     // 1. Update the array of appt ids to not include the cancelled appointments
     // a. get current string array.
@@ -207,6 +155,8 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
 
     const creationPromises = appointmentsToTransfer.map(async (appt) => {
       // b. create appointment in appointment table
+      // need to convert the startTime string which is currently in UTC to two separate fields: date and time both of which are in local time
+
       const createdappt = await prisma.appointment.create({
         data: {
           salonname: salon.name,
@@ -235,12 +185,67 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         },
       },
     });
+    // 4. alert customers via text!
+    const alertedcustomers = await textSubscribers(
+      appointmentsToTransfer,
+      updatedSalon
+    );
+    console.log("alertedcustomers: ", alertedcustomers);
+
     return updatedSalon;
   } catch (error) {
     console.log("HandleAddCancelledAppointments Error:", error);
     throw error;
   }
 };
+
+const textSubscribers = async (appointmentsToTransfer, salon) => {
+  try {
+    const twiliosid = process.env.TWILIO_SID;
+    const twilioauth = process.env.TWILIO_TOKEN;
+    const env = process.env.NODE_ENV;
+    const twilioclient = require("twilio")(twiliosid, twilioauth);
+  
+    let textSubscribers = null;
+  if (env === "development") {
+    console.log("if you can read this in preview/production you shouldn't be here");
+    textSubscribers = await prisma.salon.findUnique({
+      where: {
+        id: salon.id,
+      },
+      select: {
+        phoneSubsDev: true,
+      },
+    });
+    textSubscribers = textSubscribers.phoneSubsDev;
+
+      // get the list of all subscribers
+      const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
+        select: {
+          phonenum: true,
+        },
+      });
+
+      // add the subscribers to the list of subscribers
+        // add the subscribers to the list of subscribers
+    textSubscribers = textSubscribers.concat(
+      allSubscribers.map((subscriber) => subscriber.phonenum)
+    );
+
+    console.log("textSubscribers in synccals, dev: ", textSubscribers);
+    
+    apptDate = dayjs().format("LL");
+    console.log(apptTime);
+
+
+  
+  } else {
+    return "Not implemented yet in production <3"
+  }
+} catch (error) {
+  console.log("textSubscribers Error:", error);
+  throw error;
+}
 
 const HandleAddNewAppointments = async (
   newAppointmentsMade,
@@ -297,3 +302,60 @@ const HandleAddNewAppointments = async (
     throw error;
   }
 };
+
+
+// const HandleDeleteClashingAppointments = async (salon) => {
+//   try {
+//     // Fetch appointments from CurrentiCalAppointment for this salon
+//     const currentiCalAppointments =
+//       await prisma.currentiCalAppointment.findMany({
+//         where: { providerId: salon.id },
+//       });
+
+//     // For each appointment, check for clashes in the Appointment model
+//     const deletePromises = currentiCalAppointments.map(async (icalAppt) => {
+//       // Extract date and time from icalAppt.startTime
+//       const icalDate = icalAppt.startTime.toISOString().split("T")[0];
+//       const icalTime = icalAppt.startTime
+//         .toISOString()
+//         .split("T")[1]
+//         .substring(0, 8); // HH:mm:ss
+
+//       // Find matching appointments in Appointment model
+//       const matchingAppointments = await prisma.appointment.findMany({
+//         where: {
+//           AND: [
+//             {
+//               salonId: salon.id,
+//               date: {
+//                 gte: new Date(`${icalDate}T00:00:00`),
+//                 lte: new Date(`${icalDate}T23:59:59`),
+//               },
+//             },
+//             {
+//               time: {
+//                 gte: new Date(`1970-01-01T${icalTime}`),
+//                 lte: new Date(`1970-01-01T${icalTime}`),
+//               },
+//             },
+//           ],
+//         },
+//       });
+
+//       // Delete matching appointments
+//       return Promise.all(
+//         matchingAppointments.map((appt) =>
+//           prisma.appointment.delete({ where: { id: appt.id } })
+//         )
+//       );
+//     });
+
+//     // Await all delete operations
+//     const results = await Promise.all(deletePromises);
+
+//     return results.flat();
+//   } catch (error) {
+//     console.log("HandleDeleteClashingAppointments Error:", error);
+//     throw error;
+//   }
+// };
