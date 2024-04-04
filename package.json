@@ -41,6 +41,7 @@
     "twilio": "^4.15.0"
   },
   "devDependencies": {
-    "prisma": "^5.8.1"
+    "prisma": "^5.8.1",
+    "wrangler": "^3.44.0"
   }
 }
