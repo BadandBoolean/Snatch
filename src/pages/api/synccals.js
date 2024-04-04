@@ -48,6 +48,9 @@ export default async (req, res) => {
       }
       // handle appointments cancelled
       let updatedSalonWithCancels;
+      console.log(
+        `appointmentsCancelled for ${salon.name}: ${appointmentsCancelled}`
+      );
       if (appointmentsCancelled.length > 0) {
         updatedSalonWithCancels = await HandleAddCancelledAppointments(
           appointmentsCancelled,
@@ -139,6 +142,7 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         curriCalApptIds: curriCalApptIds,
       },
     });
+    console.log("updatedSalon: ", updatedSalon);
 
     // 2. add to Appointment table for showing, but you need the details of that appointment from currentIcalAppointments
     // for each appt id, get the details for start time and duration from currenticalappointments
@@ -185,12 +189,15 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         },
       },
     });
-    // 4. alert customers via text!
-    const alertedcustomers = await textSubscribers(
-      appointmentsToTransfer,
-      updatedSalon
-    );
-    console.log("alertedcustomers: ", alertedcustomers);
+    // 4. alert customers via text! ... if there are appointments to alert about.
+    if (appointmentsToTransfer.length > 0) {
+      console.log("updatedSalon: ", updatedSalon);
+      const alertedcustomers = await textSubscribers(
+        appointmentsToTransfer,
+        updatedSalon
+      );
+      console.log("alertedcustomers: ", alertedcustomers);
+    }
 
     return updatedSalon;
   } catch (error) {
@@ -205,20 +212,126 @@ const textSubscribers = async (appointmentsToTransfer, salon) => {
     const twilioauth = process.env.TWILIO_TOKEN;
     const env = process.env.NODE_ENV;
     const twilioclient = require("twilio")(twiliosid, twilioauth);
-  
-    let textSubscribers = null;
-  if (env === "development") {
-    console.log("if you can read this in preview/production you shouldn't be here");
-    textSubscribers = await prisma.salon.findUnique({
-      where: {
-        id: salon.id,
-      },
-      select: {
-        phoneSubsDev: true,
-      },
-    });
-    textSubscribers = textSubscribers.phoneSubsDev;
 
+    let textSubscribers = null;
+    if (env === "development") {
+      console.log(
+        "if you can read this in preview/production you shouldn't be here"
+      );
+      console.log("salon: ", salon);
+      textSubscribers = await prisma.salon.findUnique({
+        where: {
+          id: salon.id,
+        },
+        select: {
+          phoneSubsDev: true,
+        },
+      });
+      textSubscribers = textSubscribers.phoneSubsDev;
+
+      // ONLY FOR PRODUCTION
+      // // get the list of all subscribers
+      // const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
+      //   select: {
+      //     phonenum: true,
+      //   },
+      // });
+
+      // // add the subscribers to the list of subscribers
+      // // add the subscribers to the list of subscribers
+      // textSubscribers = textSubscribers.concat(
+      //   allSubscribers.map((subscriber) => subscriber.phonenum)
+      // );
+
+      console.log("textSubscribers in synccals, dev: ", textSubscribers);
+      let phoneSentence;
+      let websiteSentence;
+      let realSalonName;
+      let realSalonSentence;
+      let nocontactmessage;
+
+      if (salon.phone) {
+        phoneSentence =
+          `Call ${salon.phone} to book` + (salon.address ? `` : `.\n`);
+      }
+      if (salon.address) {
+        websiteSentence =
+          (salon.phone ? ` or g` : `G`) +
+          `rab this spot before it's gone at ${salon.address}.\n`;
+      }
+      if (salon.realSalonId) {
+        realSalonName = await prisma.RealSalon.findUnique({
+          where: {
+            id: salon.realSalonId,
+          },
+          select: {
+            salonname: true,
+          },
+        });
+        console.log("realSalonName: ", realSalonName);
+        realSalonSentence = `at ${realSalonName.salonname}`;
+      }
+      if (!salon.phone && !salon.address) {
+        nocontactmessage = `Grab it before somebody else does. `;
+      }
+
+      // for now, we are going to alert the subscribers with one message for each appointment
+      for (let appt in appointmentsToTransfer) {
+        const apptTime = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LT"
+        );
+        const apptDate = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LL"
+        );
+
+        const messageBody =
+          `Hey there! 🌟 Exciting news: ${salon.name} ` +
+          (salon.realSalonId ? realSalonSentence : ``) +
+          ` now has an opening on ${apptDate} at ${apptTime}! ` +
+          (salon.phone ? phoneSentence : ``) +
+          (salon.address ? websiteSentence : ``) +
+          (nocontactmessage ? nocontactmessage : ``) +
+          `We're stoked to see you soon!✨\n\n - ${salon.name}` +
+          (salon.realSalonId
+            ? ` and the team at ${realSalonName.salonname}`
+            : ``) +
+          `\n\nBrought to you by Snatch ❤️‍🔥 \n(Text STOP to unsubscribe.)`;
+
+        console.log("messageBody: ", messageBody);
+        // send the message
+        // quickly validate the phone numbers
+        const regex = /^\d{10}$/;
+        textSubscribers = textSubscribers.filter((subscriber) =>
+          regex.test(subscriber)
+        );
+        console.log("textSubscribers after validation: ", textSubscribers);
+        // send the message
+        await Promise.all(
+          textSubscribers.map(async (subscriber) => {
+            let message = await twilioclient.messages.create({
+              body: messageBody,
+              to: `+1${subscriber}`,
+              from: `${process.env.TWILIO_NUMBER}`,
+            });
+            console.log(message.sid);
+            console.log(`sent text to ${subscriber}`);
+          })
+        );
+      }
+    } else {
+      console.log("hello production!");
+      console.log("salon: ", salon);
+      textSubscribers = await prisma.salon.findUnique({
+        where: {
+          id: salon.id,
+        },
+        select: {
+          phoneSubsProd: true,
+        },
+      });
+      textSubscribers = textSubscribers.phoneSubsProd;
+
+      // ONLY FOR PRODUCTION
       // get the list of all subscribers
       const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
         select: {
@@ -227,25 +340,92 @@ const textSubscribers = async (appointmentsToTransfer, salon) => {
       });
 
       // add the subscribers to the list of subscribers
-        // add the subscribers to the list of subscribers
-    textSubscribers = textSubscribers.concat(
-      allSubscribers.map((subscriber) => subscriber.phonenum)
-    );
+      // add the subscribers to the list of subscribers
+      textSubscribers = textSubscribers.concat(
+        allSubscribers.map((subscriber) => subscriber.phonenum)
+      );
 
-    console.log("textSubscribers in synccals, dev: ", textSubscribers);
-    
-    apptDate = dayjs().format("LL");
-    console.log(apptTime);
+      console.log("textSubscribers in synccals, prod: ", textSubscribers);
+      let phoneSentence;
+      let websiteSentence;
+      let realSalonName;
+      let realSalonSentence;
+      let nocontactmessage;
 
+      if (salon.phone) {
+        phoneSentence =
+          `Call ${salon.phone} to book` + (salon.address ? `` : `.\n`);
+      }
+      if (salon.address) {
+        websiteSentence =
+          (salon.phone ? ` or g` : `G`) +
+          `rab this spot before it's gone at ${salon.address}.\n`;
+      }
+      if (salon.realSalonId) {
+        realSalonName = await prisma.RealSalon.findUnique({
+          where: {
+            id: salon.realSalonId,
+          },
+          select: {
+            salonname: true,
+          },
+        });
+        console.log("realSalonName: ", realSalonName);
+        realSalonSentence = `at ${realSalonName.salonname}`;
+      }
+      if (!salon.phone && !salon.address) {
+        nocontactmessage = `Grab it before somebody else does. `;
+      }
 
-  
-  } else {
-    return "Not implemented yet in production <3"
+      // for now, we are going to alert the subscribers with one message for each appointment
+      for (let appt in appointmentsToTransfer) {
+        const apptTime = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LT"
+        );
+        const apptDate = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LL"
+        );
+
+        const messageBody =
+          `Hey there! 🌟 Exciting news: ${salon.name} ` +
+          (salon.realSalonId ? realSalonSentence : ``) +
+          ` now has an opening on ${apptDate} at ${apptTime}! ` +
+          (salon.phone ? phoneSentence : ``) +
+          (salon.address ? websiteSentence : ``) +
+          (nocontactmessage ? nocontactmessage : ``) +
+          `We're stoked to see you soon!✨\n\n - ${salon.name}` +
+          (salon.realSalonId
+            ? ` and the team at ${realSalonName.salonname}`
+            : ``) +
+          `\n\nBrought to you by Snatch ❤️‍🔥 \n(Text STOP to unsubscribe.)`;
+
+        console.log("messageBody: ", messageBody);
+        // send the message
+        // quickly validate the phone numbers
+        const regex = /^\d{10}$/;
+        textSubscribers = textSubscribers.filter((subscriber) =>
+          regex.test(subscriber)
+        );
+        console.log("textSubscribers after validation: ", textSubscribers);
+        // send the message
+        await Promise.all(
+          textSubscribers.map(async (subscriber) => {
+            let message = await twilioclient.messages.create({
+              body: messageBody,
+              to: `+1${subscriber}`,
+              from: `${process.env.TWILIO_NUMBER}`,
+            });
+            console.log(message.sid);
+            console.log(`sent text to ${subscriber}`);
+          })
+        );
+      }
+    }
+  } catch (error) {
+    console.log("textSubscribers Error:", error);
+    throw error;
   }
-} catch (error) {
-  console.log("textSubscribers Error:", error);
-  throw error;
-}
+};
 
 const HandleAddNewAppointments = async (
   newAppointmentsMade,
@@ -302,7 +482,6 @@ const HandleAddNewAppointments = async (
     throw error;
   }
 };
-
 
 // const HandleDeleteClashingAppointments = async (salon) => {
 //   try {
