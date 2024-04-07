@@ -22,6 +22,14 @@ export default async (req, res) => {
     const acceptWalkIns = bod.acceptWalkIns.answer.value == "Yes";
     const acceptNewClients = bod.acceptNewClients.answer.value == "Yes";
     const iCalURL = bod.iCalURL;
+    let calendarUrl = iCalURL.answer.value;
+
+    // format the icalurl correctly!
+    // Convert the URL to lowercase for case-insensitive comparison
+    if (iCalURL.answer.value.toLowerCase().startsWith("weblink")) {
+      // Use a regular expression with 'i' flag for case-insensitive replacement
+      calendarUrl = calendarUrl.replace(/weblink/i, "https");
+    }
 
     // Update an existing User record by creating a new Post record
     // we need the where section to be pretty secure.
@@ -38,7 +46,7 @@ export default async (req, res) => {
               address: website.answer.value ? website.answer.value : "",
               allowWalkIns: acceptWalkIns,
               acceptNewClients: acceptNewClients,
-              calendarUrl: iCalURL.answer.value, // default is empty string
+              calendarUrl: calendarUrl, // default is empty string
               hasRealSalon:
                 salonName.answer.value == "None of the above" ? false : true,
               // we connect the salon to the user later.
