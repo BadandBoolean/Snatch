@@ -26,9 +26,9 @@ export default async (req, res) => {
 
     // format the icalurl correctly!
     // Convert the URL to lowercase for case-insensitive comparison
-    if (iCalURL.answer.value.toLowerCase().startsWith("weblink")) {
+    if (iCalURL.answer.value.toLowerCase().startsWith("webcal")) {
       // Use a regular expression with 'i' flag for case-insensitive replacement
-      calendarUrl = calendarUrl.replace(/weblink/i, "https");
+      calendarUrl = calendarUrl.replace(/webcal/i, "https");
     }
 
     // Update an existing User record by creating a new Post record

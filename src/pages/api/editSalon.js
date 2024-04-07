@@ -17,10 +17,10 @@ export default async (req, res) => {
     const bookingOptions = bod.bookingOptions;
     let calendarUrl = bod.calendarUrl;
 
-    // format the calendar url correctly! if it is a weblink!
-    if (calendarUrl.toLowerCase().startsWith("weblink")) {
+    // format the calendar url correctly! if it is a webcal!
+    if (calendarUrl.toLowerCase().startsWith("webcal")) {
       // Use a regular expression with 'i' flag for case-insensitive replacement
-      calendarUrl = calendarUrl.replace(/weblink/i, "https");
+      calendarUrl = calendarUrl.replace(/webcal/i, "https");
     }
 
     try {
