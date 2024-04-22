@@ -6,7 +6,7 @@ export default function PartnersPanel({}) {
     <div className={styles.divWrapper}>
       <div className={styles.innerDiv}>
         <div className={styles.textDiv}>
-          <h3 className={styles.text}>Salons partnered with us:</h3>
+          <h3 className={styles.text}>Businesses partnered with us:</h3>
         </div>
         <div className={styles.partnersOuterDiv}>
           <div className={styles.partnersDiv}>

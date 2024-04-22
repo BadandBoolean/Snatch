@@ -49,5 +49,22 @@ body {
 }
 
 
+.ant-tabs-tab {
+    color: white !important;
+  }
+  
+.ant-tabs-tab-active {
+    color: white !important;
+  }
 
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #fe02e9 !important;
+  }
 
+  .ant-tabs-ink-bar {
+    background-color: #fe02e9 !important;
+  }
+
+    .ant-tabs-tab:hover {
+        color: #fe02e9 !important;
+    }

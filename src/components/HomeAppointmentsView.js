@@ -87,7 +87,7 @@ export default function HomeAppointmentsView({
 
   const columns = [
     {
-      title: "Salon",
+      title: "Provider",
       dataIndex: "salon",
       key: "salon",
     },
@@ -199,11 +199,11 @@ export default function HomeAppointmentsView({
             <b>Price: </b>${price}
           </p>
           <p>
-            <b>Additional Notes from the Salon: </b>
+            <b>Additional Notes from this provider: </b>
             {notes}
           </p>
           <p>
-            <b>Salon Location: </b>
+            <b>Provider Location: </b>
             <a
               target="_blank"
               rel="noopener"
@@ -220,7 +220,7 @@ export default function HomeAppointmentsView({
             </b>
           </p>
           <p>
-            Call the salon to book:{" "}
+            Call the provider to book:{" "}
             <Link href={`tel:${bookingPhone}`}>{bookingPhone}</Link>
             <br />
             Book this appointment online:{" "}
@@ -259,8 +259,8 @@ export default function HomeAppointmentsView({
           </p>
           {hasPhone ? (
             <p>
-              Call the salon at{" "}
-              <Link href={`tel:${bookingPhone}`}>
+              Call the provider at{" "}
+              <Link href={`tel:${bookingData.salon.phone}`}>
                 {bookingData.salon.phone}
               </Link>{" "}
               to book an appointment.
@@ -278,7 +278,7 @@ export default function HomeAppointmentsView({
           ) : null}
 
           {hasWalkIn ? (
-            <p>Walk in to the salon to book an appointment</p>
+            <p>Walk in to this business to book an appointment</p>
           ) : null}
 
           {hasAdditionalInfo ? <p>{bookingData.salon.bookingInfo}</p> : null}
@@ -306,7 +306,8 @@ export default function HomeAppointmentsView({
                     There are no last-minute openings available right now! Come
                     back later or sign up for notifications below.
                     <br />
-                    Want to see your local salons list their appointments here?{" "}
+                    Want to see your local businesses list their appointments
+                    here?{" "}
                     <Link
                       style={{ color: "#4831D4", textDecoration: "none" }}
                       href="team@wearesnatch.com"

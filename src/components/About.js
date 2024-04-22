@@ -11,11 +11,11 @@ export default function About({}) {
       <div className={styles.innerDiv}>
         <div className={styles.picturesDiv}>
           <div className={styles.pic1Div}>
-            <img style={{ height: "40%" }} src="/hair1.png" />
+            <div className={styles.ssinnerdiv}>
+              <img className={styles.screenshotDiv} src="/aitext.png" />
+            </div>
           </div>
-          <div className={styles.pic2Div}>
-            <img style={{ height: "80%" }} src="/hair2.png" />
-          </div>
+
           <svg
             styles={{ position: "absolute", zIndex: "0" }}
             viewBox="0 0 200 200"
@@ -29,25 +29,21 @@ export default function About({}) {
           </svg>
         </div>
         <div className={styles.tabsDiv}>
-          <h1 className={styles.aboutText}>About</h1>
+          <h1 className={styles.aboutText}>Get on the list</h1>
           <p className={styles.aboutTextPara}>
-            <i>
-              Founded to help you snatch up that last-minute appointment at your
-              favorite salon.{" "}
-            </i>
+            <i>AI-Powered Notifications for Last-Minute Opportunities✨</i>
           </p>
           <Tabs defaultActiveKey="1" centered>
             <Tabs.TabPane tab="For Clients" key="1">
               <div className={styles.aboutTextParaTab}>
-                Your go-to stylist is fully booked? Their next available
-                appointment is in 3 weeks? We hear you.
+                Your go-to stylist or tattoist or massage therapist is fully
+                booked? Their next available appointment is in 3 MONTHS? We hear
+                you.
                 <br /> - <br />
-                Sign up for notifications below to be the first to hear when
-                your favourite salon has that last-minute opening you need.{" "}
-                {`\n`}
+                Sign up to get texted immediately when your favorite spot gets a
+                last-minute opening you need. {`\n`}
                 <br /> - <br />
-                Know a salon that should list their canceled appointments on
-                Snatch? Send us an email and tell us about them:
+                Know a business that needs Snatch? Tell us about them:
                 <Link
                   className={styles.link}
                   href="mailto:team@wearesnatch.com"
@@ -56,17 +52,15 @@ export default function About({}) {
                 </Link>
               </div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="For Salons" key="2">
+            <Tabs.TabPane tab="For Businesses" key="2">
               <div className={styles.aboutTextParaTab}>
-                Calling all stylists and salon owners!
+                Attention appointment-based business owners!
                 <br /> - <br />
-                We know how time-consuming it can be to call clients on your
-                waitlist to try to fill an unexpected opening, and we got you.{" "}
-                {`\n`}
+                Fill your last-minute cancellations. Fast. Reach hundreds of
+                loyal clients (and new ones!) immediately whenever you have a
+                cancellation. Goodbye waitlists forever. {`\n`}
                 <br /> - <br />
-                Want to reach all your clients instantly and start filling up
-                those cancelations? Send us an email below to partner with us
-                for free to advertise your last-minute openings!
+                Ready to get started? Send us an email!
                 <Link
                   className={styles.link}
                   href="mailto:team@wearesnatch.com"

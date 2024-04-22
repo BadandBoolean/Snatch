@@ -2,6 +2,7 @@
 
 import ical from "node-ical";
 import prisma from "../../../lib/prisma";
+
 import dayjs from "dayjs";
 var localizedFormat = require("dayjs/plugin/localizedFormat");
 dayjs.extend(localizedFormat);
@@ -47,10 +48,12 @@ export default async (req, res) => {
         updatedSalon = salon;
       }
       // handle appointments cancelled
+
       let updatedSalonWithCancels;
       console.log(
         `appointmentsCancelled for ${salon.name}: ${appointmentsCancelled}`
       );
+
       if (appointmentsCancelled.length > 0) {
         updatedSalonWithCancels = await HandleAddCancelledAppointments(
           appointmentsCancelled,
@@ -189,6 +192,7 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         },
       },
     });
+
     // 4. alert customers via text! ... if there are appointments to alert about.
     if (appointmentsToTransfer.length > 0) {
       console.log("updatedSalon: ", updatedSalon);
