@@ -101,7 +101,7 @@ export default function GetContactInfoForm({
                   <Input
                     addonBefore="+1"
                     placeholder="Enter your phone number (optional)"
-                    maxLength={10}
+                    maxLength={15}
                   />
                 </Form.Item>
                 <Form.Item
@@ -122,7 +122,7 @@ export default function GetContactInfoForm({
                   <Select
                     showSearch
                     style={{ width: 200 }}
-                    placeholder="Filter by salon"
+                    placeholder="Filter by provider"
                     options={!salonsLoading && options}
                   />
                 </Form.Item>
