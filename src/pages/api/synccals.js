@@ -2,7 +2,11 @@
 
 import ical from "node-ical";
 import prisma from "../../../lib/prisma";
-import { notify } from "../../../lib/notifyAI/availableappointment";
+
+import dayjs from "dayjs";
+var localizedFormat = require("dayjs/plugin/localizedFormat");
+dayjs.extend(localizedFormat);
+
 
 export default async (req, res) => {
   try {
@@ -45,7 +49,12 @@ export default async (req, res) => {
         updatedSalon = salon;
       }
       // handle appointments cancelled
-      let newCancellationsAdded;
+
+      let updatedSalonWithCancels;
+      console.log(
+        `appointmentsCancelled for ${salon.name}: ${appointmentsCancelled}`
+      );
+
       if (appointmentsCancelled.length > 0) {
         newCancellationsAdded = await HandleAddCancelledAppointments(
           appointmentsCancelled,
@@ -122,67 +131,12 @@ const GetEventIdsFromWebEvents = async (newWebEvents) => {
   }
 };
 
-// const HandleDeleteClashingAppointments = async (salon) => {
-//   try {
-//     // Fetch appointments from CurrentiCalAppointment for this salon
-//     const currentiCalAppointments =
-//       await prisma.currentiCalAppointment.findMany({
-//         where: { providerId: salon.id },
-//       });
-
-//     // For each appointment, check for clashes in the Appointment model
-//     const deletePromises = currentiCalAppointments.map(async (icalAppt) => {
-//       // Extract date and time from icalAppt.startTime
-//       const icalDate = icalAppt.startTime.toISOString().split("T")[0];
-//       const icalTime = icalAppt.startTime
-//         .toISOString()
-//         .split("T")[1]
-//         .substring(0, 8); // HH:mm:ss
-
-//       // Find matching appointments in Appointment model
-//       const matchingAppointments = await prisma.appointment.findMany({
-//         where: {
-//           AND: [
-//             {
-//               salonId: salon.id,
-//               date: {
-//                 gte: new Date(`${icalDate}T00:00:00`),
-//                 lte: new Date(`${icalDate}T23:59:59`),
-//               },
-//             },
-//             {
-//               time: {
-//                 gte: new Date(`1970-01-01T${icalTime}`),
-//                 lte: new Date(`1970-01-01T${icalTime}`),
-//               },
-//             },
-//           ],
-//         },
-//       });
-
-//       // Delete matching appointments
-//       return Promise.all(
-//         matchingAppointments.map((appt) =>
-//           prisma.appointment.delete({ where: { id: appt.id } })
-//         )
-//       );
-//     });
-
-//     // Await all delete operations
-//     const results = await Promise.all(deletePromises);
-
-//     return results.flat();
-//   } catch (error) {
-//     console.log("HandleDeleteClashingAppointments Error:", error);
-//     throw error;
-//   }
-// };
-
 const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
   try {
     // 1. remove from salon.curriCalApptIds
     // 2. add to Appointment table for showing
     // 3. remove from currenicalappointments
+    // 4. alert customers via text!
 
     // 1. Update the array of appt ids to not include the cancelled appointments
     // a. get current string array.
@@ -200,6 +154,7 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         curriCalApptIds: curriCalApptIds,
       },
     });
+    console.log("updatedSalon: ", updatedSalon);
 
     // 2. add to Appointment table for showing, but you need the details of that appointment from currentIcalAppointments
     // for each appt id, get the details for start time and duration from currenticalappointments
@@ -216,6 +171,8 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
     let createdAppointmentsToNotify = [];
     const creationPromises = appointmentsToTransfer.map(async (appt) => {
       // b. create appointment in appointment table
+      // need to convert the startTime string which is currently in UTC to two separate fields: date and time both of which are in local time
+
       const createdappt = await prisma.appointment.create({
         data: {
           salonname: salon.name,
@@ -246,9 +203,242 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
         },
       },
     });
-    return createdAppointmentsToNotify;
+
+    // 4. alert customers via text! ... if there are appointments to alert about.
+    if (appointmentsToTransfer.length > 0) {
+      console.log("updatedSalon: ", updatedSalon);
+      const alertedcustomers = await textSubscribers(
+        appointmentsToTransfer,
+        updatedSalon
+      );
+      console.log("alertedcustomers: ", alertedcustomers);
+    }
+
+    return updatedSalon;
+
   } catch (error) {
     console.log("HandleAddCancelledAppointments Error:", error);
+    throw error;
+  }
+};
+
+const textSubscribers = async (appointmentsToTransfer, salon) => {
+  try {
+    const twiliosid = process.env.TWILIO_SID;
+    const twilioauth = process.env.TWILIO_TOKEN;
+    const env = process.env.NODE_ENV;
+    const twilioclient = require("twilio")(twiliosid, twilioauth);
+
+    let textSubscribers = null;
+    if (env === "development") {
+      console.log(
+        "if you can read this in preview/production you shouldn't be here"
+      );
+      console.log("salon: ", salon);
+      textSubscribers = await prisma.salon.findUnique({
+        where: {
+          id: salon.id,
+        },
+        select: {
+          phoneSubsDev: true,
+        },
+      });
+      textSubscribers = textSubscribers.phoneSubsDev;
+
+      // ONLY FOR PRODUCTION
+      // // get the list of all subscribers
+      // const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
+      //   select: {
+      //     phonenum: true,
+      //   },
+      // });
+
+      // // add the subscribers to the list of subscribers
+      // // add the subscribers to the list of subscribers
+      // textSubscribers = textSubscribers.concat(
+      //   allSubscribers.map((subscriber) => subscriber.phonenum)
+      // );
+
+      console.log("textSubscribers in synccals, dev: ", textSubscribers);
+      let phoneSentence;
+      let websiteSentence;
+      let realSalonName;
+      let realSalonSentence;
+      let nocontactmessage;
+
+      if (salon.phone) {
+        phoneSentence =
+          `Call ${salon.phone} to book` + (salon.address ? `` : `.\n`);
+      }
+      if (salon.address) {
+        websiteSentence =
+          (salon.phone ? ` or g` : `G`) +
+          `rab this spot before it's gone at ${salon.address}.\n`;
+      }
+      if (salon.realSalonId) {
+        realSalonName = await prisma.RealSalon.findUnique({
+          where: {
+            id: salon.realSalonId,
+          },
+          select: {
+            salonname: true,
+          },
+        });
+        console.log("realSalonName: ", realSalonName);
+        realSalonSentence = `at ${realSalonName.salonname}`;
+      }
+      if (!salon.phone && !salon.address) {
+        nocontactmessage = `Grab it before somebody else does. `;
+      }
+
+      // for now, we are going to alert the subscribers with one message for each appointment
+      for (let appt in appointmentsToTransfer) {
+        const apptTime = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LT"
+        );
+        const apptDate = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LL"
+        );
+
+        const messageBody =
+          `Hey there! 🌟 Exciting news: ${salon.name} ` +
+          (salon.realSalonId ? realSalonSentence : ``) +
+          ` now has an opening on ${apptDate} at ${apptTime}! ` +
+          (salon.phone ? phoneSentence : ``) +
+          (salon.address ? websiteSentence : ``) +
+          (nocontactmessage ? nocontactmessage : ``) +
+          `We're stoked to see you soon!✨\n\n - ${salon.name}` +
+          (salon.realSalonId
+            ? ` and the team at ${realSalonName.salonname}`
+            : ``) +
+          `\n\nBrought to you by Snatch ❤️‍🔥 \n(Text STOP to unsubscribe.)`;
+
+        console.log("messageBody: ", messageBody);
+        // send the message
+        // quickly validate the phone numbers
+        const regex = /^\d{10}$/;
+        textSubscribers = textSubscribers.filter((subscriber) =>
+          regex.test(subscriber)
+        );
+        console.log("textSubscribers after validation: ", textSubscribers);
+        // send the message
+        await Promise.all(
+          textSubscribers.map(async (subscriber) => {
+            let message = await twilioclient.messages.create({
+              body: messageBody,
+              to: `+1${subscriber}`,
+              from: `${process.env.TWILIO_NUMBER}`,
+            });
+            console.log(message.sid);
+            console.log(`sent text to ${subscriber}`);
+          })
+        );
+      }
+    } else {
+      console.log("hello production!");
+      console.log("salon: ", salon);
+      textSubscribers = await prisma.salon.findUnique({
+        where: {
+          id: salon.id,
+        },
+        select: {
+          phoneSubsProd: true,
+        },
+      });
+      textSubscribers = textSubscribers.phoneSubsProd;
+
+      // ONLY FOR PRODUCTION
+      // get the list of all subscribers
+      const allSubscribers = await prisma.AllSalonsPhoneNums.findMany({
+        select: {
+          phonenum: true,
+        },
+      });
+
+      // add the subscribers to the list of subscribers
+      // add the subscribers to the list of subscribers
+      textSubscribers = textSubscribers.concat(
+        allSubscribers.map((subscriber) => subscriber.phonenum)
+      );
+
+      console.log("textSubscribers in synccals, prod: ", textSubscribers);
+      let phoneSentence;
+      let websiteSentence;
+      let realSalonName;
+      let realSalonSentence;
+      let nocontactmessage;
+
+      if (salon.phone) {
+        phoneSentence =
+          `Call ${salon.phone} to book` + (salon.address ? `` : `.\n`);
+      }
+      if (salon.address) {
+        websiteSentence =
+          (salon.phone ? ` or g` : `G`) +
+          `rab this spot before it's gone at ${salon.address}.\n`;
+      }
+      if (salon.realSalonId) {
+        realSalonName = await prisma.RealSalon.findUnique({
+          where: {
+            id: salon.realSalonId,
+          },
+          select: {
+            salonname: true,
+          },
+        });
+        console.log("realSalonName: ", realSalonName);
+        realSalonSentence = `at ${realSalonName.salonname}`;
+      }
+      if (!salon.phone && !salon.address) {
+        nocontactmessage = `Grab it before somebody else does. `;
+      }
+
+      // for now, we are going to alert the subscribers with one message for each appointment
+      for (let appt in appointmentsToTransfer) {
+        const apptTime = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LT"
+        );
+        const apptDate = dayjs(appointmentsToTransfer[appt].startTime).format(
+          "LL"
+        );
+
+        const messageBody =
+          `Hey there! 🌟 Exciting news: ${salon.name} ` +
+          (salon.realSalonId ? realSalonSentence : ``) +
+          ` now has an opening on ${apptDate} at ${apptTime}! ` +
+          (salon.phone ? phoneSentence : ``) +
+          (salon.address ? websiteSentence : ``) +
+          (nocontactmessage ? nocontactmessage : ``) +
+          `We're stoked to see you soon!✨\n\n - ${salon.name}` +
+          (salon.realSalonId
+            ? ` and the team at ${realSalonName.salonname}`
+            : ``) +
+          `\n\nBrought to you by Snatch ❤️‍🔥 \n(Text STOP to unsubscribe.)`;
+
+        console.log("messageBody: ", messageBody);
+        // send the message
+        // quickly validate the phone numbers
+        const regex = /^\d{10}$/;
+        textSubscribers = textSubscribers.filter((subscriber) =>
+          regex.test(subscriber)
+        );
+        console.log("textSubscribers after validation: ", textSubscribers);
+        // send the message
+        await Promise.all(
+          textSubscribers.map(async (subscriber) => {
+            let message = await twilioclient.messages.create({
+              body: messageBody,
+              to: `+1${subscriber}`,
+              from: `${process.env.TWILIO_NUMBER}`,
+            });
+            console.log(message.sid);
+            console.log(`sent text to ${subscriber}`);
+          })
+        );
+      }
+    }
+  } catch (error) {
+    console.log("textSubscribers Error:", error);
     throw error;
   }
 };
@@ -308,3 +498,59 @@ const HandleAddNewAppointments = async (
     throw error;
   }
 };
+
+// const HandleDeleteClashingAppointments = async (salon) => {
+//   try {
+//     // Fetch appointments from CurrentiCalAppointment for this salon
+//     const currentiCalAppointments =
+//       await prisma.currentiCalAppointment.findMany({
+//         where: { providerId: salon.id },
+//       });
+
+//     // For each appointment, check for clashes in the Appointment model
+//     const deletePromises = currentiCalAppointments.map(async (icalAppt) => {
+//       // Extract date and time from icalAppt.startTime
+//       const icalDate = icalAppt.startTime.toISOString().split("T")[0];
+//       const icalTime = icalAppt.startTime
+//         .toISOString()
+//         .split("T")[1]
+//         .substring(0, 8); // HH:mm:ss
+
+//       // Find matching appointments in Appointment model
+//       const matchingAppointments = await prisma.appointment.findMany({
+//         where: {
+//           AND: [
+//             {
+//               salonId: salon.id,
+//               date: {
+//                 gte: new Date(`${icalDate}T00:00:00`),
+//                 lte: new Date(`${icalDate}T23:59:59`),
+//               },
+//             },
+//             {
+//               time: {
+//                 gte: new Date(`1970-01-01T${icalTime}`),
+//                 lte: new Date(`1970-01-01T${icalTime}`),
+//               },
+//             },
+//           ],
+//         },
+//       });
+
+//       // Delete matching appointments
+//       return Promise.all(
+//         matchingAppointments.map((appt) =>
+//           prisma.appointment.delete({ where: { id: appt.id } })
+//         )
+//       );
+//     });
+
+//     // Await all delete operations
+//     const results = await Promise.all(deletePromises);
+
+//     return results.flat();
+//   } catch (error) {
+//     console.log("HandleDeleteClashingAppointments Error:", error);
+//     throw error;
+//   }
+// };

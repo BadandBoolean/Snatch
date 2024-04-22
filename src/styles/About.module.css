@@ -5,7 +5,8 @@
     justify-content: center;
     
     width: 100%;
-    background-color: white; /*change this colour*/
+    background: #2d19b1;
+    background: linear-gradient(180deg, #120371 0%, #5f47fd 100%); 
 
 }
 
@@ -18,21 +19,37 @@
     width: 100%;
 }
 
+.screenshotDiv {
+    width: 70%;
+
+}
+
+
+
 .picturesDiv {
     position: relative;
     width: 50%;
     flex-basis: 50%;
+    
+    background: #2d19b1;
+    background: linear-gradient(180deg, #120371 0%, #5f47fd 100%); 
+}
 
-    background-color: rgba(162, 128, 230, 0.762);
+.ssinnerdiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .pic1Div {
     position:absolute;
-    padding-left: 200px;
-    padding-top: 30px;
+    bottom: 0;
+    
+    
+    
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    height: 90%;
+    overflow-y: hidden;
     z-index: 1;
 }
 
@@ -53,27 +70,31 @@
     flex-direction: column;
     width: 50%;
     flex-basis: 50%;
+    margin-bottom: 30px;
 
 }
 
 .aboutText {
     display: flex;
     justify-content: center;
-    color: #4831D4;
-    margin-bottom: 50px;
+    font-weight: 400 !important;
+    color: white !important;
+    text-shadow: -1px -1px #02fefe, 1px 1px #fe02e9;
+    
+    margin-top: 50px;
 }
 
 .aboutTextPara {
     display: flex;
     justify-content: center;
-    color: black;
+    color: white;
     text-align: center;
     font-size: 1.2rem;
     width: 90%;
 }
 
 .link {
-    color: #4831D4;
+    color: #fe02e9;
     text-decoration: none;
 }
 
@@ -82,7 +103,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: black;
+    color: white;
     text-align: center;
     font-size: 1rem;
     width: 90%;
@@ -113,12 +134,16 @@
 
     .pic1Div {
         position:absolute;
-        padding-left: 150px;
-        padding-top: 30px;
+        bottom: 0;
         width: 100%;
-        height: 100%;
+        height: 90%;
         overflow: hidden;
         z-index: 1;
+    }
+
+    .aboutText {
+
+        margin-bottom: 20px;
     }
 
     .pic2Div {

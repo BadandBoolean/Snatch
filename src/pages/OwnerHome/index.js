@@ -72,7 +72,7 @@ export default function OwnerHome({
 
   const showSalonEditModal = () => {
     // console.log(salonDetails);
-    console.log(realSalon.salonname);
+    // console.log(realSalon.salonname); BUG!!!!!
     editSalonForm.setFieldsValue({
       salonname: salonDetails.name,
       salonphone: salonDetails.phone,
@@ -80,7 +80,7 @@ export default function OwnerHome({
       bookingOptions: salonDetails.bookingOptions,
       bookingInfo: salonDetails.bookingInfo,
       calendarUrl: salonDetails.calendarUrl,
-      realSalon: realSalon.salonname,
+      realSalon: realSalon ? realSalon.salonname : "",
     });
 
     setEditSalonOpen(true);

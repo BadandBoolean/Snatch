@@ -1,6 +1,5 @@
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
-import NewSalonForm from "../components/NewSalonForm.js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button } from "antd/lib";
@@ -25,7 +24,6 @@ export default function Home({ userDetails, salonDetails }) {
   const [hydrated, setHydrated] = useState(false);
   const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
   const [newStylistModalOpen, setNewStylistModalOpen] = useState(false);
-  const [newSalonForm] = Form.useForm();
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
   );
@@ -249,9 +247,9 @@ export default function Home({ userDetails, salonDetails }) {
         userZip={userZip}
         searchRadius={searchRadius}
       />
-      <hr style={{ color: "#2D19B1", width: "90%", marginBottom: "20px" }} />
+
       <About />
-      <hr style={{ color: "#2D19B1", width: "90%", marginTop: "20px" }} />
+
       <PartnersPanel />
 
       <GetContactInfoForm

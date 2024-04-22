@@ -15,7 +15,13 @@ export default async (req, res) => {
     const salonEmail = bod.salonaddress;
     const AdditionalBookingInfo = bod.bookingInfo;
     const bookingOptions = bod.bookingOptions;
-    const calendarUrl = bod.calendarUrl;
+    let calendarUrl = bod.calendarUrl;
+
+    // format the calendar url correctly! if it is a webcal!
+    if (calendarUrl.toLowerCase().startsWith("webcal")) {
+      // Use a regular expression with 'i' flag for case-insensitive replacement
+      calendarUrl = calendarUrl.replace(/webcal/i, "https");
+    }
 
     try {
       const updateSalon = await prisma.salon.update({
