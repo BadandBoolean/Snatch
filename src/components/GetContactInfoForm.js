@@ -101,7 +101,7 @@ export default function GetContactInfoForm({
                   <Input
                     addonBefore="+1"
                     placeholder="Enter your phone number (optional)"
-                    maxLength={10}
+                    maxLength={15}
                   />
                 </Form.Item>
                 <Form.Item
