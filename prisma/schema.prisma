@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-// prisma schema:
-// whenever yo update this run: npx prisma migrate dev and will regenerate the prisma client
-// might also need to run prisma generate to update the prisma client
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,79 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TODO: THIS IS GOING TO BECOME SYNONYMOUS WITH PROVIDER! 
-// steps to enact this: 
-// Get rid of stylists column
-// make a new column for RealSalon. 
-// move all information to new RealSalon before deleting
-
 model Salon {
-  id             String        @id @default(cuid()) // primary key referenced by foreign key in appointment model
-  owner          User          @relation(fields: [ownerId], references: [id]) // references the id of the user model
-  ownerId        String        @unique // scalar field which is foreign key of salon model. does not exist in the database
-  name           String // changed to be the first and last name of the salon owner
-  phone          String        @default("") // optional
-  address        String        @default("no website") // WEB ADDRESS
-  bookingInfo    String        @default("Please call us to book an appointment")
-  bookingOptions String[]      @default(["Phone", "website", "Walk-in"])
-  appointments   Appointment[] // this is a relation field which does not exist in the database 
-
+  id               String        @id @default(cuid())
+  name             String
+  phone            String        @default("")
+  address          String        @default("no website")
+  ownerId          String        @unique
+  bookingInfo      String        @default("Please call us to book an appointment")
+  bookingOptions   String[]      @default(["Phone", "website", "Walk-in"])
   phoneSubsDev     String[]
   phoneSubsProd    String[]
   emailSubsDev     String[]
   emailSubsProd    String[]
-  calendarUrl      String     @default("") // Address of calendar that they already have
-  curriCalApptIds  String[]   @default([]) // array of appointment ids that are in the calendar
-  realSalon        RealSalon? @relation(fields: [realSalonId], references: [id]) // references the id of the realSalon model OPTIONAL FOR NOW TO NOT BREAK SET UP
-  realSalonId      String? // scalar field which is foreign key of salon model. does not exist in the database
-  allowWalkIns     Boolean    @default(true)
-  acceptNewClients Boolean    @default(true)
-  email            String     @default("") // shared, optional
-  hasRealSalon     Boolean    @default(false) // if they have a real salon
+  calendarUrl      String        @default("")
+  curriCalApptIds  String[]      @default([])
+  realSalonId      String?
+  acceptNewClients Boolean       @default(true)
+  allowWalkIns     Boolean       @default(true)
+  email            String        @default("")
+  hasRealSalon     Boolean       @default(false)
+  servicetype      String?
+  appointments     Appointment[]
+  owner            User          @relation(fields: [ownerId], references: [id])
+  realSalon        RealSalon?    @relation(fields: [realSalonId], references: [id])
 }
 
-// One to many real salon to salon (really, stylists)
 model RealSalon {
   id              String        @id @default(cuid())
   salonname       String        @default("")
-  stylists        Salon[] // this is a relation field which does not exist in the database
   physicalAddress String        @default("")
-  emailAddress    String        @default("") // shared, optional
-  phoneNumber     String        @default("") // shared, optional
-  appointments    Appointment[] // this is a relation field which does not exist in the database
+  emailAddress    String        @default("")
+  phoneNumber     String        @default("")
+  appointments    Appointment[]
+  stylists        Salon[]
 }
 
-// EXISTING APPTS! NOT THE CANCELED ONES. USED TO COMPARE, functions as previous iteration of webevents
 model CurrentiCalAppointment {
   iCalApptId String   @id
   duration   Int
-  startTime  DateTime
+  startTime  DateTime @db.Timestamp(6)
   providerId String
 }
 
 model Appointment {
   id           String     @id @default(cuid())
-  salon        Salon?     @relation(fields: [salonId], references: [id]) // references the id of the salon model
-  salonname    String     @default("Salon Name") // this is assigned in the fron, helps us with some of the table config, also used by admin to make appointment
-  salonId      String? // scalar field which is foreign key of appointment model. does not exist in the database. OPTIONAL
-  date         DateTime // date of appt .... might want to store as just the date @db.Date
-  time         DateTime // time of appt ... might want to store as just the time. @db.Time(x) where x is the precision??? is it?
+  salonId      String?
+  date         DateTime
+  time         DateTime
   price        String
   isAvailable  Boolean    @default(true)
-  location     String     @default("") // PHYSICAL ADDRESS. can be mapped to salon address maybe later. 
-  zipcode      String     @default("") // ZIPCODE ... maybe won't be used
   notes        String
-  bookingLink  String? // WEB ADDRESS only for admin input
-  bookingPhone String? // PHONE NUMBER only for admin input
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  salonname    String     @default("Salon Name")
+  location     String     @default("")
+  zipcode      String     @default("")
+  bookingLink  String?
+  bookingPhone String?
   duration     Int?
-  icalApptId   String? // id of the appointment IF it was taken from the calendar. 
-  realSalon    RealSalon? @relation(fields: [realSalonId], references: [id]) // references the id of the realSalon model OPTIONAL FOR NOW TO NOT BREAK SET UP
-  realSalonId  String? // scalar field which is foreign key of appointment model. does not exist in the database. OPTIONAL
+  icalApptId   String?
+  realSalonId  String?
+  realSalon    RealSalon? @relation(fields: [realSalonId], references: [id])
+  salon        Salon?     @relation(fields: [salonId], references: [id])
 }
-
-// -------- AUTH -------------- //
 
 model Account {
   id                String  @id @default(cuid())
@@ -93,15 +77,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -120,10 +103,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  hasSalon      Boolean   @default(false) // SALON PERSONA, also known as stylist profile?
+  hasSalon      Boolean   @default(false)
   accounts      Account[]
-  sessions      Session[]
   salon         Salon?
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -142,5 +125,10 @@ model RegisteredPartners {
 
 model AllSalonsPhoneNums {
   subscriberid String @id @default(cuid())
+  phonenum     String
+}
+
+model AllProvidersPhoneDev {
+  subscriberid String @id
   phonenum     String
 }
