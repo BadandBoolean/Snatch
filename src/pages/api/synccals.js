@@ -75,6 +75,7 @@ export default async (req, res) => {
   }
 };
 
+// finds all businesses with a calendar url
 const GetSalonsWithiCals = async () => {
   try {
     const salonsWithiCals = await prisma.salon.findMany({
@@ -91,6 +92,7 @@ const GetSalonsWithiCals = async () => {
   }
 };
 
+// Extracts the RAW web event data from the .ics document
 const GetNewWebEvents = async (calendarUrl) => {
   try {
     const webEvents = await ical.async.fromURL(calendarUrl);
@@ -101,6 +103,7 @@ const GetNewWebEvents = async (calendarUrl) => {
   }
 };
 
+// Extracts the Event Ids from the raw web cal event data.
 const GetEventIdsFromWebEvents = async (newWebEvents) => {
   try {
     let webEventIds = [];
@@ -147,14 +150,18 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
     // 2. add to Appointment table for showing, but you need the details of that appointment from currentIcalAppointments
     // for each appt id, get the details for start time and duration from currenticalappointments
     // a. fetch appts to transfer:
-    const appointmentsToTransfer = await prisma.CurrentiCalAppointment.findMany(
-      {
-        where: {
-          iCalApptId: {
-            in: appointmentsCancelled,
-          },
+    let appointmentsToTransfer = await prisma.CurrentiCalAppointment.findMany({
+      where: {
+        iCalApptId: {
+          in: appointmentsCancelled,
         },
-      }
+      },
+    });
+
+    // remove the appointments where the start time is in the past
+    const currentTime = new Date();
+    appointmentsToTransfer = appointmentsToTransfer.filter(
+      (appt) => appt.startTime > currentTime
     );
 
     const creationPromises = appointmentsToTransfer.map(async (appt) => {
@@ -427,6 +434,8 @@ const textSubscribers = async (appointmentsToTransfer, salon) => {
   }
 };
 
+// these are new appointments taken from the calendar of the salon. NOT same the same as canceled appointments
+// adds each new appointment to our database.
 const HandleAddNewAppointments = async (
   newAppointmentsMade,
   salon,
@@ -459,7 +468,11 @@ const HandleAddNewAppointments = async (
       if (newWebEvents.hasOwnProperty(k)) {
         var ev = newWebEvents[k];
         if (ev.type == "VEVENT") {
-          if (newAppointmentsMade.includes(ev.uid)) {
+          // only add if the startTime is in the future.
+          if (
+            newAppointmentsMade.includes(ev.uid) &&
+            new Date(ev.start) > new Date()
+          ) {
             // b. add to current
             let promise = prisma.CurrentiCalAppointment.create({
               data: {

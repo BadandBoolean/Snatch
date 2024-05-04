@@ -1,6 +1,8 @@
 // called by cloudflare worker every minute to delete appointment which is older than the current date and time
 // delete all appointments where current timestamp is greater than the appointment timestamp
 // in the database time is the column we are concerned
+
+// it also deletes appointments from CurrentiCalAppointment table where the current timestamp is greater than the appointment timestamp
 import prisma from "../../../lib/prisma";
 
 export default async (req, res) => {
@@ -44,5 +46,25 @@ export default async (req, res) => {
       console.log("error deleting ood appointment: ", error);
     }
   });
+
+  // delete from CurrentiCalAppointment table all appointments where the start time is less than the current time
+  const icalAppointments = await prisma.CurrentiCalAppointment.findMany();
+  icalAppointments.forEach(async (icalAppointment) => {
+    try {
+      let startTime = icalAppointment.startTime; // this is a date object in utc
+      if (startTime < currentDateTime) {
+        await prisma.CurrentiCalAppointment.delete({
+          where: {
+            iCalApptId: icalAppointment.iCalApptId,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(
+        `error deleting ical appointment with id ${icalAppointment}: ${error} `
+      );
+    }
+  });
+
   res.end();
 };
