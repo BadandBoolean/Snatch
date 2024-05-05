@@ -70,6 +70,7 @@ model Appointment {
   realSalonId  String?
   realSalon    RealSalon? @relation(fields: [realSalonId], references: [id])
   salon        Salon?     @relation(fields: [salonId], references: [id])
+  servicetype  String?
 }
 
 model Account {

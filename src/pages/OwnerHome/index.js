@@ -201,6 +201,7 @@ export default function OwnerHome({
           price: values.price,
           notes: values.notes,
           salonname: salonDetails.name,
+          servicetype: salonDetails.servicetype,
         }),
         headers: {
           "Content-Type": "application/json",

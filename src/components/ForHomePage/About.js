@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Tabs } from "antd/lib";
-import styles from "../styles/About.module.css";
+import styles from "../../styles/About.module.css";
 import Link from "next/link";
 
 export default function About({}) {

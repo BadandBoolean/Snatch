@@ -14,6 +14,7 @@ export default async (req, res) => {
     const apptdate = bod.apptdate;
     const price = bod.price;
     const notes = bod.notes;
+    const servicetype = bod.servicetype;
     // step 1: make date
     // step 2: parse it to DateTime
 
@@ -31,6 +32,7 @@ export default async (req, res) => {
               price: price,
               notes: notes ? notes : "",
               isAvailable: true,
+              servicetype: servicetype,
             },
           },
         },

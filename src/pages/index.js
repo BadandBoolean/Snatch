@@ -1,22 +1,23 @@
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Button } from "antd/lib";
-import HomeAppointmentsView from "../components/HomeAppointmentsView.js";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
 import { Form, Spin } from "antd/lib";
 import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
-import PickSalon from "../components/PickSalon.js";
-import About from "../components/About";
-import FilterByLocation from "../components/FilterByLocation";
-import salonselectstyles from "../styles/salonselect.module.css";
+import About from "../components/ForHomePage/About";
 import PartnersPanel from "../components/PartnersPanel";
 import NewStylistTypeform from "../components/NewStylistTypeform";
+import ServiceIcons from "../components/ForHomePage/ServiceIcons";
+import { HomeModeContext } from "../../lib/context";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const { homeMode, setHomeMode } = useContext(HomeModeContext);
   const router = useRouter();
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -27,50 +28,23 @@ export default function Home({ userDetails, salonDetails }) {
   const [contactFormTitle, setContactFormTitle] = useState(
     "Get notified about last-minute appointments:"
   );
-  const [isFilteringByDist, setIsFilteringByDist] = useState(false);
-  const [userZip, setUserZip] = useState("");
-  const [searchRadius, setSearchRadius] = useState(0); // if it is 0, then we are not filtering by distance.
-  const [isRedirecting, setIsRedirecting] = useState(false);
-  // the showingSalonId determines which salon's appointments should be shown on the screen.
-  const [showingSalonId, setShowingSalonId] = useState("");
+
+  useEffect(() => {
+    // redirect to the business home page if business is toggled.
+    if (homeMode === "business") {
+      router.push("/business");
+    }
+  }, [homeMode]);
 
   useEffect(() => {
     setHydrated(true);
+    setHomeMode("clients");
   }, []);
 
   if (!hydrated) {
     // Returns null on first render, so the client and server match
     return null;
   }
-
-  const handleFinishForm = async (values) => {
-    // console.log(session);
-    // console.log(userDetails);
-
-    if (!!session && !!userDetails) {
-      // console.log("session and user exist");
-      const response = await fetch("./api/registerNewSalon", {
-        method: "POST",
-        body: JSON.stringify({
-          salonName: values.salonname,
-          salonPhone: values.salonphone,
-          salonEmail: values.salonemailaddress,
-          bookingInfo: values.bookingInfo,
-          bookingOptions: values.bookingOptions,
-        }), // might not be the way to do this... could also be values[0]
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // here we ideally want to refresh the whole page? such that it shows that you have the salon now.
-      // so we do this:
-      window.location.reload();
-      // holy fucking shit that worked. nice.
-      if (userDetails.hasSalon) {
-        router.push("/OwnerHome");
-      }
-    }
-  };
 
   const handleFinishTypeformAndRedirect = async (payload) => {
     console.log("payload: ", payload);
@@ -120,22 +94,6 @@ export default function Home({ userDetails, salonDetails }) {
     );
   };
 
-  const showBookingModal = () => {
-    setBookingModalOpen(true);
-  };
-
-  const handleOkBookingModal = () => {
-    setBookingModalOpen(false);
-  };
-
-  const showInfoModal = () => {
-    setInfoModalOpen(true);
-  };
-
-  const handleOkInfoModal = () => {
-    setInfoModalOpen(false);
-  };
-
   const openMakeNewStylistModal = () => {
     setNewStylistModalOpen(true);
     // console.log("we are in this modal");
@@ -148,16 +106,6 @@ export default function Home({ userDetails, salonDetails }) {
   const handleGoSalonPage = () => {
     setIsRedirecting(true);
     router.push("/OwnerHome");
-  };
-
-  const handleFilterLocation = async (values) => {
-    console.log(isFilteringByDist);
-    setIsFilteringByDist(true); // this should trigger the picksalon field to default to allsalons which is more of a UI thing.
-    console.log(isFilteringByDist);
-    console.log(values);
-    console.log(isFilteringByDist);
-    setUserZip(values.zipcode);
-    setSearchRadius(values.radius);
   };
 
   return (
@@ -224,29 +172,8 @@ export default function Home({ userDetails, salonDetails }) {
         hiddenUserEmail={!!session ? session.user.email : ""}
         handleCancelNewStylist={handleCancelNewStylist}
       />
-      <div className={salonselectstyles.divWrapper}>
-        <div className={salonselectstyles.placementDiv}>
-          <FilterByLocation
-            isFilteringByDist={isFilteringByDist}
-            handleFilterLocation={handleFilterLocation}
-          />
-          <PickSalon
-            isFilteringByDist={isFilteringByDist}
-            setIsFilteringByDist={setIsFilteringByDist}
-            setShowingSalonId={setShowingSalonId}
-          />
-        </div>
-      </div>
-      <HomeAppointmentsView
-        salonDetails={salonDetails}
-        infoModalOpen={infoModalOpen}
-        setInfoModalOpen={showInfoModal}
-        handleOkInfoModal={handleOkInfoModal}
-        salonId={showingSalonId}
-        isFilteringByDist={isFilteringByDist}
-        userZip={userZip}
-        searchRadius={searchRadius}
-      />
+
+      <ServiceIcons />
 
       <About />
 
