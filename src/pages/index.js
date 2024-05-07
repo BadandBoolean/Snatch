@@ -11,13 +11,11 @@ import About from "../components/ForHomePage/About";
 import PartnersPanel from "../components/PartnersPanel";
 import NewStylistTypeform from "../components/NewStylistTypeform";
 import ServiceIcons from "../components/ForHomePage/ServiceIcons";
-import { HomeModeContext } from "../../lib/context";
 
 export default function Home({ userDetails, salonDetails }) {
   const { data: session, status } = useSession(); // object, not array
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const { homeMode, setHomeMode } = useContext(HomeModeContext);
   const router = useRouter();
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -30,49 +28,13 @@ export default function Home({ userDetails, salonDetails }) {
   );
 
   useEffect(() => {
-    // redirect to the business home page if business is toggled.
-    if (homeMode === "business") {
-      router.push("/business");
-    }
-  }, [homeMode]);
-
-  useEffect(() => {
     setHydrated(true);
-    setHomeMode("clients");
   }, []);
 
   if (!hydrated) {
     // Returns null on first render, so the client and server match
     return null;
   }
-
-  const handleFinishTypeformAndRedirect = async (payload) => {
-    console.log("payload: ", payload);
-    const fields = payload.fields;
-    const response = await fetch("./api/typeFormPostNewStylist", {
-      method: "POST",
-      body: JSON.stringify({
-        firstName: fields[1],
-        lastName: fields[2],
-        salonName: fields[3],
-        website: fields[4],
-        phone: fields[5],
-        email: fields[6],
-        acceptWalkIns: fields[7],
-        acceptNewClients: fields[8],
-        iCalURL: fields[9],
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("response: ", response);
-    window.location.reload();
-    console.log(userDetails);
-    if (userDetails.hasSalon) {
-      router.push("/OwnerHome");
-    }
-  };
 
   const handleAddContactInfo = async (values) => {
     if (values.phonenumber || values.emailaddress) {
@@ -94,20 +56,6 @@ export default function Home({ userDetails, salonDetails }) {
     );
   };
 
-  const openMakeNewStylistModal = () => {
-    setNewStylistModalOpen(true);
-    // console.log("we are in this modal");
-  };
-
-  const handleCancelNewStylist = () => {
-    setNewStylistModalOpen(false);
-  };
-
-  const handleGoSalonPage = () => {
-    setIsRedirecting(true);
-    router.push("/OwnerHome");
-  };
-
   return (
     <>
       <img
@@ -123,55 +71,6 @@ export default function Home({ userDetails, salonDetails }) {
       ) : (
         <></>
       )}
-      {status === "authenticated" && (
-        <>
-          <br />
-          <div className={styles.signedInHasSalonDivWrapper}>
-            <div className={styles.signedInHasSalonDiv}>
-              <div className={styles.buttonBoxMobileOnly}>
-                {!!userDetails && !userDetails.hasSalon ? (
-                  <Button
-                    onClick={openMakeNewStylistModal}
-                    className={styles.ownerHomeButton}
-                  >
-                    {isRedirecting ? (
-                      <Spin />
-                    ) : (
-                      <span className={styles.buttonText}>
-                        Register Your Provider Profile
-                      </span>
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    className={styles.ownerHomeButton}
-                    onClick={handleGoSalonPage}
-                  >
-                    {isRedirecting ? (
-                      <Spin />
-                    ) : (
-                      <span className={styles.buttonText}>
-                        {salonDetails.name} Home Page
-                      </span>
-                    )}
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-      <NewStylistTypeform
-        handleFinishTypeformAndRedirect={handleFinishTypeformAndRedirect}
-        newStylistModalOpen={
-          newStylistModalOpen &&
-          status === "authenticated" &&
-          !!userDetails &&
-          !userDetails.hasSalon
-        }
-        hiddenUserEmail={!!session ? session.user.email : ""}
-        handleCancelNewStylist={handleCancelNewStylist}
-      />
 
       <ServiceIcons />
 

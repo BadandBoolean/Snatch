@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../../styles/NavBar.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Dropdown } from "antd/lib";
 import { DownOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
+import { HomeModeContext } from "../../../lib/context";
+
 import { Button } from "antd/lib";
 
 export default function LoginBox() {
+  const { homeMode, setHomeMode } = useContext(HomeModeContext);
   const { data: session, status } = useSession();
 
-  const handleSignin = () => {
-    // e.preventDefault();
-    signIn();
+  const handleSignin = async () => {
+    await signIn("google", { callbackUrl: "/business", redirect: false });
+    setHomeMode("business");
   };
-  const handleSignout = () => {
+  const handleSignout = async () => {
     // e.preventDefault();
-    signOut();
+    await signOut();
   };
 
   const items = [

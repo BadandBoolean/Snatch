@@ -10,6 +10,9 @@ import styles from "../../styles/OwnerHome.module.css";
 import contactformstyles from "../../styles/ContactForm.module.css";
 import buttonstyles from "../../styles/PublicHome.module.css";
 import dayjs from "dayjs";
+import { CaretLeftOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import AddCalendar from "../../components/ForBusinessHomePage/AddCalendar.js";
 
 export default function OwnerHome({
   userDetails,
@@ -252,6 +255,16 @@ export default function OwnerHome({
   return (
     <>
       <div className={styles.colourWrapper}>
+        <div className={styles.backArrowWrapper}>
+          <div className={styles.backArrowDiv}>
+            <span className={styles.backArrowText}>
+              <CaretLeftOutlined />
+              <Link className={styles.backArrowText} href="/business">
+                <i>back to businesses</i>
+              </Link>
+            </span>
+          </div>
+        </div>
         <img src="/ggoh.jpg" alt="logo" className={styles.ggohreg} />
         <img src="/ggoh.jpg" alt="logo" className={styles.ggohmobile} />
         <div className={contactformstyles.contactOuterDivoh}>
@@ -342,6 +355,9 @@ export default function OwnerHome({
         form={form}
         salonId={salonDetails.id}
       />
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <AddCalendar providerDetails={salonDetails} />
+      </div>
       <ViewAppointmentsAsOwner
         appointments={allAppointments}
         handleDelete={handleDelete}
@@ -356,6 +372,7 @@ export default function OwnerHome({
         editForm={editForm}
         salonId={salonDetails.id}
       />
+
       <EditSalonInfo
         editSalonOpen={editSalonOpen}
         editSalonForm={editSalonForm}

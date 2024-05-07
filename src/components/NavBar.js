@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "antd/lib";
 import { DownOutlined } from "@ant-design/icons";
 import { useSession, signIn, signOut } from "next-auth/react";
 import styles from "../styles/NavBar.module.css";
 import Link from "next/link";
 import ModeSwitch from "./ModeSwitch";
-import { HomeModeContext } from "../../lib/context";
+import { useRouter } from "next/router";
 
 //In the navbar we want the title, Snatch, and then Business login button next to it.
 export default function NavBar() {
-  const { homeMode, setHomeMode } = useContext(HomeModeContext);
   const { data: session, status } = useSession();
 
   return (
@@ -33,7 +32,7 @@ export default function NavBar() {
       </div>
       <div className={styles.NavModeSelectWrapper}>
         <div className={styles.NavModeSelect}>
-          <ModeSwitch setHomeMode={setHomeMode} />
+          <ModeSwitch />
         </div>
       </div>
     </div>

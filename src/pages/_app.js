@@ -7,9 +7,15 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { ErrorBoundary } from "react-error-boundary";
 import { Analytics } from "@vercel/analytics/react";
-import { useState, createContext, useContext, Provider } from "react";
+import {
+  useState,
+  createContext,
+  useContext,
+  Provider,
+  useEffect,
+} from "react";
 import { useLogger } from "next-axiom";
-import { HomeModeContext } from "../../lib/context";
+import { useRouter } from "next/router";
 
 function Fallback({ error, resetErrorBoundary }) {
   const logger = useLogger();
@@ -34,7 +40,6 @@ function Fallback({ error, resetErrorBoundary }) {
 }
 
 export default function App({ Component, pageProps }) {
-  const [homeMode, setHomeMode] = useState("clients");
   return (
     <ErrorBoundary FallbackComponent={Fallback}>
       <SessionProvider session={pageProps.session}>
@@ -45,12 +50,10 @@ export default function App({ Component, pageProps }) {
             },
           }}
         >
-          <HomeModeContext.Provider value={{ homeMode, setHomeMode }}>
-            <NavBar />
-            <Component {...pageProps} />
-            <Analytics />
-            <Footer />
-          </HomeModeContext.Provider>
+          <NavBar />
+          <Component {...pageProps} />
+          <Analytics />
+          <Footer />
         </ConfigProvider>
       </SessionProvider>
     </ErrorBoundary>

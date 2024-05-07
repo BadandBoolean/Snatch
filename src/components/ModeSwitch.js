@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { Segmented } from "antd/lib";
 
-export default function ModeSwitch({ setHomeMode }) {
+export default function ModeSwitch() {
   const router = useRouter();
 
   const changeHomeMode = (value) => {
-    console.log("value", value);
-    setHomeMode(value);
+    if (value === "clients") {
+      router.push("/");
+    } else if (value === "business") {
+      router.push("/business");
+    }
   };
 
-  // what the default mode is depends on what page we're on aka what the router say
-  const whichMode = router.pathname === "/business" ? "business" : "clients";
+  const defaultVal = router.pathname === "/business" ? "business" : "clients";
 
   return (
     <div
@@ -28,7 +30,7 @@ export default function ModeSwitch({ setHomeMode }) {
           { label: "Business", value: "business" },
         ]}
         onChange={changeHomeMode}
-        defaultValue={whichMode}
+        defaultValue={defaultVal}
       />
     </div>
   );
