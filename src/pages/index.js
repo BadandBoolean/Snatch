@@ -1,6 +1,5 @@
-import { useSession, getSession } from "next-auth/react";
-import prisma from "../../lib/prisma";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 import { useEffect, useState, useContext } from "react";
 import { Button } from "antd/lib";
 import GetContactInfoForm from "../components/GetContactInfoForm.js";
@@ -9,22 +8,15 @@ import Hero from "../components/Hero";
 import styles from "../styles/PublicHome.module.css";
 import About from "../components/ForHomePage/About";
 import PartnersPanel from "../components/PartnersPanel";
-import NewStylistTypeform from "../components/NewStylistTypeform";
+
 import ServiceIcons from "../components/ForHomePage/ServiceIcons";
 
-export default function Home({ userDetails, salonDetails }) {
-  const { data: session, status } = useSession(); // object, not array
-  const [isRedirecting, setIsRedirecting] = useState(false);
-
-  const router = useRouter();
-  const [infoModalOpen, setInfoModalOpen] = useState(false);
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+export default function Home({}) {
+  const { data: status } = useSession(); // object, not array
   const [addContactInfoForm] = Form.useForm();
   const [hydrated, setHydrated] = useState(false);
-  const [newSalonModalOpen, setNewSalonModalOpen] = useState(true);
-  const [newStylistModalOpen, setNewStylistModalOpen] = useState(false);
   const [contactFormTitle, setContactFormTitle] = useState(
-    "Get notified about last-minute appointments:"
+    "Get notified about cool last-minute openings in your area:"
   );
 
   useEffect(() => {
@@ -36,14 +28,15 @@ export default function Home({ userDetails, salonDetails }) {
     return null;
   }
 
+  // FOR CHILD COMPONENT GETCONTACTINFOFORM.JS
   const handleAddContactInfo = async (values) => {
-    if (values.phonenumber || values.emailaddress) {
-      const response = await fetch("./api/AddClientDetails", {
+    if (values.phonenumber) {
+      // email address not added to UI - should remove here
+      const response = await fetch("./api/ProcessServiceSubscriberInput", {
         method: "POST",
         body: JSON.stringify({
           phone: values.phonenumber,
-          email: values.emailaddress,
-          salon: values.salonselect,
+          servicetype: values.servicetypeselect,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -51,19 +44,17 @@ export default function Home({ userDetails, salonDetails }) {
       });
     }
     addContactInfoForm.resetFields();
-    setContactFormTitle(
-      "Thank you! You will be notified when somebody cancels their appointment!"
-    );
+    setContactFormTitle("Check your texts ✌️");
   };
 
   return (
     <>
-      <img
-        src="/ggreal3.png"
-        alt="welcometosnatch"
-        className={styles.greekgod}
+      <About />
+      <GetContactInfoForm
+        addContactInfoForm={addContactInfoForm}
+        handleAddContactInfo={handleAddContactInfo}
+        contactFormTitle={contactFormTitle}
       />
-      <Hero />
       {status === "loading" ? (
         <div className={styles.loadingDivWrapper}>
           <Spin size="large" />
@@ -74,40 +65,7 @@ export default function Home({ userDetails, salonDetails }) {
 
       <ServiceIcons />
 
-      <About />
-
       <PartnersPanel />
-
-      <GetContactInfoForm
-        addContactInfoForm={addContactInfoForm}
-        handleAddContactInfo={handleAddContactInfo}
-        contactFormTitle={contactFormTitle}
-      />
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  let session = await getSession(context);
-  let user = null;
-  let salon = null;
-  if (!!session) {
-    // console.log(appointment);
-    user = await prisma.user.findUnique({
-      where: {
-        email: session.user.email,
-      },
-    });
-    salon = await prisma.salon.findUnique({
-      where: {
-        ownerId: user.id,
-      },
-    });
-  }
-  return {
-    props: {
-      userDetails: user || null,
-      salonDetails: salon || null,
-    },
-  };
 }

@@ -21,7 +21,7 @@ export default function ModeSwitch() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        paddingBottom: "40px",
+        paddingBottom: "20px",
       }}
     >
       <Segmented

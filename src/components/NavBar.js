@@ -15,7 +15,7 @@ export default function NavBar() {
     <div className={styles.NavWrapper}>
       <div className={styles.Nav}>
         <div className={styles.NavTitleBox}>
-          <h1 className={styles.Title}>
+          <span className={styles.Title}>
             <Link
               href="/"
               style={{
@@ -27,7 +27,7 @@ export default function NavBar() {
             >
               <em>Snatch</em>
             </Link>
-          </h1>
+          </span>
         </div>
       </div>
       <div className={styles.NavModeSelectWrapper}>

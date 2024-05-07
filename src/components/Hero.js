@@ -12,9 +12,6 @@ export default function Hero() {
           </h1>
         </div>
       </div>
-      <div className={styles.arrowDiv}>
-        <ArrowDownOutlined className={styles.arrowStyle} />
-      </div>
     </>
   );
 }

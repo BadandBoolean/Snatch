@@ -4,6 +4,8 @@
     text-align: center;
     align-items: center;
     padding: 10px;
+    font-size: 1em;
+    font-weight: 300;
 }
 
 .contactWrapper {
@@ -16,7 +18,7 @@
 }
 
 .contactOuterDiv {
-    margin-bottom: -40px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;

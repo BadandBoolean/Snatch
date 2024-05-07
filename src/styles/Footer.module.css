@@ -1,5 +1,7 @@
 .footerWrapper {
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 25vh;
@@ -14,6 +16,7 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
+    
 
 }
 
@@ -23,6 +26,41 @@
     align-items: center;
     width: 50%;
 
+}
+
+.heroTextWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+
+}
+
+
+.heroText {
+    width: 100%;
+    -webkit-text-stroke: 1px white; 
+    -webkit-text-fill-color: transparent;
+    text-shadow: -3px -3px #02fefe, 3px 3px #fe02e9;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: 5%;
+    margin-right: 5%;
+    
+    display: flex;
+    justify-content: center;
+    
+}
+
+@media (max-width: 430px) {
+    .heroText {
+        font-size: 0.9rem;
+        text-shadow: -2px -2px #02fefe, 2px 2px #fe02e9;
+        -webkit-text-stroke: transparent; 
+    -webkit-text-fill-color: transparent;
+    }
 }
 
 .footerRight {

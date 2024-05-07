@@ -8,6 +8,11 @@ import Link from "next/link";
 export default function About({}) {
   return (
     <div className={styles.divWrapper}>
+      <img
+        src="/ggreal3.png"
+        alt="welcometosnatch"
+        className={styles.greekgod}
+      />
       <div className={styles.innerDiv}>
         <div className={styles.picturesDiv}>
           <div className={styles.pic1Div}>
@@ -29,47 +34,12 @@ export default function About({}) {
           </svg>
         </div>
         <div className={styles.tabsDiv}>
-          <h1 className={styles.aboutText}>Get on the list</h1>
+          <div className={styles.aboutTextDivBox}>
+            <h1 className={styles.aboutText}>Get on the list</h1>
+          </div>
           <p className={styles.aboutTextPara}>
             <i>AI-Powered Notifications for Last-Minute Opportunities✨</i>
           </p>
-          <Tabs defaultActiveKey="1" centered>
-            <Tabs.TabPane tab="For Clients" key="1">
-              <div className={styles.aboutTextParaTab}>
-                Your go-to stylist or tattoist or massage therapist is fully
-                booked? Their next available appointment is in 3 MONTHS? We hear
-                you.
-                <br /> - <br />
-                Sign up to get texted immediately when your favorite spot gets a
-                last-minute opening you need. {`\n`}
-                <br /> - <br />
-                Know a business that needs Snatch? Tell us about them:
-                <Link
-                  className={styles.link}
-                  href="mailto:team@wearesnatch.com"
-                >
-                  team@wearesnatch.com
-                </Link>
-              </div>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="For Businesses" key="2">
-              <div className={styles.aboutTextParaTab}>
-                Attention appointment-based business owners!
-                <br /> - <br />
-                Fill your last-minute cancellations. Fast. Reach hundreds of
-                loyal clients (and new ones!) immediately whenever you have a
-                cancellation. Goodbye waitlists forever. {`\n`}
-                <br /> - <br />
-                Ready to get started? Send us an email!
-                <Link
-                  className={styles.link}
-                  href="mailto:team@wearesnatch.com"
-                >
-                  team@wearesnatch.com
-                </Link>
-              </div>
-            </Tabs.TabPane>
-          </Tabs>
         </div>
       </div>
     </div>

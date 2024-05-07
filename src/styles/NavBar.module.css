@@ -4,8 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #2d19b1;
-
+    background-color: #120371; 
 
 }
 
@@ -33,7 +32,8 @@
     color: white !important;
     text-shadow: -2px -2px #02fefe, 2px 2px #fe02e9;
     text-decoration: none;
-    
+    margin-top: 30px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
 }
