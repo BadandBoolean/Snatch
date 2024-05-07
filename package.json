@@ -41,10 +41,11 @@
     "react-dom": "18.2.0",
     "react-error-boundary": "^4.0.11",
     "react-google-recaptcha": "^3.1.0",
-    "twilio": "^4.15.0"
+    "twilio": "^4.15.0",
+    "prisma": "^5.13.0"
   },
   "devDependencies": {
-    "prisma": "^5.13.0",
+
     "wrangler": "^3.44.0"
   }
 }
