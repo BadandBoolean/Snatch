@@ -1,0 +1,56 @@
+.calendarWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+   
+}
+
+.contactOuterDivoh {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 0.2);
+    border-radius: 15px;
+}
+
+.contactMiddleDivoh {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 0.5); 
+ 
+    border-radius: 15px;
+    margin: 13px;
+
+}
+
+.contactDivoh {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    background-color: rgba(102, 79, 253, 1); 
+    border-radius: 15px;
+    margin: 10px;
+    padding: 20px;
+}
+
+.callinktitletext {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #030050;
+    margin: 10px;
+}
+
+.inputFields {
+    margin: 10px;
+    
+}

@@ -180,6 +180,7 @@ const HandleAddCancelledAppointments = async (appointmentsCancelled, salon) => {
           salon: {
             connect: { id: salon.id },
           },
+          servicetype: salon.servicetype,
         },
       });
       console.log("createdappt: ", createdappt);

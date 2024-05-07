@@ -9,8 +9,10 @@ export default function GetContactInfoForm({
   handleAddContactInfo,
   contactFormTitle,
 }) {
-  const [salonsLoading, setSalonsLoading] = useState(true);
-  const [salons, setSalons] = useState([]);
+  const [providersLoading, setProvidersLoading] = useState(true);
+  const [providers, setProviders] = useState([]);
+  const [serviceTypesLoading, setServiceTypesLoading] = useState(true);
+  const [serviceTypes, setServiceTypes] = useState([]);
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   const recaptchaRef = useRef();
@@ -19,8 +21,18 @@ export default function GetContactInfoForm({
     fetch(`./api/getAllSalons`)
       .then((res) => res.json())
       .then((data) => {
-        setSalons(data.salons);
-        setSalonsLoading(false);
+        setProviders(data.salons);
+        setProvidersLoading(false);
+      });
+  }, []);
+
+  // retrieve all the service types to give users the option to subscribe to receive updates from one kind of service provider
+  useEffect(() => {
+    fetch(`./api/getAllServiceTypes`)
+      .then((res) => res.json())
+      .then((data) => {
+        setServiceTypes(data.serviceTypes);
+        setServiceTypesLoading(false);
       });
   }, []);
 
@@ -60,10 +72,15 @@ export default function GetContactInfoForm({
     }
   };
 
-  const options = salons.map((salon) => {
-    return { value: salon.id, label: salon.name };
+  // const provideroptions = providers.map((provider) => {
+  //   return { value: provider.id, label: provider.name };
+  // });
+  // // add an option to subscribe to ALL providers (should deprecate!)
+  // provideroptions.unshift({ value: "", label: "All" });
+
+  const servicetypeoptions = serviceTypes.map((serviceType) => {
+    return { value: serviceType.servicetype, label: serviceType.servicetype };
   });
-  options.unshift({ value: "", label: "All" });
 
   return (
     <>
@@ -100,7 +117,7 @@ export default function GetContactInfoForm({
                 >
                   <Input
                     addonBefore="+1"
-                    placeholder="Enter your phone number (optional)"
+                    placeholder="Enter your phone number"
                     maxLength={15}
                   />
                 </Form.Item>
@@ -113,17 +130,16 @@ export default function GetContactInfoForm({
                         fontWeight: "600",
                       }}
                     >
-                      Take your pick:
+                      Select a Service:
                     </p>
                   }
-                  initialValue={""}
-                  name="salonselect"
+                  initialValue={serviceTypes[0]?.servicetype}
+                  name="servicetypeselect"
                 >
                   <Select
                     showSearch
                     style={{ width: 200 }}
-                    placeholder="Filter by provider"
-                    options={!salonsLoading && options}
+                    options={!serviceTypesLoading && servicetypeoptions}
                   />
                 </Form.Item>
                 <Form.Item>

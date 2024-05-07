@@ -68,3 +68,38 @@ body {
     .ant-tabs-tab:hover {
         color: #fe02e9 !important;
     }
+
+  /* Segmented overrides */
+  .ant-segmented {
+    background-color: #ff47f0;
+    color: #ff47f0;
+
+  }
+  .ant-segmented-group {
+    background-color: #3D1FFF;
+    color: #ff47f0;
+    border-radius: 5px;
+    padding: 2px;
+
+
+  }
+
+  .ant-segmented .ant-segmented-item-selected { 
+    background-color: #ff47f0;
+    color: white;
+    border-width: 0px;
+
+    border-style: solid;
+  }
+
+  .ant-segmented .ant-segmented-item {
+    font-weight: 700;
+
+  }
+  
+  .ant-segmented-item-label:hover {
+    color: white;
+
+  }
+
+

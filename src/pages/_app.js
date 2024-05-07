@@ -7,8 +7,15 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { ErrorBoundary } from "react-error-boundary";
 import { Analytics } from "@vercel/analytics/react";
-
+import {
+  useState,
+  createContext,
+  useContext,
+  Provider,
+  useEffect,
+} from "react";
 import { useLogger } from "next-axiom";
+import { useRouter } from "next/router";
 
 function Fallback({ error, resetErrorBoundary }) {
   const logger = useLogger();

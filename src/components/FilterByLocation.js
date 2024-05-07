@@ -1,5 +1,5 @@
 // a component which filters based on how far away the location of the appointment is from user.
-// basically a form then
+
 import React from "react";
 import { Input, Form, Select, Button } from "antd/lib";
 import styles from "../styles/salonselect.module.css";

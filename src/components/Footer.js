@@ -5,6 +5,11 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <div className={styles.footerWrapper}>
+      <div className={styles.heroTextWrapper}>
+        <h1 className={styles.heroText}>
+          <i>Book somebody else&apos;s canceled appointment</i>
+        </h1>
+      </div>
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
           <p className={styles.footerText}>

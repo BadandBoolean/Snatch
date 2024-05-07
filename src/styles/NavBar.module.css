@@ -1,9 +1,10 @@
 .NavWrapper {
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    background-color: #2d19b1;
-
+    align-items: center;
+    background-color: #120371; 
 
 }
 
@@ -19,10 +20,10 @@
 
 .NavTitleBox {
     display: flex;
-    justify-content: Center;
+    justify-content: center;
     align-items: center;
-    width: 60%;
-    flex-basis: 60%;
+    width: 100%;
+
 }
 
 .Title {
@@ -31,8 +32,29 @@
     color: white !important;
     text-shadow: -2px -2px #02fefe, 2px 2px #fe02e9;
     text-decoration: none;
-    padding-right: 100px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
+
+.NavModeSelectWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.NavModeSelect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+
+
+
 
 /* .Title:hover {
     position: relative; 
