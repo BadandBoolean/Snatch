@@ -34,7 +34,9 @@ export default function ServiceIcons({
   return (
     <div className={styles.sectionWrapper}>
       <div className={styles.sectionTitleWrapper}>
-        <span className={styles.sectionTitle}>Find Appointments by Type</span>
+        <span className={styles.sectionTitle}>
+          ✨ Appointments Available now ✨
+        </span>
       </div>
       <div className={styles.sectionIconsWrapper}>
         <button
