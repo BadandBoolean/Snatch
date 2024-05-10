@@ -22,8 +22,10 @@
     font-size: 2rem;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     width: 100%;
+    text-align: center;
 }
 
 .sectionIconsWrapper {
@@ -45,9 +47,6 @@
     border-color: #3D1FFF;
     border-style: solid;
     border-radius: 50px;
-   
-
-
 
 }
 

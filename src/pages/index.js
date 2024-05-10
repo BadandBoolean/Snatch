@@ -9,7 +9,7 @@ import styles from "../styles/PublicHome.module.css";
 import About from "../components/ForHomePage/About";
 import PartnersPanel from "../components/PartnersPanel";
 
-import ServiceIcons from "../components/ForHomePage/ServiceIcons";
+import IconsGrid from "../components/IconsGrid.js";
 
 export default function Home({}) {
   const { data: status } = useSession(); // object, not array
@@ -63,7 +63,7 @@ export default function Home({}) {
         <></>
       )}
 
-      <ServiceIcons />
+      <IconsGrid mode={"appointments"} />
 
       <PartnersPanel />
     </>

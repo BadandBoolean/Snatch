@@ -1,10 +1,12 @@
 // Returns all appointment cards for a selected service type to the home screen. child of ServiceIcons.js
 
 import React from "react";
-import { Card, Spin } from "antd/lib";
+import { Card, Spin, Pagination } from "antd/lib";
 import styles from "../../styles/ServiceIcons.module.css";
 import isMobileDevice from "../../../lib/isMobileDevice";
 import Link from "next/link";
+
+import { useState } from "react";
 
 export default function AppointmentCards({
   apptsLoading,
@@ -41,6 +43,21 @@ export default function AppointmentCards({
     }
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(3); // Change as needed
+
+  // Calculate the current items to display
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = currVisibleAppts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   if (currVisibleAppts.length === 0) {
     return (
       <div className={styles.appointmentCardsWrapper}>
@@ -65,7 +82,7 @@ export default function AppointmentCards({
       {apptsLoading ? (
         <Spin />
       ) : (
-        currVisibleAppts.map((appt) => {
+        currentItems.map((appt) => {
           // get appt.date which in UTC and extract to get the LOCALLY formatted date
           // get appt.time which in UTC and extract to get the LOCALLY formatted time
           let dateObject = new Date(appt.date);
@@ -101,6 +118,14 @@ export default function AppointmentCards({
           );
         })
       )}
+      <Pagination
+        current={currentPage}
+        onChange={handlePageChange}
+        total={currVisibleAppts.length}
+        pageSize={itemsPerPage}
+        showSizeChanger={true}
+        onShowSizeChange={(current, size) => setItemsPerPage(size)}
+      />
     </div>
   );
 }

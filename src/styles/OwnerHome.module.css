@@ -6,7 +6,7 @@
 
 .colourWrapper {
     background: #2d19b1;
-    background: linear-gradient(180deg, #2d19b1 0%, #7c68ff 50%, rgba(0, 212, 255, 0) 100%); 
+    background: linear-gradient(180deg, #120371 0%, #5f47fd 50%, rgba(0, 212, 255, 0) 100%); 
     width: 100%;
     height: 70vh;
     display: flex;

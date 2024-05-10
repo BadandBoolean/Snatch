@@ -9,7 +9,7 @@ export default function About({}) {
   return (
     <div className={styles.divWrapper}>
       <img
-        src="/ggreal3.png"
+        src="/ggrealreal.png"
         alt="welcometosnatch"
         className={styles.greekgod}
       />

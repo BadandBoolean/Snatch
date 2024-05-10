@@ -6,7 +6,8 @@ import { getSession, useSession } from "next-auth/react";
 import styles from "../../styles/BusinessHomePage.module.css";
 import GoToOrMakeProviderProfile from "../../components/ForBusinessHomePage/GoToOrMakeProviderProfile";
 import AddCalendar from "../../components/ForBusinessHomePage/AddCalendar";
-import ucstyles from "../../styles/UnderConstruction.module.css";
+import IconsGrid from "../../components/IconsGrid";
+import UnderConstructionPageTemplate from "../../components/UnderConstructionPageTemplate";
 
 export default function Business({ userDetails, providerDetails }) {
   const { data: session, status } = useSession(); // object, not array
@@ -23,23 +24,7 @@ export default function Business({ userDetails, providerDetails }) {
         />
       </div>
       <AddCalendar providerDetails={providerDetails} />
-      <div className={styles.pageRow}>
-        <div className={ucstyles.underconstructiontext}>
-          <h1>Under Construction</h1>
-        </div>
-      </div>
-      <div className={styles.pageRow}>
-        <div className={ucstyles.underconstructiontext}>
-          We are working on this page! Please check back later for updates.
-        </div>
-      </div>
-      <div className={styles.pageRow}>
-        <img
-          className={ucstyles.underconstructionimg}
-          src="/underconstruction.jpg"
-          alt="business"
-        />
-      </div>
+      <UnderConstructionPageTemplate />
     </div>
   );
 }
@@ -49,6 +34,7 @@ export async function getServerSideProps(context) {
   console.log("session IN BUSINESS", session);
   let user = null;
   let provider = null;
+
   if (!!session) {
     // console.log(appointment);
     user = await prisma.user.findUnique({
