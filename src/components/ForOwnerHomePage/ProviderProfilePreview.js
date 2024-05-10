@@ -6,10 +6,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { createClient } from "@supabase/supabase-js";
 import styles from "../../styles/ppp.module.css";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL,
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// );
 
 // a preview of the provider profile which they can then edit!
 // also allow them to upload a photo to the supabase storage bucket
