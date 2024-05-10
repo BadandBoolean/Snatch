@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "antd/lib";
 import { DownOutlined } from "@ant-design/icons";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -10,6 +10,17 @@ import { useRouter } from "next/router";
 //In the navbar we want the title, Snatch, and then Business login button next to it.
 export default function NavBar() {
   const { data: session, status } = useSession();
+  const [showModeSwitch, setShowModeSwitch] = useState(true);
+
+  // only show ModeSwitch if we are NOT on the OwnerHome page
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/OwnerHome") {
+      setShowModeSwitch(false);
+    } else {
+      setShowModeSwitch(true);
+    }
+  }, [router.pathname]);
 
   return (
     <div className={styles.NavWrapper}>
@@ -32,7 +43,7 @@ export default function NavBar() {
       </div>
       <div className={styles.NavModeSelectWrapper}>
         <div className={styles.NavModeSelect}>
-          <ModeSwitch />
+          {showModeSwitch && <ModeSwitch />}
         </div>
       </div>
     </div>

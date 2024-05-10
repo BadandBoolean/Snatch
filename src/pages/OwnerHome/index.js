@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { CaretLeftOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import AddCalendar from "../../components/ForBusinessHomePage/AddCalendar.js";
+import ProviderProfilePreview from "../../components/ForOwnerHomePage/ProviderProfilePreview.js";
 
 export default function OwnerHome({
   userDetails,
@@ -289,6 +290,7 @@ export default function OwnerHome({
             </div>
           </div>
         </div>
+        <ProviderProfilePreview provider={salonDetails} />
 
         <div className={styles.buttonBarWrapper}>
           <div className={styles.buttonBar}>

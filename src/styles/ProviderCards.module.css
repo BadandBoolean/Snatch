@@ -1,0 +1,9 @@
+.providerCardsWrapper {
+  display: flex;
+  justify-content: space-between    ;
+  flex-direction: row;
+}
+
+.providerCardDiv {
+    margin: 0.5rem;
+}
