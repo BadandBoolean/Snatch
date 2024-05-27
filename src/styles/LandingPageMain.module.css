@@ -1,0 +1,339 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    background-color: #efefef;
+}
+
+/* Landing Page Navbar Styles */
+
+.NavbarOuterWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.NavbarStructure {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.NavbarLogoWrapper {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    
+}
+
+.NavbarButtonBox {
+    display: flex;
+    justify-content: right;
+    width: 80%;
+
+}
+
+
+.NavbarButtonsWrapper {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.NavbarTextButton {
+ padding: 10px;
+ display: flex;
+ align-items: center;
+ cursor: pointer;
+}
+
+.NavbarDemoButton {
+ padding: 10px;
+ display: flex;
+ align-items: center;
+ cursor: pointer;
+}
+
+.NavbarLogoBox {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #120371 !important;
+    text-shadow: 3px 3px #cb6ce6;
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: left;
+    width: 80%;
+    cursor: pointer;
+}
+
+@media (max-width: 430px) {
+    .NavbarButtonsWrapper {
+        visibility: hidden;
+        width: 0%;
+    }
+
+    .NavbarLogoWrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .NavbarLogoBox {
+        justify-content: center;
+    }
+}
+
+/* Landing Page Hero Styles */
+
+.heroWrapper {
+    display: block;
+    position:relative;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.heroTextSpan {
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    text-align: center;
+    display: inline-block;
+    color: #120371;
+    font-size: 4.5rem;
+    font-weight: 700;
+}
+
+.heroPinkText {
+    color: #cb6ce6;
+}
+
+.landing1 {
+    position: absolute;
+    width: 18rem;
+    left: 45%;
+    height: auto;
+}
+
+.landing2 {
+    position: absolute;
+    width: 16rem;
+    top: 20%;
+    right: 2%;
+    height: auto;
+}
+
+.landing3 {
+    position: absolute;
+    width: 17rem;
+    top: 43%;
+    right: 25%;
+    height: auto;
+}
+
+.landing4 {
+    position: absolute;
+    width: 18rem;
+    top: 45%;
+    left: 10%;
+    height: auto;
+}
+
+.landing5 {
+    position: absolute;
+    width: 18rem;
+    top: 10%;
+    left: 5%;
+    height: auto;
+}
+
+
+
+@media (max-width: 430px) {
+
+    
+    .heroTextSpan {
+        font-size: 3rem;
+    }
+
+    .landing1 {
+        position: absolute;
+        width: 10rem;
+        left: 5%;
+        top: 10%;
+        height: auto;
+    }
+    
+    .landing2 {
+        position: absolute;
+        width: 12rem;
+        top: -1%;
+        right: 2%;
+        height: auto;
+    }
+    
+    .landing3 {
+        position: absolute;
+        width: 14rem;
+        top: 43%;
+        right: -10%;
+        
+        height: auto;
+    }
+    
+    .landing4 {
+        position: absolute;
+        width: 12rem;
+        top: 70%;
+        left: 50%;
+        height: auto;
+    }
+    
+    .landing5 {
+        position: absolute;
+        width: 16rem;
+        top: 50%;
+        left: -5%;
+        height: auto;
+    }
+}
+
+/* Landing Page ScreensSectionOne Styles */
+
+.screensSectionOneWrapper {
+    display: flex;
+    
+    width: 100%;
+    
+}
+
+.textWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+}
+
+.screenshotWrapper {
+    display: flex;
+    
+    align-items: end;
+    width: 60%;
+}
+
+.screenshot1 {
+    width: 35%;
+    
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.screenshot2 {
+    width: 38%;
+    margin-left: 20px;
+    margin-right: 20px;
+    
+}
+
+.text1 {
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.text2 {
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 430px) {
+
+    .screensSectionOneWrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .screenshotWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        width: 100%;
+    }
+
+    .screenshot1 {
+        width: 50%;  
+        margin-left: 5px; 
+    }
+    
+    .screenshot2 {
+        width: 50%;
+        margin-right: 5px; 
+    }
+
+    .textWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; 
+        background-color: #120371; 
+    }
+
+    .text1 {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-top: 20px;
+        color: #cb6ce6;
+    }
+
+    .text2 {
+        margin-top: 10px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: white;
+    }
+
+    }
+
+    /* Landing Page ScreensSectionTwo Styles */
+
+    .screensSectionTwoWrapper {
+        display: flex;
+        
+        width: 100%;
+    }
+
+    .screensSectionTwoTextWrapper {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 60%;
+        padding: 80px;
+    }
+
+    .screensSectionTwoImageWrapper {
+        flex-basis: 40%;
+    }
+
+    .textHeader {
+        font-weight: 400;
+        font-size: 1.5rem;
+        
+    }
+
+    .screensSectionTwoImage {
+        width: 100%;
+    }
+
+
+    
+
+
+
+
+
+
+
+
