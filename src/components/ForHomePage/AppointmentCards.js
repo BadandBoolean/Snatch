@@ -76,17 +76,18 @@ export default function AppointmentCards({
       </div>
     );
   }
-
+  // BUG: prisma thinks that timestamp is in UTC even though it is actually in the local time already in the database.
+  // as a work around for now we are not going to convert the time to local time, as it is already in local time.
   return (
     <div className={styles.appointmentCardsWrapper}>
       {apptsLoading ? (
         <Spin />
       ) : (
         currentItems.map((appt) => {
-          // get appt.date which in UTC and extract to get the LOCALLY formatted date
-          // get appt.time which in UTC and extract to get the LOCALLY formatted time
-          let dateObject = new Date(appt.date);
-          let date = dateObject.toLocaleDateString("en-US", {
+          // temp bug fix: remove the z at the end of the date string
+          let localDate = appt.date.slice(0, -1);
+          let dateObject = new Date(localDate);
+          let date = dateObject.toLocaleTimeString("en-US", {
             weekday: "long", // Name of the day
             year: "numeric", // Numeric year
             month: "long", // Full name of the month

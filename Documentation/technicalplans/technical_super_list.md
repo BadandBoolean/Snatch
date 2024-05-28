@@ -33,4 +33,4 @@ DevOps:
 
 BUGS:
 
-1. Fix time stamps for automatically listed appointments not switching to user's local time (stored in UTC in database). Visible in UI in prod.
+1. ~~Fix time stamps for automatically listed appointments not switching to user's local time (stored in UTC in database). Visible in UI in prod.~~
