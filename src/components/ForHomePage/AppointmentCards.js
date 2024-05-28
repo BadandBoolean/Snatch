@@ -93,11 +93,6 @@ export default function AppointmentCards({
             month: "long", // Full name of the month
             day: "numeric", // Numeric day of the month
           });
-          let time = dateObject.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          });
 
           return (
             <div key={appt.id} className={styles.appointmentCardDiv}>
@@ -110,7 +105,7 @@ export default function AppointmentCards({
               >
                 <p>{appt.servicetype}</p>
                 <p>{date}</p>
-                <p>{time}</p>
+
                 <p>
                   {appt.location} {appt.zipcode}
                 </p>
