@@ -266,8 +266,8 @@ export default function OwnerHome({
             </span>
           </div>
         </div>
-        <img src="/ggoh.jpg" alt="logo" className={styles.ggohreg} />
-        <img src="/ggoh.jpg" alt="logo" className={styles.ggohmobile} />
+        <img src="/ggrealreal.png" alt="logo" className={styles.ggohreg} />
+        <img src="/ggrealreal.png" alt="logo" className={styles.ggohmobile} />
         <div className={contactformstyles.contactOuterDivoh}>
           <div className={contactformstyles.contactMiddleDivoh}>
             <div className={contactformstyles.contactDivoh}>

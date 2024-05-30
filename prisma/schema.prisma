@@ -134,3 +134,10 @@ model AllProvidersPhoneDev {
   subscriberid String @id
   phonenum     String
 }
+
+model LandingPageSignUpEmails {
+  subscriberid String @id @default(cuid())
+  email        String
+  name         String
+  businessname String
+}
