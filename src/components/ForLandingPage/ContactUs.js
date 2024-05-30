@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/LandingPageMain.module.css";
-import { Form, Input, Button } from "antd/lib";
+import { Form, Input, Button, message } from "antd/lib";
 import { ArrowRightOutlined } from "@ant-design/icons";
 
 export default function ContactUs({ id }) {
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    // todo: change
-    console.log(values);
+
+  const onFinish = async (values) => {
+    // post the values to api addNewEmailSignUp
+    const response = await fetch("/api/addNewEmailSignUp", {
+      method: "POST",
+      body: JSON.stringify({
+        email: values.email,
+        name: values.name,
+        businessname: values.businessname,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    form.resetFields();
+    messageApi.open({
+      content: "Thank you for your interest! We will reach out to you soon.",
+      duration: 5,
+      type: "success",
+    });
   };
   return (
     <div id={id} className={styles.contactUsScreenWrapper}>
+      {contextHolder}
       <div className={styles.contactUsFormSectionWrapper}>
         <div className={styles.contactUsTitleWrapper}>
           <span className={styles.contactUsTitle}>Contact Us</span>
@@ -23,7 +43,7 @@ export default function ContactUs({ id }) {
             onFinish={onFinish}
           >
             <Form.Item
-              name="Email Address"
+              name="email"
               rules={[
                 {
                   required: true,
@@ -38,7 +58,7 @@ export default function ContactUs({ id }) {
               />
             </Form.Item>
             <Form.Item
-              name="Name"
+              name="name"
               rules={[
                 {
                   required: true,
@@ -52,15 +72,18 @@ export default function ContactUs({ id }) {
                 placeholder="Name"
               />
             </Form.Item>
-            <Form.Item name="Business Name">
+            <Form.Item name="businessname">
               <Input
                 className={styles.contactUsInput}
                 type="text"
-                placeholder="Message"
+                placeholder="Business Name"
               />
             </Form.Item>
             <Form.Item>
-              <Button className={styles.contactUsSubmitButton} type="submit">
+              <Button
+                className={styles.contactUsSubmitButton}
+                htmlType="submit"
+              >
                 Submit
                 <ArrowRightOutlined />
               </Button>
