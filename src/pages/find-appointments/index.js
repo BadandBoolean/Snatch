@@ -10,7 +10,7 @@ import About from "../../components/ForHomePage/About.js";
 import PartnersPanel from "../../components/PartnersPanel.js";
 import Navbar from "../../components/NavBar.js";
 import IconsGrid from "../../components/IconsGrid.js";
-
+import Footer from "../../components/Footer.js";
 export default function Home({}) {
   const { data: status } = useSession(); // object, not array
   const [addContactInfoForm] = Form.useForm();
@@ -67,6 +67,7 @@ export default function Home({}) {
       <IconsGrid mode={"appointments"} />
 
       <PartnersPanel />
+      <Footer />
     </>
   );
 }
