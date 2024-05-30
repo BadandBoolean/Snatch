@@ -5,10 +5,10 @@ import { Button } from "antd/lib";
 import GetContactInfoForm from "../../components/GetContactInfoForm.js";
 import { Form, Spin } from "antd/lib";
 import Hero from "../../components/Hero.js";
-import styles from "../styles/PublicHome.module.css";
+import styles from "../../styles/PublicHome.module.css";
 import About from "../../components/ForHomePage/About.js";
 import PartnersPanel from "../../components/PartnersPanel.js";
-
+import Navbar from "../../components/NavBar.js";
 import IconsGrid from "../../components/IconsGrid.js";
 
 export default function Home({}) {
@@ -49,6 +49,7 @@ export default function Home({}) {
 
   return (
     <>
+      <Navbar />
       <About />
       <GetContactInfoForm
         addContactInfoForm={addContactInfoForm}

@@ -210,6 +210,7 @@
 }
 
 .textWrapper {
+    padding-right: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -243,6 +244,7 @@
 }
 
 .text2 {
+    
     margin-top: 10px;
     font-weight: 400;
     font-size: 1.5rem;
@@ -284,6 +286,7 @@
         padding-bottom: 20px;
         width: 95%;
         border-radius: 10px;
+        padding-right: 0px;
     }
 
     .text1 {
@@ -367,6 +370,431 @@
 
     /* Landing Page ContactUs Styles */
 
+    .contactUsScreenWrapper {
+        display: flex;
+
+        width: 100%;
+        padding-top: 30px;
+        
+    }
+
+    .contactUsFormSectionWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        
+    }
+
+    .contactUsImageSectionWrapper {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        
+    }
+
+    .contactUsImageDiv {
+        position: relative;
+        width: 100%;
+    }
+
+    .contactUsImage {
+        position: absolute;
+        width: 70%;
+        right: 0;
+        bottom: 0;
+    }
+
+    .contactUsTitleWrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .contactUsTitle {
+        font-weight: 300;
+        font-size: 2rem;
+    }
+
+    .contactUsFormWrapper {
+        display: flex;
+        
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding-top: 40px;
+    }
+
+    .contactUsInput {
+        width: 90%;
+        height: 40px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+     
+        padding-left: 10px;
+        border-color: #120371;
+        border-width: 4px;
+        border-style: solid;
+    }
+
+    .contactUsForm {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .contactUsSubmitButton {
+        width: 30%;
+        height: 40px;
+        border-radius: 15px;
+        background-color: #120371;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+
+    }
+
+    @media (max-width: 786px) {
+        .contactUsScreenWrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding-top: 30px;
+            
+        }
+
+        .contactUsFormSectionWrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 90%; 
+        }
+
+        .contactUsImageSectionWrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 300px;
+        }
+
+        .contactUsImageDiv {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+    
+        .contactUsImage {
+            
+            width: 50%;
+            
+        }
+
+
+
+    }
+
+    @media (max-width: 654px) {
+        .contactUsImage {
+            
+            width: 60%;
+            
+        }
+
+    }
+
+    @media (max-width: 458px) {
+        .contactUsImage {
+            
+            width: 80%;
+            
+        }
+
+    }
+
+    /* Landing Page Pricing Styles */
+
+        .pricingWrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .pricingTitleWrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-top: 20px;
+        }
+
+        .pricingTitle {
+            font-weight: 300;
+            font-size: 2rem;
+        }
+
+        .pricingCardsWrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .pricingCardA {
+            /* display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 400px;
+            background-color: white;
+            border-radius: 20px;
+            border-image: linear-gradient(45deg, #120371, #cb6ce6) 1;
+            border-width: 10px;
+            border-style: solid;
+            margin-left: 20px;
+            margin-right: 20px; */
+            margin: 30px;
+            display: inline-flex;
+            flex-basis: 30%;
+            border: double 3px transparent;
+            border-radius: 40px;
+            background-image: linear-gradient(white, white), radial-gradient(circle at top left, #120371, #7297f7);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+        }
+
+        .pricingCardB {
+            display: flex;
+            margin: 30px;
+            flex-basis: 30%;
+            background: linear-gradient(90deg, #120371, #7297f7);
+            border-radius: 40px;
+        }
+
+        .pricingCardContentWrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+
+        .pricingCardTitle {
+            font-weight: 500;
+            font-size: 1.2rem;
+            text-align: center;
+            color: black;
+            padding: 10px;
+        }
+
+        .pricingCardTitleB {
+            font-weight: 500;
+            font-size: 1.2rem;
+            color: white;
+            padding: 10px;
+            text-align : center;
+        }
+
+        .pricingCardText {
+            text-align: center;
+            width: 60%;
+
+        }
+
+        .pricingCardTextB {
+            text-align: center;
+            color: white;
+            
+            width: 60%;
+
+
+        }
+
+        .pricingButtonWrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-top: 40px;
+        }
+
+        .pricingButtonA {
+            
+            border-width: 0px;
+            border-radius: 40px;
+            background-color: #120371;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .pricingButtonB {
+            
+            border-width: 0px;
+            border-radius: 40px;
+            background-color: white;
+            color: #120371;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        @media (max-width: 798px) {
+
+            .pricingCardsWrapper {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+                padding: 20px;
+            }
+
+        }
+
+    /* Landing Page Footer Styles */
+
+    .footerWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding-bottom: 40px;
+        padding-top: 40px;
+    }
+
+    .footerDiv {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 90%;
+        background-color: #120371;
+        color: #120371;
+        border-radius: 20px;
+    }
+
+    .footerSloganBox {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .footerSlogan {
+        width: 100%;
+    -webkit-text-fill-color: transparent;
+    text-shadow: -1px -1px #9db6f5, 1px 1px #cb6ce6;
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: 5%;
+    margin-right: 5%;
+    
+    display: flex;
+    justify-content: center;
+    }
+
+    .footerInfoBox {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-bottom: 30px;
+    }
+
+    .footerLeft {
+        display: flex;
+        flex-basis: 50%;
+        
+    }
+
+    .footerRight {
+        display: flex;
+        justify-content: space-around;
+        flex-basis: 50%;
+        
+    }
+
+    .copyrightInfo {
+        color: white;
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    .footerOption {
+        color: white;
+        font-weight: 300;
+        font-size: 1rem;
+        cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    @media (max-width: 654px) {
+        .footerSlogan {
+            text-align: center;
+        font-size: 1.4rem;
+        font-weight: 500;
+    
+        }
+
+        .footerLeft {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            
+        }
+
+        .footerInfoBox {
+            display: flex;
+            justify-content: space-between;
+
+            flex-direction: column;
+            width: 100%;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-bottom: 30px;
+        }
+
+        .copyrightInfo {
+            color: white;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+    
+
+    }
+
+    @media (max-width: 560px) {
+        .footerRight {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            
+            
+        }
+
+        .footerOption {
+            color: white;
+            font-weight: 300;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 10px;
+            
+        }
+    }
 
 
 
