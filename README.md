@@ -65,4 +65,8 @@ To do changes 2. and 3. in development you will need to manually hit **_localhos
 
 [Link to cloudflare workers (you'll need a login)](https://dash.cloudflare.com/8a3bef4a1c3448a7b59a6b517ddd2932/workers-and-pages)
 
+### Contact 
+
+aliya.ismagilova99@gmail.com
+
 ### More documentation coming soon.
